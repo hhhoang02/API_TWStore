@@ -7,8 +7,13 @@ import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-
-   MongooseModule.forRoot('mongodb+srv://hhhoang210702:221254829@cluster0.vkmewbz.mongodb.net/TWStore?retryWrites=true&w=majority'),
+    MongooseModule.forRootAsync({
+      useFactory: () => ({
+        uri: 'mongodb+srv://hhhoang210702:221254829@cluster0.vkmewbz.mongodb.net/TWStore?retryWrites=true&w=majority',
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }),
+    }),
    UserModule
   ],
   controllers: [AppController],
