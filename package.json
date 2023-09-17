@@ -20,21 +20,10 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.2.4",
     "@nestjs/mongoose": "^10.0.1",
     "@nestjs/platform-express": "^10.2.4",
-    "bcrypt": "^5.1.1",
-    "bootstrap": "^5.3.1",
-    "chart.js": "^4.4.0",
-    "cors": "^2.8.5",
-    "datatables.net-bs4": "^1.13.6",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "hbs": "^4.2.0",
-    "jquery": "^3.7.1",
-    "jquery.easing": "^1.4.1",
     "path": "^0.12.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
