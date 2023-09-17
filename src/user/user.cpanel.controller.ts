@@ -1,0 +1,47 @@
+import { Controller, Get, Post, Body, Param, Query, Res, HttpStatus, HttpCode, Render } from '@nestjs/common';
+import { Response } from 'express';
+
+
+
+import { UserService } from './user.service';
+import { UserInsertRequestDTO } from './dto/user_insert_request';
+import { UserLoginRequestDTO } from './dto/user_login_request';
+import { UserLoginResponseDTO } from './dto/user_login_reaponse';
+//Url: http://localhost:3000/users
+@Controller('usersCpanel')
+export class UserCpanelController {
+    constructor(private readonly userService: UserService) { }
+
+    //Url: http://localhost:3000/usersCpanel/login
+    @Get('login')
+    @Render('login')
+    async home(@Res() res: Response) {
+        return {
+            message: 'Hello'
+        }
+    }
+    @Post('login')
+    async Login(@Body() body: UserLoginRequestDTO, @Res() res: Response) {
+        try {
+            const responseDTO: UserLoginResponseDTO = await this.userService.LoginUser(body);
+            console.log("Login:", responseDTO)
+            return responseDTO.status ? res.redirect('/usersCpanel/index') : res.redirect('usersCpanel/login');
+        } catch (error) {
+
+        }
+    }
+
+
+    
+    @Get('index')
+    @Render('index')
+    async index(@Res() res: Response) {
+        return {
+            message: 'Hello'
+        }
+    }
+
+
+
+
+}
