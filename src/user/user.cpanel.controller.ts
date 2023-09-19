@@ -6,7 +6,7 @@ import { Response } from 'express';
 import { UserService } from './user.service';
 import { UserInsertRequestDTO } from './dto/user_register_request';
 import { UserLoginRequestDTO } from './dto/user_login_request';
-import { UserLoginResponseDTO } from './dto/user_login_reaponse';
+import { UserResponseDTO } from './dto/user_response';
 //Url: http://localhost:3000/users
 @Controller('usersCpanel')
 export class UserCpanelController {
@@ -23,7 +23,7 @@ export class UserCpanelController {
     @Post('login')
     async Login(@Body() body: UserLoginRequestDTO, @Res() res: Response) {
         try {
-            const responseDTO: UserLoginResponseDTO = await this.userService.LoginUser(body);
+            const responseDTO: UserResponseDTO = await this.userService.LoginUser(body);
             console.log("Login:", responseDTO)
             return responseDTO.status ? res.redirect('/usersCpanel/index') : res.redirect('login');
         } catch (error) {

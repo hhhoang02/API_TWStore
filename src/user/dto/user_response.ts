@@ -1,5 +1,4 @@
-export class UserInsertResponseDTO{
+export class UserResponseDTO {
     status: boolean;
     message: string;
 }
-
