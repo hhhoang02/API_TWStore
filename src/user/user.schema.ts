@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 export type UserDocument = Users & Document
 @Schema()
-export class Users{
+export class Users {
     //Các thuộc tính của product
     @Prop()
     name: string;
@@ -16,6 +16,9 @@ export class Users{
 
     @Prop()
     phone: string;
+
+    @Prop()
+    rule: string;
 
 }
 

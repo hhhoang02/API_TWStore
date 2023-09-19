@@ -1,5 +1,5 @@
 export class UserInsertResponseDTO{
-    status: Boolean;
+    status: boolean;
     message: string;
 }
 

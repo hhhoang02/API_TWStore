@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 
 import { UserService } from './user.service';
-import { UserInsertRequestDTO } from './dto/user_insert_request';
+import { UserInsertRequestDTO } from './dto/user_register_request';
 import { UserLoginRequestDTO } from './dto/user_login_request';
 import { UserLoginResponseDTO } from './dto/user_login_reaponse';
 //Url: http://localhost:3000/users
@@ -25,14 +25,14 @@ export class UserCpanelController {
         try {
             const responseDTO: UserLoginResponseDTO = await this.userService.LoginUser(body);
             console.log("Login:", responseDTO)
-            return responseDTO.status ? res.redirect('/usersCpanel/index') : res.redirect('usersCpanel/login');
+            return responseDTO.status ? res.redirect('/usersCpanel/index') : res.redirect('login');
         } catch (error) {
 
         }
     }
 
 
-    
+
     @Get('index')
     @Render('index')
     async index(@Res() res: Response) {
@@ -40,7 +40,13 @@ export class UserCpanelController {
             message: 'Hello'
         }
     }
-
+    @Get('tables')
+    @Render('tables')
+    async table(@Res() res: Response) {
+        return {
+            message: 'Hello'
+        }
+    }
 
 
 
