@@ -4,7 +4,8 @@ import { UserInsertRequestDTO } from './dto/user_register_request';
 import { UserLoginRequestDTO } from './dto/user_login_request';
 import { UserForGotRequestDTO } from './dto/user_forgot_request';
 import { UserSendMailRequestDTO } from './dto/user_sendmail_request';
-import { UserChangePasswordDTO } from './dto/user_changepassword_request';
+import { UserChangePasswordDTO } from './dto/user_changePassword_request';
+import {  UserAddressDTO } from './dto/user_updateAddress';
 //Url: http://localhost:3000/users
 @Controller('users')
 export class UserController {
@@ -14,7 +15,7 @@ export class UserController {
     @Post('RegisterUser')
     async RegisterUser(@Body() body: UserInsertRequestDTO, @Res() res: any) {
         try {
-            body = { ...body, rule: 'user' }
+            body = { ...body, role: 'user' }
             const responseDTO = await this.userService.RegisterUser(body);
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error: any) {
@@ -51,7 +52,7 @@ export class UserController {
     @Post('SendMail')
     async SendMail(@Body() body: UserSendMailRequestDTO, @Res() res: any) {
         try {
-            const responseDTO = await this.userService.SendMail(body);
+            const responseDTO = await this.userService.VerifyUser(body);
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error: any) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
@@ -67,7 +68,24 @@ export class UserController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-
+    @Post('UpdateAddressUser')
+    async UpdateAddressUser(@Body() body: UserAddressDTO , @Res() res: any){
+        try {
+            const responseDTO = await this.userService.UpdateAddressUser(body);
+            return res.status(HttpStatus.OK).json(responseDTO);
+        } catch (error: any) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }
+    }
+    @Post('DeleteAddressUser')
+    async DeleteAddressUser(@Body() body: UserAddressDTO , @Res() res: any){
+        try {
+            const responseDTO = await this.userService.DeleteAddressUser(body);
+            return res.status(HttpStatus.OK).json(responseDTO);
+        } catch (error: any) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }
+    }
 
 
 }

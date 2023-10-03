@@ -16,6 +16,7 @@ export class UserCpanelController {
     @Get('login')
     @Render('login')
     async home(@Res() res: Response) {
+        console.log(process.env.CONNECT);
         return {
             message: 'Hello'
         }
@@ -23,6 +24,7 @@ export class UserCpanelController {
     @Post('login')
     async Login(@Body() body: UserLoginRequestDTO, @Res() res: Response) {
         try {
+            
             const responseDTO: UserResponseDTO = await this.userService.LoginUser(body);
             console.log("Login:", responseDTO)
             return responseDTO.status ? res.redirect('/usersCpanel/index') : res.redirect('login');

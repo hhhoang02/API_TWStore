@@ -11,7 +11,11 @@ import { UserForGotRequestDTO } from './dto/user_forgot_request';
 import { UserResponseDTO } from './dto/user_response';
 import { UserSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
-import { UserChangePasswordDTO } from './dto/user_changepassword_request';
+import { UserChangePasswordDTO } from './dto/user_changePassword_request';
+import { UserAddressDTO } from './dto/user_updateAddress';
+import { UserDeleteAddress } from './dto/user_deleteAddress';
+import { UserChangeAvatarDTO } from './dto/user_changeAvatar_request';
+import { UserChangeUserName } from './dto/user_changeUsername_request';
 
 
 
@@ -35,7 +39,7 @@ export class UserService {
         try {
             console.log(requestDTO);
 
-            const { name, email, password, phone } = requestDTO;
+            const { username, email, password, phone, role, address } = requestDTO;
             const user = await this.userModel.findOne({ email });
             if (user) {
                 return {
@@ -45,10 +49,11 @@ export class UserService {
             }
             const hashPassword = await bcrypt.hash(password, saltOrRounds.salt);
             const newUser = new this.userModel({
-                name,
+                username,
                 email,
                 password: hashPassword,
                 phone,
+                role,
             })
             await newUser.save();
             return {
@@ -149,7 +154,7 @@ export class UserService {
     }
 
 
-    async SendMail(requestDTO: UserSendMailRequestDTO): Promise<UserResponseDTO> {
+    async VerifyUser(requestDTO: UserSendMailRequestDTO): Promise<UserResponseDTO> {
         try {
             const { email } = requestDTO;
             const sendMail = this.mailerService.sendMail({
@@ -175,5 +180,93 @@ export class UserService {
                 message: error,
             }
         }
+    }
+    async UpdateAddressUser(requestDTO: UserAddressDTO): Promise<UserResponseDTO> {
+        try {
+            const { emailUser, key, city, district, ward, street, phone } = requestDTO;
+            const user = await this.userModel.findOne({ emailUser });
+            user.address.push({ key, city, district, ward, street, phone });
+            await user.save();
+            return {
+                status: true,
+                message: 'Update address successfully',
+            }
+        } catch (error) {
+            return {
+                status: false,
+                message: 'Update address failed',
+            }
+        }
+    }
+    async DeleteAddressUser(requestDTO: UserDeleteAddress): Promise<UserResponseDTO> {
+
+        try {
+            const { emailUser, key } = requestDTO;
+            const user = await this.userModel.findOne({ emailUser });
+            user.address.splice(key, 1);
+            await user.save();
+            return {
+                status: true,
+                message: 'Delete address successfully'
+            }
+        }
+        catch (error) {
+            return {
+                status: false,
+                message: 'Delete address failed'
+            }
+        }
+
+
+
+        return
+    }
+    async ChangeAvatar(requestDTO: UserChangeAvatarDTO): Promise<UserResponseDTO> {
+        try {
+            const { emailUser, avatar } = requestDTO;
+            const user = await this.userModel.findOne({ emailUser });
+            if (user) {
+                user.avatar = avatar;
+                await user.save();
+                return {
+                    status: true,
+                    message: 'Change avatar successfully'
+                }
+            }
+            return {
+                status: false,
+                message: 'Change avatar failed'
+            }
+        } catch (error) {
+            return {
+                status: false,
+                message: 'Change avatar error'
+            }
+        }
+        return
+    }
+    async ChangeUsername(requestDTO: UserChangeUserName): Promise<UserResponseDTO> {
+        try {
+            const { emailUser, username } = requestDTO;
+            const user = await this.userModel.findOne({ emailUser });
+            if (user) {
+                user.username = username;
+                await user.save();
+                return {
+                    status: true,
+                    message: 'Change username successfully'
+                }
+            }
+            return {
+                status: false,
+                message: 'Change username failed'
+            }
+        } catch (error) {
+            return{
+                status: false,
+                message: 'Change username error'
+            }
+        }
+
     }
 }

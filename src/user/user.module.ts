@@ -8,10 +8,13 @@ import { UserService } from './user.service';
 import { UserSchema, Users } from './user.schema';
 import { UserCpanelController } from "./user.cpanel.controller";
 import { MailerModule } from "@nestjs-modules/mailer";
+import { AddressModule } from "src/address/address.module";
 
 enum MailAdmin {
-    EMAIL = "aaaaaahau@gmail.com",
-    PASSWORD = "xjfkcgzyhemluquh",
+    EMAIL = "thewondershopfashion@gmail.com",
+    //thewondershopfashion@gmail.com
+    PASSWORD = "dgeyqrqpmimvpylr",
+    //dgeyqrqpmimvpylr
     HOST = "smtp.gmail.com"
 }
 
@@ -31,7 +34,8 @@ enum MailAdmin {
                     }
                 }
             })
-        })
+        }),
+        
     ],
     controllers: [UserController, UserCpanelController],
     providers: [UserService],
