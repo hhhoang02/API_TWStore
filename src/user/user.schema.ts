@@ -8,10 +8,13 @@ export type UserDocument = Users & Document;
 
 @Schema()
 export class Users {
-    @Prop()
+    @Prop({ type: SchemaTypes.ObjectId })
+    _id: Types.ObjectId
+    
+    @Prop({unique: true, required: true})
     email: string;
 
-    @Prop()
+    @Prop({required: true})
     password: string;
 
     @Prop()
@@ -27,10 +30,10 @@ export class Users {
     phone: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-    cartID: Types.ObjectId;
+    cartID: Array<Types.ObjectId>;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-    favoriteID: Types.ObjectId;
+    favoriteID: Array<Types.ObjectId>;
 
     @Prop()
     gender: string;
@@ -39,7 +42,7 @@ export class Users {
     birthDay: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Address' })
-    addressID: Types.ObjectId;
+    addressID: Array<Types.ObjectId>;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
     commentID: Types.ObjectId;

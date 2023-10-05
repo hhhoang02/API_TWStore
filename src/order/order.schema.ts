@@ -1,26 +1,46 @@
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document, ObjectId, SchemaTypes, Types } from "mongoose";
-export type OrderDocument = Order & Document
+export type OrderDocument = Order & Document;
+
+
+export class PaymentDetail {
+    @Prop()
+    paymentMethods: string;
+    status: string;
+
+    @Prop()
+    total: number;
+    voucher: string;
+    phoneReceiver: string;
+    nameReceover: string;
+}
+
 @Schema()
 export class Order {
     //Các thuộc tính của product
     @Prop({ type: SchemaTypes.ObjectId })
     _id: Types.ObjectId
     @Prop()
-    city: string;
+    status: string;
+     
+    @Prop()
+    quantity: number;
 
     @Prop()
-    district: string;
+    price: Array<Product>;
 
     @Prop()
-    ward: string;
+    bookingDate: string;
 
     @Prop()
-    street: string;
+    deliveryDate: string;
+
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Address', unique : true })
+    addressID: Types.ObjectId;
 
     @Prop()
-    phone: string;
+    payment: PaymentDetail;
 
 }
 
