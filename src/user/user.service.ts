@@ -39,7 +39,7 @@ export class UserService {
         try {
             console.log(requestDTO);
 
-            const { username, email, password, phone, role, address } = requestDTO;
+            const { username, email, password, phone, role } = requestDTO;
             const user = await this.userModel.findOne({ email });
             if (user) {
                 return {
