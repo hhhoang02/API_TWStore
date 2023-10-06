@@ -16,21 +16,26 @@ import { UserAddressDTO } from './dto/user_updateAddress';
 import { UserDeleteAddress } from './dto/user_deleteAddress';
 import { UserChangeAvatarDTO } from './dto/user_changeAvatar_request';
 import { UserChangeUserName } from './dto/user_changeUsername_request';
+import { AddressDocument } from 'src/address/address.schema';
 
 
 
 enum saltOrRounds {
-    salt = 10,
+    SALT = 10
 }
 enum Email {
-    FORM = "aaaaaahau@gmail.com",
+    FORM = "The Wonder Store",
     SUBJECT = "Testing Nest MailerModule ✔",
     HTML = "<b>NestJS Mail Testing</b>"
 }
+
+
+
 @Injectable()
 export class UserService {
     constructor(@InjectModel(Users.name)
     private readonly userModel: Model<UserDocument>,
+        private readonly addressModel: Model<AddressDocument>,
         private readonly mailerService: MailerService) { }
 
 
@@ -47,7 +52,7 @@ export class UserService {
                     message: 'User already exists',
                 }
             }
-            const hashPassword = await bcrypt.hash(password, saltOrRounds.salt);
+            const hashPassword = await bcrypt.hash(password, saltOrRounds.SALT);
             const newUser = new this.userModel({
                 username,
                 email,
@@ -103,7 +108,7 @@ export class UserService {
             const user = await this.userModel.findOne({ email });
             console.log(user._id);
 
-            const hashPassword = await bcrypt.hash(newPassword, saltOrRounds.salt);
+            const hashPassword = await bcrypt.hash(newPassword, saltOrRounds.SALT);
             if (user) {
                 (await user).password = hashPassword;
                 (await user).save();
@@ -132,7 +137,7 @@ export class UserService {
             const user = await this.userModel.findOne({ email });
             let comparePassword = bcrypt.compareSync(oldPassword, (await user).password);
             if (comparePassword) {
-                const hashPassword = await bcrypt.hash(newPassword, saltOrRounds.salt);
+                const hashPassword = await bcrypt.hash(newPassword, saltOrRounds.SALT);
                 (await user).password = hashPassword;
                 (await user).save();
                 return {
@@ -262,7 +267,7 @@ export class UserService {
                 message: 'Change username failed'
             }
         } catch (error) {
-            return{
+            return {
                 status: false,
                 message: 'Change username error'
             }

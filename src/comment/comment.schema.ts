@@ -8,6 +8,9 @@ export class Comment {
     @Prop({ type: SchemaTypes.ObjectId })
     _id: Types.ObjectId
     
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+    userID: Array<Types.ObjectId>; 
+
     @Prop()
     createAt: string;
 

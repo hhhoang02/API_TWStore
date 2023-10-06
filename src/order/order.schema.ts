@@ -23,12 +23,12 @@ export class Order {
     _id: Types.ObjectId
     @Prop()
     status: string;
-     
-    @Prop()
-    quantity: number;
+
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
+    productID: Types.ObjectId;
 
     @Prop()
-    price: Array<Product>;
+    quantity: number;
 
     @Prop()
     bookingDate: string;
@@ -36,11 +36,14 @@ export class Order {
     @Prop()
     deliveryDate: string;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Address', unique : true })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Address', unique: true })
     addressID: Types.ObjectId;
 
     @Prop()
     payment: PaymentDetail;
+
+    @Prop()
+    voucher: string;
 
 }
 

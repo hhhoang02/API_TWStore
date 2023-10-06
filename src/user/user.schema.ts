@@ -4,17 +4,35 @@ import mongoose, { Document, ObjectId, SchemaTypes, Types } from "mongoose";
 export type UserDocument = Users & Document;
 
 
+export class Address {
+    @Prop()
+    key: number;
 
+    @Prop()
+    city: string;
+
+    @Prop()
+    district: string;
+
+    @Prop()
+    ward: string;
+
+    @Prop()
+    street: string;
+
+    @Prop()
+    phone: string;
+}
 
 @Schema()
 export class Users {
     @Prop({ type: SchemaTypes.ObjectId })
     _id: Types.ObjectId
-    
-    @Prop({unique: true, required: true})
+
+    @Prop({ unique: true, required: true })
     email: string;
 
-    @Prop({required: true})
+    @Prop({ required: true })
     password: string;
 
     @Prop()
@@ -41,8 +59,8 @@ export class Users {
     @Prop()
     birthDay: string;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Address' })
-    addressID: Array<Types.ObjectId>;
+    @Prop()
+    address: Array<Address>;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
     commentID: Types.ObjectId;

@@ -1,30 +1,22 @@
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document, ObjectId, SchemaTypes, Types } from "mongoose";
-export type AddressDocument = Address & Document
+export type CategoryDocument = Category & Document
 @Schema()
-export class Address {
+export class Category {
     //Các thuộc tính của product
     @Prop({ type: SchemaTypes.ObjectId })
     _id: Types.ObjectId
-
     
+    @Prop()
+    createAt: string;
 
     @Prop()
-    city: string;
+    content: string;
 
     @Prop()
-    district: string;
-
-    @Prop()
-    ward: string;
-
-    @Prop()
-    street: string;
-
-    @Prop()
-    phone: string;
+    star: string;
 
 }
 
-export const AddressSchema = SchemaFactory.createForClass(Address);
+export const CategorySchema = SchemaFactory.createForClass(Category);

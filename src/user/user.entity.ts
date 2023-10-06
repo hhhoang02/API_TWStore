@@ -1,10 +1,16 @@
-import { Address } from "src/address/address.schema";
-
+import { Types } from "mongoose";
+import { Address } from "./user.schema";
 
 export class Users {
     email: string;
     password: string;
     username: string;
+    avatar: string ;
     phone: string;
-    role: string
+    role: string;
+    cartID: Array<Types.ObjectId>;
+    favoriteID: Array<Types.ObjectId>;
+    gender: string;
+    address: Array<Address>;
+    commentID: Types.ObjectId;
 }
