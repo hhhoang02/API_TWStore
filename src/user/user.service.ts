@@ -35,8 +35,7 @@ enum Email {
 export class UserService {
     constructor(@InjectModel(Users.name)
     private readonly userModel: Model<UserDocument>,
-        private readonly addressModel: Model<AddressDocument>,
-        private readonly mailerService: MailerService) { }
+         private readonly mailerService: MailerService) { }
 
 
     //Hàm insert vào database
