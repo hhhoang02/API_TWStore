@@ -6,7 +6,6 @@ import * as bcrypt from 'bcrypt';
 import { UserDocument, Users } from './user.schema';
 import { UserInsertRequestDTO } from './dto/user_register_request';
 import { UserLoginRequestDTO } from './dto/user_login_request';
-import { log } from 'console';
 import { UserForGotRequestDTO } from './dto/user_forgot_request';
 import { UserResponseDTO } from './dto/user_response';
 import { UserSendMailRequestDTO } from './dto/user_sendmail_request';
