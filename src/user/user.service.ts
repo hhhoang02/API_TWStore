@@ -15,7 +15,6 @@ import { UserAddressDTO } from './dto/user_updateAddress';
 import { UserDeleteAddress } from './dto/user_deleteAddress';
 import { UserChangeAvatarDTO } from './dto/user_changeAvatar_request';
 import { UserChangeUserName } from './dto/user_changeUsername_request';
-import { AddressDocument } from 'src/address/address.schema';
 
 
 
