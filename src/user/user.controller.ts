@@ -30,6 +30,7 @@ export class UserController {
         } catch (error: any) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
+
     }
 
 

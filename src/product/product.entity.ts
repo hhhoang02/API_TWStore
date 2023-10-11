@@ -1,6 +1,5 @@
-import { Category } from "src/category/category.entity";
 import { Users } from "src/user/user.entity";
-import { ManyToOne } from "typeorm";
+
 export class Product{
     name: string;
     image: string;
@@ -9,9 +8,6 @@ export class Product{
     color: string;
     cmt:{
         _id: string;
-        img: string;
-        content: string;
-        evaluate: string;
         dateCmt: string;
         user: Users
     };
