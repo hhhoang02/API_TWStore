@@ -1,21 +1,17 @@
+import { Types } from "mongoose";
 import { Users } from "src/user/user.entity";
 
-export class Product{
-    name: string;
-    image: string;
-    size: string | number;
+export class Product {
+    productName: string;
     price: number;
-    color: string;
-    cmt:{
-        _id: string;
-        dateCmt: string;
-        user: Users
-    };
-    branchs:{
-        _id: string;
-        name: string;
-    };
-    evaluate: number;
+    quantity: number;
+    branch: Types.ObjectId;
+    image: Array<string>;
+    size: string
     description: string;
-    type: string;
+    style: string;
+    color: Array<string>;
+    category: Types.ObjectId;
+    grossRating: number;
+    comment: Array<Types.ObjectId>;
 }

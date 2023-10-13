@@ -1,48 +1,18 @@
-import { Prop, Schema } from "@nestjs/mongoose";
-import mongoose, { SchemaTypes, Types } from "mongoose";
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { Product, ProductSchema } from "./product.schema";
 
-export type ProductDocument = Product & Document;
 
 
-@Schema()
-export class Product {
-    @Prop({ type: SchemaTypes.ObjectId })
-    _id: Types.ObjectId;
 
-    @Prop()
-    productName: string;
 
-    @Prop()
-    price: number;
-
-    @Prop()
-    quantity: number;
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
-    branch: Types.ObjectId;
-
-    @Prop()
-    image: Array<string>;
-
-    @Prop()
-    size: string | number;
-
-    @Prop()
-    description: string;
-
-    @Prop()
-    style: string;
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
-    categoryID: Array<Types.ObjectId>;
-
-    @Prop()
-    color: Array<string>;
-
-    @Prop()
-    grossRating: number;
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
-    comment: Array<Types.ObjectId>;
-
-}
+@Module({
+    imports: [
+        MongooseModule.forFeature([
+            { name: Product.name, schema: ProductSchema },
+        ]),
+    ],
+    controllers: [],
+    providers: [],
+})
+export class ProductModule { }

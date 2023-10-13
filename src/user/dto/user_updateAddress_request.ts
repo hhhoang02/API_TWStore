@@ -1,4 +1,5 @@
 export class UserAddressDTO {
+    typeUpdate: "insert" | "delete"
     key: number;
     emailUser: string;
     city: string;

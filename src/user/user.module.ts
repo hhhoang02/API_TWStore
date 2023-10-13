@@ -8,7 +8,6 @@ import { UserService } from './user.service';
 import { UserSchema, Users } from './user.schema';
 import { UserCpanelController } from "./user.cpanel.controller";
 import { MailerModule } from "@nestjs-modules/mailer";
-import { AddressModule } from "src/address/address.module";
 
 enum MailAdmin {
     EMAIL = "thewondershopfashion@gmail.com",

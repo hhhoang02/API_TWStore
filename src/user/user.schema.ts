@@ -26,8 +26,6 @@ export class Address {
 
 @Schema()
 export class Users {
-    @Prop({ type: SchemaTypes.ObjectId })
-    _id: Types.ObjectId
 
     @Prop({ unique: true, required: true })
     email: string;

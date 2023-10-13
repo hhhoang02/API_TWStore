@@ -5,7 +5,7 @@ import { UserLoginRequestDTO } from './dto/user_login_request';
 import { UserForGotRequestDTO } from './dto/user_forgot_request';
 import { UserSendMailRequestDTO } from './dto/user_sendmail_request';
 import { UserChangePasswordDTO } from './dto/user_changePassword_request';
-import {  UserAddressDTO } from './dto/user_updateAddress';
+import {  UserAddressDTO } from './dto/user_updateAddress_request';
 //Url: http://localhost:3000/users
 @Controller('users')
 export class UserController {
@@ -77,15 +77,5 @@ export class UserController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @Post('DeleteAddressUser')
-    async DeleteAddressUser(@Body() body: UserAddressDTO , @Res() res: any){
-        try {
-            const responseDTO = await this.userService.DeleteAddressUser(body);
-            return res.status(HttpStatus.OK).json(responseDTO);
-        } catch (error: any) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
-
-
+    
 }

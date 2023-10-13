@@ -11,6 +11,7 @@ export class Users {
     cartID: Array<Types.ObjectId>;
     favoriteID: Array<Types.ObjectId>;
     gender: string;
+    birthDay: string;
     address: Array<Address>;
     commentID: Types.ObjectId;
 }

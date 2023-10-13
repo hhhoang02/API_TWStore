@@ -11,10 +11,9 @@ import { UserResponseDTO } from './dto/user_response';
 import { UserSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UserChangePasswordDTO } from './dto/user_changePassword_request';
-import { UserAddressDTO } from './dto/user_updateAddress';
-import { UserDeleteAddress } from './dto/user_deleteAddress';
-import { UserChangeAvatarDTO } from './dto/user_changeAvatar_request';
-import { UserChangeUserName } from './dto/user_changeUsername_request';
+import { UserAddressDTO } from './dto/user_updateAddress_request';
+import { UserCart_FavoriteDTO } from './dto/user_updateCart_request';
+import { UserUpdateInfoRequestDTO } from './dto/user_updateInfo_request';
 
 
 
@@ -33,7 +32,7 @@ enum Email {
 export class UserService {
     constructor(@InjectModel(Users.name)
     private readonly userModel: Model<UserDocument>,
-         private readonly mailerService: MailerService) { }
+        private readonly mailerService: MailerService) { }
 
 
     //Hàm insert vào database
@@ -57,6 +56,8 @@ export class UserService {
                 phone,
                 role,
             })
+            console.log(newUser);
+
             await newUser.save();
             return {
                 status: true,
@@ -65,7 +66,7 @@ export class UserService {
         } catch (error: any) {
             return {
                 status: false,
-                message: 'Failed',
+                message: 'Failed' + error,
             }
         }
     }
@@ -154,8 +155,6 @@ export class UserService {
             }
         }
     }
-
-
     async VerifyUser(requestDTO: UserSendMailRequestDTO): Promise<UserResponseDTO> {
         try {
             const { email } = requestDTO;
@@ -185,13 +184,23 @@ export class UserService {
     }
     async UpdateAddressUser(requestDTO: UserAddressDTO): Promise<UserResponseDTO> {
         try {
-            const { emailUser, key, city, district, ward, street, phone } = requestDTO;
+            const { typeUpdate, key, emailUser, city, district, ward, street, phone } = requestDTO;
             const user = await this.userModel.findOne({ emailUser });
-            user.address.push({ key, city, district, ward, street, phone });
-            await user.save();
-            return {
-                status: true,
-                message: 'Update address successfully',
+            console.log(user._id);
+            if (typeUpdate === "insert") {
+                user.address.push({ key: user.address.length + 1, city, district, ward, street, phone });
+                await user.save();
+                return {
+                    status: true,
+                    message: 'Add address successfully',
+                }
+            } else {
+                user.address.splice(key, 1);
+                await user.save();
+                return {
+                    status: true,
+                    message: 'Delete address successfully',
+                }
             }
         } catch (error) {
             return {
@@ -200,75 +209,77 @@ export class UserService {
             }
         }
     }
-    async DeleteAddressUser(requestDTO: UserDeleteAddress): Promise<UserResponseDTO> {
-
+    async UpdateCart(responseDTO: UserCart_FavoriteDTO): Promise<UserResponseDTO> {
         try {
-            const { emailUser, key } = requestDTO;
-            const user = await this.userModel.findOne({ emailUser });
-            user.address.splice(key, 1);
-            await user.save();
-            return {
-                status: true,
-                message: 'Delete address successfully'
-            }
-        }
-        catch (error) {
-            return {
-                status: false,
-                message: 'Delete address failed'
-            }
-        }
-
-
-
-        return
-    }
-    async ChangeAvatar(requestDTO: UserChangeAvatarDTO): Promise<UserResponseDTO> {
-        try {
-            const { emailUser, avatar } = requestDTO;
+            const { emailUser, _idProduct } = responseDTO;
             const user = await this.userModel.findOne({ emailUser });
             if (user) {
-                user.avatar = avatar;
+                user.cartID.push(_idProduct);
                 await user.save();
                 return {
                     status: true,
-                    message: 'Change avatar successfully'
+                    message: 'Update cart successfully'
                 }
             }
             return {
                 status: false,
-                message: 'Change avatar failed'
+                message: 'Update cart failed'
             }
         } catch (error) {
             return {
                 status: false,
-                message: 'Change avatar error'
+                message: 'Update cart error'
             }
         }
-        return
     }
-    async ChangeUsername(requestDTO: UserChangeUserName): Promise<UserResponseDTO> {
+    async UpdateInfoUser(responseDTO: UserUpdateInfoRequestDTO): Promise<UserResponseDTO> {
         try {
-            const { emailUser, username } = requestDTO;
-            const user = await this.userModel.findOne({ emailUser });
+            const { email, username, avatar, phone, gender, birthDay } = responseDTO;
+            const user = await this.userModel.findOne({ email });
             if (user) {
-                user.username = username;
+                user.username = username ? username : user.username;
+                user.avatar = avatar ? avatar : user.avatar;
+                user.phone = phone ? phone : user.phone;
+                user.gender = gender ? gender : user.gender;
+                user.birthDay = birthDay ? birthDay : user.birthDay;
                 await user.save();
                 return {
                     status: true,
-                    message: 'Change username successfully'
+                    message: 'Update User successfully'
                 }
             }
             return {
                 status: false,
-                message: 'Change username failed'
+                message: 'Update User failed'
             }
         } catch (error) {
             return {
                 status: false,
-                message: 'Change username error'
+                message: 'Update favoUserrite error'
             }
         }
-
+    }
+    async UpdateFavorite(responseDTO: UserCart_FavoriteDTO): Promise<UserResponseDTO> {
+        try {
+            const { emailUser, _idProduct } = responseDTO;
+            const user = await this.userModel.findOne({ emailUser });
+            if (user) {
+                user.favoriteID.push(_idProduct);
+                await user.save();
+                return {
+                    status: true,
+                    message: 'Update favorite successfully'
+                }
+            }
+            return {
+                status: false,
+                message: 'Update favorite failed'
+            }
+        } catch (error) {
+            return {
+                status: false,
+                message: 'Update favorite error'
+            }
+        }
     }
 }
