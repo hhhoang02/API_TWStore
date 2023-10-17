@@ -5,8 +5,6 @@ export type BranchDocument = Branch & Document
 @Schema()
 export class Branch {
     //Các thuộc tính của product
-    @Prop({ type: SchemaTypes.ObjectId })
-    _id: Types.ObjectId
     @Prop()
     name: string;
 

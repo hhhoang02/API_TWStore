@@ -49,7 +49,7 @@ export class UserController {
         }
     }
 
-    @Post('SendMail')
+    @Post('VerifyEmail')
     async SendMail(@Body() body: UserSendMailRequestDTO, @Res() res: any) {
         try {
             const responseDTO = await this.userService.VerifyUser(body);

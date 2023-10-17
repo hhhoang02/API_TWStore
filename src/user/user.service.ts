@@ -182,6 +182,33 @@ export class UserService {
             }
         }
     }
+    async UpdateInfoUser(responseDTO: UserUpdateInfoRequestDTO): Promise<UserResponseDTO> {
+        try {
+            const { email, username, avatar, phone, gender, birthDay } = responseDTO;
+            const user = await this.userModel.findOne({ email });
+            if (user) {
+                user.username = username ? username : user.username;
+                user.avatar = avatar ? avatar : user.avatar;
+                user.phone = phone ? phone : user.phone;
+                user.gender = gender ? gender : user.gender;
+                user.birthDay = birthDay ? birthDay : user.birthDay;
+                await user.save();
+                return {
+                    status: true,
+                    message: 'Update User successfully'
+                }
+            }
+            return {
+                status: false,
+                message: 'Update User failed'
+            }
+        } catch (error) {
+            return {
+                status: false,
+                message: 'Update favoUserrite error'
+            }
+        }
+    }
     async UpdateAddressUser(requestDTO: UserAddressDTO): Promise<UserResponseDTO> {
         try {
             const { typeUpdate, key, emailUser, city, district, ward, street, phone } = requestDTO;
@@ -229,33 +256,6 @@ export class UserService {
             return {
                 status: false,
                 message: 'Update cart error'
-            }
-        }
-    }
-    async UpdateInfoUser(responseDTO: UserUpdateInfoRequestDTO): Promise<UserResponseDTO> {
-        try {
-            const { email, username, avatar, phone, gender, birthDay } = responseDTO;
-            const user = await this.userModel.findOne({ email });
-            if (user) {
-                user.username = username ? username : user.username;
-                user.avatar = avatar ? avatar : user.avatar;
-                user.phone = phone ? phone : user.phone;
-                user.gender = gender ? gender : user.gender;
-                user.birthDay = birthDay ? birthDay : user.birthDay;
-                await user.save();
-                return {
-                    status: true,
-                    message: 'Update User successfully'
-                }
-            }
-            return {
-                status: false,
-                message: 'Update User failed'
-            }
-        } catch (error) {
-            return {
-                status: false,
-                message: 'Update favoUserrite error'
             }
         }
     }
