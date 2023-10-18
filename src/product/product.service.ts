@@ -5,15 +5,17 @@ import { Injectable } from "@nestjs/common";
 import { ProductInsertDTO } from "./dto/product_insert_request";
 import { ProductResponseDTO } from "./dto/product_response";
 import { ProductUpdateDTO } from "./dto/product_update_request";
+import { ProductGetResponseDTO } from "./dto/product_get_response";
+import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
 
 @Injectable()
-export class UserService {
+export class ProductService {
     constructor(@InjectModel(Product.name)
     private readonly productModel: Model<ProductDocument>,) { }
 
-    async AddProduct(requestDTO: ProductInsertDTO): Promise<ProductResponseDTO> {
+    async addProduct(requestDTO: ProductInsertDTO): Promise<ProductResponseDTO> {
         try {
-            const { productName, price, quantity, branch, image, size, description, style, color, category, grossRating, comment } = requestDTO;
+            const { productName, price, quantity, branch, image, size, description, style, color, categoryID, grossRating } = requestDTO;
             const newProduct = new this.productModel({
                 productName,
                 price,
@@ -24,9 +26,8 @@ export class UserService {
                 description,
                 style,
                 color,
-                category,
+                categoryID,
                 grossRating,
-                comment
             });
             await newProduct.save();
             return {
@@ -40,10 +41,10 @@ export class UserService {
             }
         }
     }
-    async UpdateProduct(responseDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
+    async updateProduct(requestDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
         try {
-            const { _id } = responseDTO;
-            const { productName, price, quantity, branch, image, size, description, style, color, category, grossRating, comment } = responseDTO;
+            const { _id } = requestDTO;
+            const { productName, price, quantity, branch, image, size, description, style, color, categoryID, grossRating } = requestDTO;
             const product = await this.productModel.findById(_id);
             if (!product) return {
                 status: false,
@@ -58,9 +59,8 @@ export class UserService {
             product.description = description ? description : product.description;
             product.style = style ? style : product.style;
             product.color = color ? color : product.color;
-            product.categoryID = category ? category : product.categoryID;
+            product.categoryID = categoryID ? categoryID : product.categoryID;
             product.grossRating = grossRating ? grossRating : product.grossRating;
-            product.comment = comment ? comment : product.comment;
 
             await product.save();
             return {
@@ -75,9 +75,9 @@ export class UserService {
 
         }
     }
-    async DeleteProduct(responseDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
+    async deleteProduct(requestDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
         try {
-            const { _id } = responseDTO;
+            const { _id } = requestDTO;
             const product = await this.productModel.findById(_id);
             if (!product) return {
                 status: false,
@@ -93,6 +93,25 @@ export class UserService {
                 status: false,
                 message: 'Delete product failed',
             }
+        }
+    }
+    async getProduct(): Promise<ProductGetResponseDTO[]> {
+        try {
+            const product = await this.productModel.find();
+            return product;
+        } catch (error) {
+            return
+        }
+
+    }
+    async getProductById(requestDTO: ProductGetbyIdDTO): Promise<ProductGetResponseDTO> {
+        try {
+            const { _id } = requestDTO;
+            const product = await this.productModel.findById(_id);
+            if (!product) return
+            return product;
+        } catch (error) {
+
         }
     }
 

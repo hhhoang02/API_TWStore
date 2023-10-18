@@ -1,5 +1,4 @@
 import { Types } from "mongoose";
-import { Users } from "src/user/user.entity";
 
 export class Product {
     productName: string;
@@ -11,7 +10,6 @@ export class Product {
     description: string;
     style: string;
     color: Array<string>;
-    category: Types.ObjectId;
+    categoryID: Types.ObjectId;
     grossRating: number;
-    comment: Array<Types.ObjectId>;
 }

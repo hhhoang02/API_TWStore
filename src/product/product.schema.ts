@@ -6,8 +6,6 @@ export type ProductDocument = Product & Document;
 
 @Schema()
 export class Product {
-    @Prop({ type: SchemaTypes.ObjectId })
-    _id: Types.ObjectId;
 
     @Prop({ required: true })
     productName: string;
@@ -18,7 +16,7 @@ export class Product {
     @Prop()
     quantity: number;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Branch' })
     branch: Types.ObjectId;
 
     @Prop()
@@ -42,7 +40,6 @@ export class Product {
     @Prop()
     grossRating: number;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
-    comment: Array<Types.ObjectId>;
+
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);
