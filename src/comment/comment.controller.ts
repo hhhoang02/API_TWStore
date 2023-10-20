@@ -5,7 +5,7 @@ import { Response } from "express";
 import { CommentDeleteRequestDTO } from "./dto/comment_delete_request";
 import { CommentGetbyProducRequesttDTO } from "./dto/comment_getbyProduct_request";
 
-@Controller('category')
+@Controller('comment')
 export class CategoryController {
     constructor(private readonly commentService: CommentService) { }
 
