@@ -5,11 +5,11 @@ export type CommentDocument = Comment & Document
 @Schema()
 export class Comment {
     //Các thuộc tính của product
-    @Prop({ type: SchemaTypes.ObjectId })
-    _id: Types.ObjectId
-    
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-    userID: Array<Types.ObjectId>; 
+    userID: Array<Types.ObjectId>;
+
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
+    productID: Array<Types.ObjectId>;
 
     @Prop()
     createAt: string;
