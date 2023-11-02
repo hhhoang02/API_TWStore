@@ -4,6 +4,7 @@ import mongoose, { Document, ObjectId, SchemaTypes, Types } from "mongoose";
 export type CategoryDocument = Category & Document
 @Schema()
 export class Category {
+
     @Prop()
     name: string;
 

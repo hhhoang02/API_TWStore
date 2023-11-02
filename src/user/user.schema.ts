@@ -1,12 +1,13 @@
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document, ObjectId, SchemaTypes, Types } from "mongoose";
+import { Product } from "src/product/product.schema";
 export type UserDocument = Users & Document;
 
 
 export class Address {
     @Prop()
-    key: number;
+    position: number;
 
     @Prop()
     city: string;
@@ -27,29 +28,18 @@ export class Address {
 @Schema()
 export class Users {
 
-    @Prop({ unique: true, required: true })
-    email: string;
-
-    @Prop({ required: true })
-    password: string;
-
-    @Prop()
-    role: string;
-
-    @Prop()
-    username: string;
+    @Prop({ type: mongoose.Schema.Types.ObjectId })
+    _idUser: Types.ObjectId;
 
     @Prop()
     avatar: string;
 
-    @Prop()
-    phone: string;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-    cartID: Array<Types.ObjectId>;
+    @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' } })
+    cartID: Product[];
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-    favoriteID: Array<Types.ObjectId>;
+    @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' } })
+    favoriteID: Product[];
 
     @Prop()
     gender: string;
@@ -58,7 +48,7 @@ export class Users {
     birthDay: string;
 
     @Prop()
-    address: Array<Address>;
+    address: Address[];
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
     commentID: Types.ObjectId;

@@ -9,32 +9,12 @@ import { UserSchema, Users } from './user.schema';
 import { UserCpanelController } from "./user.cpanel.controller";
 import { MailerModule } from "@nestjs-modules/mailer";
 
-enum MailAdmin {
-    EMAIL = "thewondershopfashion@gmail.com",
-    //thewondershopfashion@gmail.com
-    PASSWORD = "dgeyqrqpmimvpylr",
-    //dgeyqrqpmimvpylr
-    HOST = "smtp.gmail.com"
-}
 
 @Module({
     imports: [
         MongooseModule.forFeature([
             { name: Users.name, schema: UserSchema },
         ]),
-        MailerModule.forRootAsync({
-            useFactory: () => ({
-                transport: {
-                    service: 'gmail',
-                    host: MailAdmin.HOST,
-                    auth: {
-                        user: MailAdmin.EMAIL,
-                        pass: MailAdmin.PASSWORD
-                    }
-                }
-            })
-        }),
-        
     ],
     controllers: [UserController, UserCpanelController],
     providers: [UserService],

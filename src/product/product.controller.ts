@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ProductInsertDTO } from "./dto/product_insert_request";
 import { ProductUpdateDTO } from "./dto/product_update_request";
@@ -28,28 +28,30 @@ export class ProductController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @Post('deleteProduct')
-    async DeleteProduct(@Body() body: ProductUpdateDTO, @Res() res: Response) {
+    @Delete('deleteProduct/:_id')
+    async DeleteProduct(@Param() _id: ProductUpdateDTO, @Res() res: Response) {
         try {
-            const product = await this.productService.deleteProduct(body);
+            console.log(_id);
+
+            const product = await this.productService.deleteProduct(_id);
             return res.status(HttpStatus.OK).json(product);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @Get('getProduct')
-    async GetProduct(@Res() res: Response) {
+    @Get('getAllProduct')
+    async GetAllProduct(@Res() res: Response) {
         try {
-            const product = await this.productService.getProduct();
+            const product = await this.productService.getAllProduct();
             return res.status(HttpStatus.OK).json(product);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @Post('getProductById')
-    async GetProductById(@Body() body: ProductGetbyIdDTO, @Res() res: Response) {
+    @Get('getProductById/:_id')
+    async GetProductById(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {
         try {
-            const product = await this.productService.getProductById(body);
+            const product = await this.productService.getProductById(_id);
             return res.status(HttpStatus.OK).json(product);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);

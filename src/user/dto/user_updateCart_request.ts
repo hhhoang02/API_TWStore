@@ -1,6 +1,6 @@
 import mongoose, { Types } from "mongoose";
 
 export class UserCart_FavoriteDTO {
-    emailUser: string;
+    _idUser: Types.ObjectId;
     _idProduct: Types.ObjectId;
 }

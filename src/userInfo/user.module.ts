@@ -3,11 +3,11 @@ import { MongooseModule } from "@nestjs/mongoose";
 
 
 
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
-import { UserSchema, Users } from './user.schema';
+import { UserInfoController } from './user.controller';
+import { UserInfoSchema, UsersInfo } from './user.schema';
 import { UserCpanelController } from "./user.cpanel.controller";
 import { MailerModule } from "@nestjs-modules/mailer";
+import { UserInfoService } from "./user.service";
 
 enum MailAdmin {
     EMAIL = "thewondershopfashion@gmail.com",
@@ -20,7 +20,7 @@ enum MailAdmin {
 @Module({
     imports: [
         MongooseModule.forFeature([
-            { name: Users.name, schema: UserSchema },
+            { name: UsersInfo.name, schema: UserInfoSchema },
         ]),
         MailerModule.forRootAsync({
             useFactory: () => ({
@@ -34,9 +34,9 @@ enum MailAdmin {
                 }
             })
         }),
-        
+
     ],
-    controllers: [UserController, UserCpanelController],
-    providers: [UserService],
+    controllers: [UserInfoController, UserCpanelController],
+    providers: [UserInfoService],
 })
-export class UserModule { }
+export class UserInfoModule { }

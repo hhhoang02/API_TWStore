@@ -3,14 +3,14 @@ import { Response } from 'express';
 
 
 
-import { UserService } from './user.service';
+import { UserInfoService } from './user.service';
 import { UserInsertRequestDTO } from './dto/user_register_request';
-import { UserLoginRequestDTO } from './dto/user_login_request';
-import { UserResponseDTO } from './dto/user_response';
+import { UserInfoLoginRequestDTO } from './dto/user_login_request';
+import { UserInfoResponseDTO } from './dto/user_response';
 //Url: http://localhost:3000/users
 @Controller('usersCpanel')
 export class UserCpanelController {
-    constructor(private readonly userService: UserService) { }
+    constructor(private readonly userService: UserInfoService) { }
 
     //Url: http://localhost:3000/usersCpanel/login
     @Get('login')
@@ -22,10 +22,10 @@ export class UserCpanelController {
         }
     }
     @Post('login')
-    async Login(@Body() body: UserLoginRequestDTO, @Res() res: Response) {
+    async Login(@Body() body: UserInfoLoginRequestDTO, @Res() res: Response) {
         try {
             
-            const responseDTO: UserResponseDTO = await this.userService.LoginUser(body);
+            const responseDTO: UserInfoResponseDTO = await this.userService.LoginUser(body);
             console.log("Login:", responseDTO)
             return responseDTO.status ? res.redirect('/usersCpanel/index') : res.redirect('login');
         } catch (error) {

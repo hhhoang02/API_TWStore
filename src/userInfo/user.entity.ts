@@ -1,9 +1,8 @@
 import { Types } from "mongoose";
 
-export class Users {
+export class UsersInfo {
     email: string;
     password: string;
     username: string;
-    phone: string;
     role: string;
 }

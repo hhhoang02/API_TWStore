@@ -3,17 +3,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
-import { UserDocument, Users } from './user.schema';
+import { UserInfoDocument, UsersInfo } from './user.schema';
 import { UserInsertRequestDTO } from './dto/user_register_request';
-import { UserLoginRequestDTO } from './dto/user_login_request';
-import { UserForGotRequestDTO } from './dto/user_forgot_request';
-import { UserResponseDTO } from './dto/user_response';
-import { UserSendMailRequestDTO } from './dto/user_sendmail_request';
+import { UserInfoLoginRequestDTO } from './dto/user_login_request';
+import { UserInfoForGotRequestDTO } from './dto/user_forgot_request';
+import { UserInfoResponseDTO } from './dto/user_response';
+import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
-import { UserChangePasswordDTO } from './dto/user_changePassword_request';
-import { UserAddressDTO } from './dto/user_updateAddress_request';
-import { UserCart_FavoriteDTO } from './dto/user_updateCart_request';
-import { UserUpdateInfoRequestDTO } from './dto/user_updateInfo_request';
+import { UserInfoChangePasswordDTO } from './dto/user_changePassword_request';
+import { UserChangeUserNameRequestDTO } from './dto/user_changeUserName_request';
+import { UserAddPhoneRequestDTO } from './dto/user_addPhone_request.ts';
 
 
 
@@ -29,18 +28,18 @@ enum Email {
 
 
 @Injectable()
-export class UserService {
-    constructor(@InjectModel(Users.name)
-    private readonly userModel: Model<UserDocument>,
+export class UserInfoService {
+    constructor(@InjectModel(UsersInfo.name)
+    private readonly userModel: Model<UserInfoDocument>,
         private readonly mailerService: MailerService) { }
 
 
     //Hàm insert vào database
-    async RegisterUser(requestDTO: UserInsertRequestDTO): Promise<UserResponseDTO> {
+    async RegisterUser(requestDTO: UserInsertRequestDTO): Promise<UserInfoResponseDTO> {
         try {
             console.log(requestDTO);
 
-            const { username, email, password, phone, role } = requestDTO;
+            const { username, email, password, role } = requestDTO;
             const user = await this.userModel.findOne({ email });
             if (user) {
                 return {
@@ -53,15 +52,14 @@ export class UserService {
                 username,
                 email,
                 password: hashPassword,
-                phone,
                 role,
             })
             console.log(newUser);
 
-            await newUser.save();
+            const { _id } = await newUser.save();
             return {
                 status: true,
-                message: 'Register successfully',
+                message: 'Register successfully ' + _id,
             }
         } catch (error: any) {
             return {
@@ -71,7 +69,7 @@ export class UserService {
         }
     }
 
-    async LoginUser(requestDTO: UserLoginRequestDTO): Promise<UserResponseDTO> {
+    async LoginUser(requestDTO: UserInfoLoginRequestDTO): Promise<UserInfoResponseDTO> {
         try {
             const { email, password } = requestDTO;
 
@@ -99,7 +97,7 @@ export class UserService {
         }
     }
 
-    async ForGotPass(requestDTO: UserForGotRequestDTO): Promise<UserResponseDTO> {
+    async ForGotPass(requestDTO: UserInfoForGotRequestDTO): Promise<UserInfoResponseDTO> {
         try {
             console.log(requestDTO);
             const { email, newPassword } = requestDTO;
@@ -129,7 +127,7 @@ export class UserService {
         }
     }
 
-    async ChangePassword(requestDTO: UserChangePasswordDTO): Promise<UserResponseDTO> {
+    async ChangePassword(requestDTO: UserInfoChangePasswordDTO): Promise<UserInfoResponseDTO> {
         try {
             const { email, oldPassword, newPassword } = requestDTO;
             const user = await this.userModel.findOne({ email });
@@ -155,7 +153,7 @@ export class UserService {
             }
         }
     }
-    async VerifyUser(requestDTO: UserSendMailRequestDTO): Promise<UserResponseDTO> {
+    async VerifyUser(requestDTO: UserInfoSendMailRequestDTO): Promise<UserInfoResponseDTO> {
         try {
             const { email } = requestDTO;
             const sendMail = this.mailerService.sendMail({
@@ -179,6 +177,24 @@ export class UserService {
             return {
                 status: false,
                 message: error,
+            }
+        }
+    }
+
+    async ChangeUserName(requestDTO: UserChangeUserNameRequestDTO): Promise<UserInfoResponseDTO> {
+        try {
+            const { email, username } = requestDTO;
+            const user = await this.userModel.findOne({ email });
+            (await user).username = username;
+            (await user).save();
+            return {
+                status: true,
+                message: 'Change username successfully',
+            }
+        } catch (error) {
+            return {
+                status: false,
+                message: 'Change username error',
             }
         }
     }

@@ -1,4 +1,4 @@
-export class UserChangePasswordDTO{
+export class UserInfoChangePasswordDTO{
     email: string;
     oldPassword: string;
     newPassword: string;

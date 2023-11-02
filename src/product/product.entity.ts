@@ -1,15 +1,17 @@
 import { Types } from "mongoose";
+import { Branch } from "src/branch/branch.schema";
+import { Category } from "src/category/category.schema";
 
 export class Product {
     productName: string;
     price: number;
     quantity: number;
-    branch: Types.ObjectId;
+    branch: Branch;
     image: Array<string>;
-    size: string
+    size: Array<string>;
     description: string;
-    style: string;
+    style: Array<string>;
     color: Array<string>;
-    categoryID: Types.ObjectId;
+    categoryID: Category;
     grossRating: number;
 }

@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { SchemaTypes, Types } from "mongoose";
+import { Branch } from "src/branch/branch.schema";
+import { Category } from "src/category/category.schema";
 
 export type ProductDocument = Product & Document;
 
@@ -17,22 +19,22 @@ export class Product {
     quantity: number;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Branch' })
-    branch: Types.ObjectId;
+    branch: Branch;
 
     @Prop()
     image: Array<string>;
 
     @Prop()
-    size: string;
+    size: Array<string>;
 
     @Prop()
     description: string;
 
     @Prop()
-    style: string;
+    style: Array<string>;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
-    categoryID: Types.ObjectId;
+    categoryID: Category;
 
     @Prop()
     color: Array<string>;

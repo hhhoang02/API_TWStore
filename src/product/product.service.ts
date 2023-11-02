@@ -7,15 +7,21 @@ import { ProductResponseDTO } from "./dto/product_response";
 import { ProductUpdateDTO } from "./dto/product_update_request";
 import { ProductGetResponseDTO } from "./dto/product_get_response";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
+import { Category, CategoryDocument } from "src/category/category.schema";
+import { Branch } from "src/branch/branch.schema";
 
 @Injectable()
 export class ProductService {
-    constructor(@InjectModel(Product.name)
-    private readonly productModel: Model<ProductDocument>,) { }
+    constructor(
+        @InjectModel(Product.name) private readonly productModel: Model<ProductDocument>,
+
+    ) { }
 
     async addProduct(requestDTO: ProductInsertDTO): Promise<ProductResponseDTO> {
         try {
             const { productName, price, quantity, branch, image, size, description, style, color, categoryID, grossRating } = requestDTO;
+            console.log(requestDTO);
+
             const newProduct = new this.productModel({
                 productName,
                 price,
@@ -35,6 +41,8 @@ export class ProductService {
                 message: 'Add product successfully',
             }
         } catch (error) {
+            console.log(error);
+
             return {
                 status: false,
                 message: 'Add product failed',
@@ -55,7 +63,7 @@ export class ProductService {
             product.quantity = quantity ? quantity : product.quantity;
             product.branch = branch ? branch : product.branch;
             product.image = image ? image : product.image;
-            product.size = size ? size : product.size;
+            product.size = size ? product.size : product.size;
             product.description = description ? description : product.description;
             product.style = style ? style : product.style;
             product.color = color ? color : product.color;
@@ -77,40 +85,45 @@ export class ProductService {
     }
     async deleteProduct(requestDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
         try {
-            const { _id } = requestDTO;
-            const product = await this.productModel.findById(_id);
+            const _id = requestDTO;
+            const product = await this.productModel.findByIdAndDelete(_id);
             if (!product) return {
                 status: false,
                 message: 'Product not found',
             };
-            await product.remove();
             return {
                 status: true,
                 message: 'Delete product successfully',
             }
         } catch (error) {
+            console.log(error);
+
             return {
                 status: false,
                 message: 'Delete product failed',
             }
         }
     }
-    async getProduct(): Promise<ProductGetResponseDTO[]> {
+    async getAllProduct(): Promise<ProductGetResponseDTO[]> {
         try {
-            const product = await this.productModel.find();
+            const product = await this.productModel.find().populate([{ path: 'branch', select: 'name' }, { path: 'categoryID', select: 'name' }]);;
             return product;
         } catch (error) {
             return
         }
 
     }
-    async getProductById(requestDTO: ProductGetbyIdDTO): Promise<ProductGetResponseDTO> {
+    async getProductById(requestDTO: ProductGetbyIdDTO): Promise<any> {
         try {
-            const { _id } = requestDTO;
-            const product = await this.productModel.findById(_id);
+            const _id = requestDTO;
+
+            const product = await this.productModel.findById(_id).populate([{ path: 'branch', select: 'name' }, { path: 'categoryID', select: 'name' }]);
+            console.log(product);
+
             if (!product) return
             return product;
         } catch (error) {
+            console.log(error);
 
         }
     }
