@@ -4,7 +4,6 @@ import { UserInfoLoginRequestDTO } from './dto/user_login_request';
 import { UserInfoForGotRequestDTO } from './dto/user_forgot_request';
 import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { UserInfoService } from './user.service';
-import { UserInfoChangePasswordDTO } from './dto/user_changePassword_request';
 
 //Url: http://localhost:3000/users
 @Controller('users')
@@ -60,7 +59,7 @@ export class UserInfoController {
     }
 
     @Post('ChangePassword')
-    async ChangePassword(@Body() body: UserInfoChangePasswordDTO, @Res() res: any) {
+    async ChangePassword(@Body() body: any, @Res() res: any) {
         try {
             const responseDTO = await this.userService.ChangePassword(body);
             return res.status(HttpStatus.OK).json(responseDTO);

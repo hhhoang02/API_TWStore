@@ -11,7 +11,6 @@ import { UserInfoResponseDTO } from './dto/user_response';
 import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UserChangeUserNameRequestDTO } from './dto/user_changeUserName_request';
-import { UserInfoChangePasswordDTO } from './dto/user_changePassword_request';
 
 
 
@@ -126,7 +125,7 @@ export class UserInfoService {
         }
     }
 
-    async ChangePassword(requestDTO: UserInfoChangePasswordDTO): Promise<UserInfoResponseDTO> {
+    async ChangePassword(requestDTO: any): Promise<UserInfoResponseDTO> {
         try {
             const { email, oldPassword, newPassword } = requestDTO;
             const user = await this.userModel.findOne({ email });
