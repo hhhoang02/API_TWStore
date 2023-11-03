@@ -7,8 +7,6 @@ import { ProductResponseDTO } from "./dto/product_response";
 import { ProductUpdateDTO } from "./dto/product_update_request";
 import { ProductGetResponseDTO } from "./dto/product_get_response";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
-import { Category, CategoryDocument } from "src/category/category.schema";
-import { Branch } from "src/branch/branch.schema";
 
 @Injectable()
 export class ProductService {
