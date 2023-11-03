@@ -10,9 +10,8 @@ import { UserInfoForGotRequestDTO } from './dto/user_forgot_request';
 import { UserInfoResponseDTO } from './dto/user_response';
 import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
-import { UserInfoChangePasswordDTO } from './dto/user_changePassword_request';
 import { UserChangeUserNameRequestDTO } from './dto/user_changeUserName_request';
-import { UserAddPhoneRequestDTO } from './dto/user_addPhone_request.ts';
+import { UserInfoChangePasswordDTO } from './dto/user_changePassword_request';
 
 
 
