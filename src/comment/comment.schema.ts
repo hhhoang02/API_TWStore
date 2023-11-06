@@ -5,7 +5,7 @@ export type CommentDocument = Comment & Document
 @Schema()
 export class Comment {
     //Các thuộc tính của product
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userID: Array<Types.ObjectId>;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
@@ -18,7 +18,7 @@ export class Comment {
     content: string;
 
     @Prop()
-    star: string;
+    star: number;
 
 }
 

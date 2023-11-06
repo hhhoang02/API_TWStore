@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Param, Post, Res } from "@nestjs/common";
 import { CommentService } from "./comment.service";
 import { CommentAddRequestDTO } from "./dto/comment_add_request";
 import { Response } from "express";
@@ -6,7 +6,7 @@ import { CommentDeleteRequestDTO } from "./dto/comment_delete_request";
 import { CommentGetbyProducRequesttDTO } from "./dto/comment_getbyProduct_request";
 
 @Controller('comment')
-export class CategoryController {
+export class CommentController {
     constructor(private readonly commentService: CommentService) { }
 
     @Post('addComment')
@@ -18,19 +18,20 @@ export class CategoryController {
             return res.status(HttpStatus.OK).json(error);
         }
     }
-    @Get('getCommentbyProduct')
-    async GetCommentbyProduct(@Body() body: CommentGetbyProducRequesttDTO, @Res() res: Response) {
+    @Get('getCommentbyIdProduct/:_id')
+    async GetCommentbyProduct(@Param() _id: CommentGetbyProducRequesttDTO, @Res() res: Response) {
         try {
-            const responseDTO = await this.commentService.GetCommentbyProduct(body);
+            const responseDTO = await this.commentService.GetCommentbyIdProduct(_id);
+            
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
             return res.status(HttpStatus.OK).json(error);
         }
     }
-    @Post('deleteComment')
-    async DeleteComment(@Body() body: CommentDeleteRequestDTO, @Res() res: Response) {
+    @Post('deleteComment/:_id')
+    async DeleteComment(@Param() _id: CommentDeleteRequestDTO, @Res() res: Response) {
         try {
-            const responseDTO = await this.commentService.DeleteComment(body);
+            const responseDTO = await this.commentService.DeleteComment(_id);
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
             return res.status(HttpStatus.OK).json(error);
