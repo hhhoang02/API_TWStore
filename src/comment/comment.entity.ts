@@ -5,5 +5,5 @@ export class Comment {
     productID: Array<Types.ObjectId>;
     createAt: string;
     content: string;
-    star: string;
+    star: number;
 }

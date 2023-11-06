@@ -15,30 +15,37 @@ export class CommentService {
     async AddComment(requestDTO: CommentAddRequestDTO): Promise<CommentResponseDTO> {
         try {
             const { userID, productID, createAt, content, star } = requestDTO;
-            const comment = await this.commentModel.findOne({ userID, productID, createAt, content, star });
+            const comment = await this.commentModel.findOne({ userID});
+            console.log();
+            
             if (comment) {
                 return {
                     status: false,
                     message: 'Comment already exists',
                 }
             }
-            const newComment = new this.commentModel({ name });
+            const newComment = new this.commentModel({ userID, productID, createAt, content, star });
             await newComment.save();
             return {
                 status: true,
                 message: 'Add Comment successfully',
             }
         } catch (error) {
+            console.log(error);
+            
             return {
                 status: false,
                 message: 'Add Comment failed',
             }
         }
     }
-    async GetCommentbyProduct(requestDTO: CommentGetbyProducRequesttDTO): Promise<CommentGetbyProductResponseDTO> {
+    async GetCommentbyIdProduct(requestDTO: CommentGetbyProducRequesttDTO): Promise<CommentGetbyProductResponseDTO> {
         try {
-            const { productID } = requestDTO;
-            const responseDTO = await this.commentModel.findById({ productID });
+            const _id = requestDTO;
+
+            const responseDTO = await this.commentModel.findOne({productID:_id}).populate('userID');
+            console.log(responseDTO);
+            
             return responseDTO;
         } catch (error) {
             return error;
@@ -47,7 +54,7 @@ export class CommentService {
     async DeleteComment(requestDTO: CommentDeleteRequestDTO): Promise<CommentResponseDTO> {
         try {
             const { _id } = requestDTO;
-            const comment = await this.commentModel.findById(_id);
+            const comment = await this.commentModel.findByIdAndDelete(_id);
             if (!comment) return {
                 status: false,
                 message: 'comment not found',

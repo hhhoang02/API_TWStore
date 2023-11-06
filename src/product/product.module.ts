@@ -13,7 +13,6 @@ import { Category, CategorySchema } from "src/category/category.schema";
     imports: [
         MongooseModule.forFeature([
             { name: Product.name, schema: ProductSchema },
-            { name: Category.name, schema: CategorySchema },
         ]),
     ],
     controllers: [ProductController],
