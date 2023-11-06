@@ -7,7 +7,7 @@ export class Category {
 
     @Prop()
     name: string;
-
+    
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

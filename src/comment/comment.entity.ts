@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 
 export class Comment {
-    userID: Array<Types.ObjectId>;
-    productID: Array<Types.ObjectId>;
+    userID: Types.ObjectId;
+    productID: Types.ObjectId;
     createAt: string;
     content: string;
     star: number;

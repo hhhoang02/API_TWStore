@@ -1,3 +1,4 @@
+import { ProductGetByIdCategoryRequestDTO } from './dto/product_getProductbyIdCategory_request';
 import { Model } from "mongoose";
 import { Product, ProductDocument } from "./product.schema";
 import { InjectModel } from "@nestjs/mongoose";
@@ -7,6 +8,8 @@ import { ProductResponseDTO } from "./dto/product_response";
 import { ProductUpdateDTO } from "./dto/product_update_request";
 import { ProductGetResponseDTO } from "./dto/product_get_response";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
+import { ProductGetByIdBranchRequestDTO } from './dto/product_getProductbyIdBranch_request';
+
 
 @Injectable()
 export class ProductService {
@@ -125,5 +128,26 @@ export class ProductService {
 
         }
     }
+
+    async getProductbyIdCategory(requestDTO: ProductGetByIdCategoryRequestDTO): Promise<any>{
+        try {
+            const _id = requestDTO;
+            const product = await this.productModel.find({categoryID: _id}).populate([{ path: 'categoryID', select: 'name'},{ path: 'branch', select: 'name'}]);
+            return product
+        } catch (error) {
+            return
+        }
+    }
+
+    async getProductbyIdBranch(requestDTO: ProductGetByIdBranchRequestDTO): Promise<any>{
+        try {
+            const _id = requestDTO;
+            const product = await this.productModel.find({branch: _id}).populate([{ path: 'branch', select: 'name'},{ path: 'categoryID', select: 'name'}]);
+            return product
+        } catch (error) {
+            return
+        }
+    }
+
 
 }
