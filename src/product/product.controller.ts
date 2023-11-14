@@ -5,6 +5,7 @@ import { ProductUpdateDTO } from "./dto/product_update_request";
 import { Response } from "express";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
 import { ProductGetByIdCategoryRequestDTO } from "./dto/product_getProductbyIdCategory_request";
+import { ProductGetByIdPromotionRequestDTO } from "./dto/product_getProductbyIdPromotion_request";
 
 @Controller('product')
 

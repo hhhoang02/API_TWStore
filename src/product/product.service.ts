@@ -9,12 +9,14 @@ import { ProductUpdateDTO } from "./dto/product_update_request";
 import { ProductGetResponseDTO } from "./dto/product_get_response";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
 import { ProductGetByIdBranchRequestDTO } from './dto/product_getProductbyIdBranch_request';
+import { ProductGetByIdPromotionRequestDTO } from './dto/product_getProductbyIdPromotion_request';
 
 
 @Injectable()
 export class ProductService {
     constructor(
-        @InjectModel(Product.name) private readonly productModel: Model<ProductDocument>,
+        @InjectModel(Product.name) 
+        private readonly productModel: Model<ProductDocument>,
 
     ) { }
 
@@ -148,6 +150,5 @@ export class ProductService {
             return
         }
     }
-
 
 }

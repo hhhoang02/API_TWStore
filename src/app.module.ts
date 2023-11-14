@@ -9,13 +9,14 @@ import { CategoryModule } from './category/category.module';
 import { UserInfoModule } from './userInfo/user.module';
 import { ProductModule } from './product/product.module';
 import { CommentModule } from './comment/comment.module';
+import { PromotionModule } from './promotion/promotion.module';
 
 
 @Module({
   imports: [
 
     MongooseModule.forRoot('mongodb+srv://admin:haunho@cluster0.3oqlz8r.mongodb.net/TWStore?retryWrites=true&w=majority'),
-    UserModule, UserInfoModule, OrderModule,CommentModule, BranchModule, CategoryModule, ProductModule
+    UserModule, UserInfoModule, OrderModule,CommentModule, BranchModule, CategoryModule, ProductModule, PromotionModule
   ],
   controllers: [AppController],
   providers: [AppService],

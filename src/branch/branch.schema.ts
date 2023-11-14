@@ -7,8 +7,6 @@ export class Branch {
     //Các thuộc tính của product
     @Prop()
     name: string;
-
-
 }
 
 export const BranchSchema = SchemaFactory.createForClass(Branch);
