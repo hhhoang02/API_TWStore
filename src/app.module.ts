@@ -16,7 +16,8 @@ import { PromotionModule } from './promotion/promotion.module';
   imports: [
 
     MongooseModule.forRoot('mongodb+srv://admin:haunho@cluster0.3oqlz8r.mongodb.net/TWStore?retryWrites=true&w=majority'),
-    UserModule, UserInfoModule, OrderModule,CommentModule, BranchModule, CategoryModule, ProductModule, PromotionModule
+    UserModule, UserInfoModule, OrderModule,CommentModule, BranchModule, CategoryModule, ProductModule, PromotionModule,
+    OrderModule
   ],
   controllers: [AppController],
   providers: [AppService],

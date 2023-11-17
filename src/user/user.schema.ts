@@ -24,7 +24,25 @@ export class Address {
     @Prop()
     phone: string;
 }
+export class PaymentDetail {
+    @Prop()
+    paymentMethods: string;
 
+    @Prop()
+    status: string;
+
+    @Prop()
+    total: number;
+
+    @Prop()
+    voucher: string;
+
+    @Prop()
+    phoneReceiver: string;
+    
+    @Prop()
+    nameReceiver: string;
+}
 @Schema()
 export class Users {
 
@@ -48,8 +66,16 @@ export class Users {
     @Prop()
     address: Address[];
 
+<<<<<<< HEAD
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }])
     commentID: Types.ObjectId[];
+=======
+    @Prop()
+    payment: PaymentDetail[];
+    
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
+    commentID: Types.ObjectId;
+>>>>>>> 991ee99489f9cfab526edf61378ac8beb019fbaf
 
 }
 

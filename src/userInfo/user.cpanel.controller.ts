@@ -7,6 +7,7 @@ import { UserInfoService } from './user.service';
 import { UserInsertRequestDTO } from './dto/user_register_request';
 import { UserInfoLoginRequestDTO } from './dto/user_login_request';
 import { UserInfoResponseDTO } from './dto/user_response';
+import { UserGetAllResponseDTO } from './dto/user_getAll_response';
 //Url: http://localhost:3000/users
 @Controller('usersCpanel')
 export class UserCpanelController {
@@ -21,6 +22,7 @@ export class UserCpanelController {
             message: 'Hello'
         }
     }
+    
     @Post('login')
     async Login(@Body() body: UserInfoLoginRequestDTO, @Res() res: Response) {
         try {
@@ -33,8 +35,6 @@ export class UserCpanelController {
         }
     }
 
-
-
     @Get('index')
     @Render('index')
     async index(@Res() res: Response) {
@@ -42,14 +42,23 @@ export class UserCpanelController {
             message: 'Hello'
         }
     }
-    @Get('tables')
-    @Render('tables')
-    async table(@Res() res: Response) {
+      //http://localhost:3000/usersCpanel/quanlytaikhoan
+      @Get('quanlytaikhoan')
+      async getAllUsers(@Res() res: Response) {
+          try {
+              const users = await this.userService.GetAllUsers();
+              console.log("users:", users)
+              return res.render('quanlytaikhoan', {users} );
+          } catch (error) {
+  
+          }
+      }
+          @Get('addUser')
+    @Render('addUser')
+    async addUser(@Res() res: Response) {
         return {
             message: 'Hello'
         }
     }
-
-
 
 }

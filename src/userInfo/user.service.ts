@@ -12,6 +12,7 @@ import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UserChangeUserNameRequestDTO } from './dto/user_changeUserName_request';
 import { UserInfoRegisterResponseDTO } from './dto/user_register_response';
+import { UserGetAllResponseDTO } from './dto/user_getAll_response';
 
 
 
@@ -81,6 +82,14 @@ export class UserInfoService {
                     message: 'User not found',
                 }
             }
+            console.log(user.role);
+            
+            if(user.role === "user"){
+                return {
+                    status: false,
+                    message: 'Need role to login',
+                }
+            }
             let comparePassword = bcrypt.compareSync(password, (await user).password);
             console.log('Compare Password : ', comparePassword);
             if (!comparePassword) {
@@ -99,6 +108,14 @@ export class UserInfoService {
         }
     }
 
+    async GetAllUsers(): Promise<UserGetAllResponseDTO[]> {
+        try {
+            const responseDTO = await this.userModel.find();
+            return responseDTO;
+        } catch (error) {
+            return error;
+        }
+    }
     async ForGotPass(requestDTO: UserInfoForGotRequestDTO): Promise<UserInfoResponseDTO> {
         try {
             console.log(requestDTO);
