@@ -10,7 +10,7 @@ export class Product {
     image: Array<string>;
     size: Array<string>;
     description: string;
-    style: Array<string>;
+    sale: number;
     color: Array<string>;
     categoryID: Category;
     grossRating: number;

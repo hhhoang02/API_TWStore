@@ -35,11 +35,9 @@ export class Users {
     avatar: string;
 
 
-    @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' } })
+    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }])
     cartID: Product[];
 
-    @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' } })
-    favoriteID: Product[];
 
     @Prop()
     gender: string;
@@ -50,8 +48,8 @@ export class Users {
     @Prop()
     address: Address[];
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
-    commentID: Types.ObjectId;
+    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }])
+    commentID: Types.ObjectId[];
 
 }
 

@@ -32,7 +32,7 @@ export class Product {
     description: string;
 
     @Prop()
-    style: Array<string>;
+    sale: number;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
     categoryID: Category;

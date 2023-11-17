@@ -51,15 +51,6 @@ export class UserController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @Post('updateFavorite')
-    async UpdateFavorite(@Body() body: UserCart_FavoriteDTO, @Res() res: Response) {
-        try {
-            const user = await this.userService.UpdateFavorite(body);
-            return res.status(HttpStatus.OK).json(user);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
 
 
 
