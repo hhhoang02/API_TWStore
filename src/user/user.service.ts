@@ -27,7 +27,7 @@ export class UserService {
     async GetUserByID(requestDTO: UserGetByIDRequestDTO): Promise<UserGetByIDResponseDTO> {
         try {
             const _idUser = requestDTO;
-            console.log(_idUser);
+            console.log(requestDTO);
 
             const user = await this.userModel.findOne({ _idUser });
 
@@ -41,7 +41,7 @@ export class UserService {
             let newUser = new this.userModel({ _idUser, avatar: null, cartID: [], favoriteID: null, gender: null, birthDay: null, address: [], commentID: null });
             await newUser.save();
             return {
-                status: false,
+                status: true,
                 message: 'New User',
                 data: newUser,
             }

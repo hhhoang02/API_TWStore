@@ -11,6 +11,7 @@ import { UserInfoResponseDTO } from './dto/user_response';
 import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UserChangeUserNameRequestDTO } from './dto/user_changeUserName_request';
+import { UserInfoRegisterResponseDTO } from './dto/user_register_response';
 
 
 
@@ -33,7 +34,7 @@ export class UserInfoService {
 
 
     //Hàm insert vào database
-    async RegisterUser(requestDTO: UserInsertRequestDTO): Promise<UserInfoResponseDTO> {
+    async RegisterUser(requestDTO: UserInsertRequestDTO): Promise<UserInfoRegisterResponseDTO | UserInfoResponseDTO> {
         try {
             console.log(requestDTO);
 
@@ -57,7 +58,9 @@ export class UserInfoService {
             const { _id } = await newUser.save();
             return {
                 status: true,
-                message: 'Register successfully ' + _id,
+                message: 'Register successfully ',
+                _id: _id
+
             }
         } catch (error: any) {
             return {
@@ -67,7 +70,7 @@ export class UserInfoService {
         }
     }
 
-    async LoginUser(requestDTO: UserInfoLoginRequestDTO): Promise<UserInfoResponseDTO> {
+    async LoginUser(requestDTO: UserInfoLoginRequestDTO): Promise<UserInfoRegisterResponseDTO | UserInfoResponseDTO> {
         try {
             const { email, password } = requestDTO;
 
@@ -89,6 +92,7 @@ export class UserInfoService {
             return {
                 status: true,
                 message: 'Login successfully',
+                _id: (await user)._id
             }
         } catch (error: any) {
 
