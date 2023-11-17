@@ -4,7 +4,7 @@ import { UserInfoLoginRequestDTO } from './dto/user_login_request';
 import { UserInfoForGotRequestDTO } from './dto/user_forgot_request';
 import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { UserInfoService } from './user.service';
-
+import { Response } from "express";
 //Url: http://localhost:3000/users
 @Controller('users')
 export class UserInfoController {
@@ -35,7 +35,16 @@ export class UserInfoController {
         }
 
     }
+    @Get('getAllUsers')
+    async GetAllUsers(@Res() res: Response) {
+        try {
+            const responseDTO = await this.userService.GetAllUsers();
+            return res.status(HttpStatus.OK).json(responseDTO);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
 
+        }
+    }
 
     //Url: http://localhost:3000/users/ForgotPassword
     @Post('ForgotPassword')
