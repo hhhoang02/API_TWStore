@@ -3,7 +3,9 @@ import { Banner, BannerDocument } from "./banner.schema";
 import { Model } from "mongoose";
 import { BannerInsertDTO } from "./dto/banner_insert_request";
 import { BannerResponseDTO } from "./dto/promotion_response";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class BannerService {
     constructor(
         @InjectModel(Banner.name)
@@ -14,7 +16,11 @@ export class BannerService {
         try {
             const { image, position, title, typeUpdate } = requestDTO;
             if (typeUpdate == 'insert') {
+                console.log(title, image, position);
                 const banner = new this.bannerModel({ title, image, position });
+                console.log(banner);
+
+                await banner.save()
                 return {
                     status: true,
                     message: 'Insert banner success' + banner,
@@ -33,5 +39,20 @@ export class BannerService {
             }
         }
     }
-
+    async getAllBanner(): Promise<BannerResponseDTO | any> {
+        try {
+            const banner = await this.bannerModel.find();
+            return {
+                status: true,
+                message: 'Get all banner success',
+                data: banner
+            }
+        } catch (error) {
+            console.log(error);
+            return {
+                status: false,
+                message: 'Get all banner failed',
+            }
+        }
+    }
 }
