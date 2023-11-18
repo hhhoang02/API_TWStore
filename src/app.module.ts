@@ -10,6 +10,7 @@ import { UserInfoModule } from './userInfo/user.module';
 import { ProductModule } from './product/product.module';
 import { CommentModule } from './comment/comment.module';
 import { PromotionModule } from './promotion/promotion.module';
+import { BannerModule } from './banner/banner.module';
 
 
 @Module({
@@ -17,7 +18,7 @@ import { PromotionModule } from './promotion/promotion.module';
 
     MongooseModule.forRoot('mongodb+srv://admin:haunho@cluster0.3oqlz8r.mongodb.net/TWStore?retryWrites=true&w=majority'),
     UserModule, UserInfoModule, OrderModule,CommentModule, BranchModule, CategoryModule, ProductModule, PromotionModule,
-    OrderModule
+    OrderModule,BannerModule
   ],
   controllers: [AppController],
   providers: [AppService],

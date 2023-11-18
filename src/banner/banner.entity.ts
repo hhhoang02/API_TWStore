@@ -1,4 +1,5 @@
-export class Banner{
+export class Banner {
+    title: string;
     image: string;
-    position: number
+    position: number;
 }

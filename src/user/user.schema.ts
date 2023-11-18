@@ -66,16 +66,11 @@ export class Users {
     @Prop()
     address: Address[];
 
-<<<<<<< HEAD
-    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }])
-    commentID: Types.ObjectId[];
-=======
     @Prop()
     payment: PaymentDetail[];
     
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
     commentID: Types.ObjectId;
->>>>>>> 991ee99489f9cfab526edf61378ac8beb019fbaf
 
 }
 
