@@ -1,12 +1,12 @@
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document, ObjectId, SchemaTypes, Types } from "mongoose";
-export type BranchDocument = Branch & Document;
+export type BrandDocument = Brand & Document;
 @Schema()
-export class Branch {
+export class Brand {
     //Các thuộc tính của product
     @Prop()
     name: string;
 }
 
-export const BranchSchema = SchemaFactory.createForClass(Branch);
+export const BrandSchema = SchemaFactory.createForClass(Brand);

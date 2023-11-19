@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
 
-export class Branch{
+export class Size{
     name: string;
 }

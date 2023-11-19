@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { SchemaTypes, Types } from "mongoose";
-import { Branch } from "src/branch/branch.schema";
+import { Brand } from "src/brand/Brand.schema";
 import { Category } from "src/category/category.schema";
+import { Color } from "src/colorProduct/color.schema";
 import { Promotion } from "src/promotion/promotion.schema";
 
 export type ProductDocument = Product & Document;
@@ -9,7 +10,9 @@ export type ProductDocument = Product & Document;
 
 @Schema()
 export class Product {
-
+    @Prop()
+    image: Array<string>;
+    
     @Prop({ required: true })
     productName: string;
 
@@ -19,11 +22,8 @@ export class Product {
     @Prop()
     quantity: number;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Branch' })
-    branch: Branch;
-
-    @Prop()
-    image: Array<string>;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Brand' })
+    brand: Brand;
 
     @Prop()
     size: Array<string>;
@@ -37,12 +37,11 @@ export class Product {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
     categoryID: Category;
 
-    @Prop()
-    color: Array<string>;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Color' })
+    colorID: Color;
 
     @Prop()
-    grossRating: number;
-
+    offer: number;
 
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);

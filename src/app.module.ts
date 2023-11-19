@@ -4,20 +4,22 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { OrderModule } from './order/order.module';
-import { BranchModule } from './branch/branch.module';
+import { BrandModule } from './brand/brand.module';
 import { CategoryModule } from './category/category.module';
 import { UserInfoModule } from './userInfo/user.module';
 import { ProductModule } from './product/product.module';
 import { CommentModule } from './comment/comment.module';
 import { PromotionModule } from './promotion/promotion.module';
+import { ColorModule } from './colorProduct/color.module';
+import { SizeModule } from './size/size.module';
 
 
 @Module({
   imports: [
 
     MongooseModule.forRoot('mongodb+srv://admin:haunho@cluster0.3oqlz8r.mongodb.net/TWStore?retryWrites=true&w=majority'),
-    UserModule, UserInfoModule, OrderModule,CommentModule, BranchModule, CategoryModule, ProductModule, PromotionModule,
-    OrderModule
+    UserModule, UserInfoModule, OrderModule,CommentModule, BrandModule, CategoryModule, ProductModule, PromotionModule,
+    OrderModule, ColorModule, SizeModule
   ],
   controllers: [AppController],
   providers: [AppService],

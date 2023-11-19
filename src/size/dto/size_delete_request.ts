@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
 
-export class BranchDeleteRequestDTO {
+export class SizeDeleteRequestDTO {
     _id: Types.ObjectId;
 }

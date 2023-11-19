@@ -1,4 +1,4 @@
-export class BranchResponseDTO{
+export class ColorResponseDTO{
     status: boolean;
     message: string;
 }

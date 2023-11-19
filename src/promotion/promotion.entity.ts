@@ -5,5 +5,4 @@ export class Promotion{
     discountLevel : number;
     startDay: string;
     endDay: string;
-    productId: Product;
 }

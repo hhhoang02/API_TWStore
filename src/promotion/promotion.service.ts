@@ -29,15 +29,14 @@ export class PromotionService {
         try {
             const promotionCode = randomPromotion();
 
-            const {discountLevel,startDay,endDay,productId} = requestDTO;
+            const {discountLevel,startDay,endDay} = requestDTO;
             console.log(requestDTO);
 
             const newPromotion = new this.promotionModel({
                 discountCode: promotionCode,
                 discountLevel,
                 startDay,
-                endDay,
-                productId
+                endDay
             });
             await newPromotion.save();
             return {

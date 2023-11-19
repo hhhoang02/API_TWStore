@@ -18,7 +18,7 @@ export class CategoryController {
         }
     }
     @Get('getAllCategory')
-    async GetAllCategory(@Res() res: Response) {
+    async GetAllCategory(@Res() res: any) {
         try {
             const responseDTO = await this.categoryService.GetAllCategory();
             return res.status(HttpStatus.OK).json(responseDTO);

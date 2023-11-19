@@ -22,21 +22,20 @@ export class ProductService {
 
     async addProduct(requestDTO: ProductInsertDTO): Promise<ProductResponseDTO> {
         try {
-            const { productName, price, quantity, branch, image, size, description, style, color, categoryID, grossRating } = requestDTO;
+            const { image, productName, price, quantity, brand, size, description, style, colorID, categoryID} = requestDTO;
             console.log(requestDTO);
 
             const newProduct = new this.productModel({
+                image, 
                 productName,
                 price,
                 quantity,
-                branch,
-                image,
+                brand,
                 size,
                 description,
                 style,
-                color,
+                colorID,
                 categoryID,
-                grossRating,
             });
             await newProduct.save();
             return {
@@ -55,23 +54,22 @@ export class ProductService {
     async updateProduct(requestDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
         try {
             const { _id } = requestDTO;
-            const { productName, price, quantity, branch, image, size, description, style, color, categoryID, grossRating } = requestDTO;
+            const { image, productName, price, quantity, brand, size, description, style, colorID, categoryID} = requestDTO;
             const product = await this.productModel.findById(_id);
             if (!product) return {
                 status: false,
                 message: 'Product not found',
             };
+            product.image = image ? image : product.image;
             product.productName = productName ? productName : product.productName;
             product.price = price ? price : product.price;
             product.quantity = quantity ? quantity : product.quantity;
-            product.branch = branch ? branch : product.branch;
-            product.image = image ? image : product.image;
+            product.brand = brand ? brand : product.brand;
             product.size = size ? product.size : product.size;
             product.description = description ? description : product.description;
             product.style = style ? style : product.style;
-            product.color = color ? color : product.color;
+            product.colorID = colorID ? colorID : product.colorID;
             product.categoryID = categoryID ? categoryID : product.categoryID;
-            product.grossRating = grossRating ? grossRating : product.grossRating;
 
             await product.save();
             return {
@@ -109,7 +107,7 @@ export class ProductService {
     }
     async getAllProduct(): Promise<ProductGetResponseDTO[]> {
         try {
-            const product = await this.productModel.find().populate([{ path: 'branch', select: 'name' }, { path: 'categoryID', select: 'name' }]);;
+            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'categoryID', select: 'name' }]);;
             return product;
         } catch (error) {
             return
@@ -120,7 +118,7 @@ export class ProductService {
         try {
             const _id = requestDTO;
 
-            const product = await this.productModel.findById(_id).populate([{ path: 'branch', select: 'name' }, { path: 'categoryID', select: 'name' }]);
+            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'categoryID', select: 'name' }]);
             console.log(product);
 
             if (!product) return

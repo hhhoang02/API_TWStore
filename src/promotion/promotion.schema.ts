@@ -19,9 +19,6 @@ export class Promotion {
 
     @Prop()
     endDay : string;
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-    productId: Product;
     
 }
 export const PromotionSchema = SchemaFactory.createForClass(Promotion);
