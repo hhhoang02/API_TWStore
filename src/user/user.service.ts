@@ -24,12 +24,12 @@ export class UserService {
     ) { }
 
     //Hàm insert vào database
-    async GetUserByID(requestDTO: UserGetByIDRequestDTO): Promise<UserGetByIDResponseDTO> {
+    async GetUserByID(requestDTO: UserGetByIDRequestDTO): Promise<UserGetByIDResponseDTO | any> {
         try {
             const _idUser = requestDTO;
             console.log(requestDTO);
 
-            const user = await this.userModel.findOne({ _idUser });
+            const user = await this.userModel.findOne({ _idUser }).populate([{ path: 'cartID' }]);
 
             if (user) {
                 return {
@@ -38,7 +38,7 @@ export class UserService {
                     data: user,
                 }
             }
-            let newUser = new this.userModel({ _idUser, avatar: null, cartID: [], favoriteID: null, gender: null, birthDay: null, address: [], commentID: null });
+            let newUser = new this.userModel({ _idUser, avatar: null, cartID: [], gender: null, birthDay: null, address: [], commentID: [] });
             await newUser.save();
             return {
                 status: true,
@@ -118,8 +118,10 @@ export class UserService {
         try {
             const { _idUser, _idProduct } = requestDTO;
             const user = await this.userModel.findOne({ _idUser });
+            console.log(user);
+
             if (user) {
-                //user.cartID.push(_idProduct);
+                user.cartID.push(_idProduct)
                 await user.save();
                 return {
                     status: true,
@@ -139,27 +141,5 @@ export class UserService {
             }
         }
     }
-    async UpdateFavorite(responseDTO: UserCart_FavoriteDTO): Promise<UserResponseDTO> {
-        try {
-            const { _idUser, _idProduct } = responseDTO;
-            const user = await this.userModel.findById(_idUser);
-            if (user) {
-                // user.favoriteID.push(_idProduct);
-                await user.save();
-                return {
-                    status: true,
-                    message: 'Update favorite successfully'
-                }
-            }
-            return {
-                status: false,
-                message: 'Update favorite failed'
-            }
-        } catch (error) {
-            return {
-                status: false,
-                message: 'Update favorite error'
-            }
-        }
-    }
+
 }

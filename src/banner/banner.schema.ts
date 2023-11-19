@@ -3,6 +3,8 @@ export type BannerDocument = Banner & Document;
 
 export class Banner {
     @Prop()
+    title: string
+    @Prop()
     image: string
     @Prop()
     typeUpdate: string

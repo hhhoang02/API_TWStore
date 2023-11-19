@@ -6,22 +6,32 @@ import { BannerResponseDTO } from "./dto/promotion_response";
 
 export class BannerService {
     constructor(
-        @InjectModel(Banner.name) 
+        @InjectModel(Banner.name)
         private readonly bannerModel: Model<BannerDocument>,
     ) { }
 
-    async addPromotion(requestDTO: BannerInsertDTO): Promise<BannerResponseDTO> {
+    async updateBanner(requestDTO: BannerInsertDTO): Promise<BannerResponseDTO> {
         try {
-            const { image,position} = requestDTO;
-            
+            const { image, position, title, typeUpdate } = requestDTO;
+            if (typeUpdate == 'insert') {
+                const banner = new this.bannerModel({ title, image, position });
+                return {
+                    status: true,
+                    message: 'Insert banner success' + banner,
+                };
+            }
+            const banner = await this.bannerModel.findOneAndDelete({ position });
+            return {
+                status: true,
+                message: 'Delete banner success',
+            };
         } catch (error) {
             console.log(error);
-    
             return {
                 status: false,
                 message: 'Update address failed',
             }
         }
     }
-    
+
 }

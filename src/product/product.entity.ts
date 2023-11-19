@@ -11,7 +11,7 @@ export class Product {
     brand: Brand;
     size: Array<string>;
     description: string;
-    style: Array<string>;
+    sale: number;
     colorID: Color;
     categoryID: Category;
 }

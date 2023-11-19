@@ -15,14 +15,14 @@ import { ProductGetByIdPromotionRequestDTO } from './dto/product_getProductbyIdP
 @Injectable()
 export class ProductService {
     constructor(
-        @InjectModel(Product.name) 
+        @InjectModel(Product.name)
         private readonly productModel: Model<ProductDocument>,
 
     ) { }
 
     async addProduct(requestDTO: ProductInsertDTO): Promise<ProductResponseDTO> {
         try {
-            const { image, productName, price, quantity, brand, size, description, style, colorID, categoryID} = requestDTO;
+            const { productName, price, quantity, brand, image, size, description, sale, colorID, categoryID } = requestDTO;
             console.log(requestDTO);
 
             const newProduct = new this.productModel({
@@ -33,7 +33,7 @@ export class ProductService {
                 brand,
                 size,
                 description,
-                style,
+                sale,
                 colorID,
                 categoryID,
             });
@@ -54,7 +54,7 @@ export class ProductService {
     async updateProduct(requestDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
         try {
             const { _id } = requestDTO;
-            const { image, productName, price, quantity, brand, size, description, style, colorID, categoryID} = requestDTO;
+            const { productName, price, quantity, brand, image, size, description, sale, colorID, categoryID } = requestDTO;
             const product = await this.productModel.findById(_id);
             if (!product) return {
                 status: false,
@@ -67,7 +67,7 @@ export class ProductService {
             product.brand = brand ? brand : product.brand;
             product.size = size ? product.size : product.size;
             product.description = description ? description : product.description;
-            product.style = style ? style : product.style;
+            product.sale = sale ? sale : product.sale;
             product.colorID = colorID ? colorID : product.colorID;
             product.categoryID = categoryID ? categoryID : product.categoryID;
 
@@ -129,20 +129,20 @@ export class ProductService {
         }
     }
 
-    async getProductbyIdCategory(requestDTO: ProductGetByIdCategoryRequestDTO): Promise<any>{
+    async getProductbyIdCategory(requestDTO: ProductGetByIdCategoryRequestDTO): Promise<any> {
         try {
             const _id = requestDTO;
-            const product = await this.productModel.find({categoryID: _id}).populate([{ path: 'categoryID', select: 'name'},{ path: 'branch', select: 'name'}]);
+            const product = await this.productModel.find({ categoryID: _id }).populate([{ path: 'categoryID', select: 'name' }, { path: 'branch', select: 'name' }]);
             return product
         } catch (error) {
             return
         }
     }
 
-    async getProductbyIdBranch(requestDTO: ProductGetByIdBranchRequestDTO): Promise<any>{
+    async getProductbyIdBranch(requestDTO: ProductGetByIdBranchRequestDTO): Promise<any> {
         try {
             const _id = requestDTO;
-            const product = await this.productModel.find({branch: _id}).populate([{ path: 'branch', select: 'name'},{ path: 'categoryID', select: 'name'}]);
+            const product = await this.productModel.find({ branch: _id }).populate([{ path: 'branch', select: 'name' }, { path: 'categoryID', select: 'name' }]);
             return product
         } catch (error) {
             return

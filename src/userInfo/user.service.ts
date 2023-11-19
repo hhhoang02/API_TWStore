@@ -71,7 +71,7 @@ export class UserInfoService {
         }
     }
 
-    async LoginUser(requestDTO: UserInfoLoginRequestDTO): Promise<UserInfoRegisterResponseDTO | UserInfoResponseDTO> {
+    async LoginUser(requestDTO: UserInfoLoginRequestDTO): Promise<any | UserInfoResponseDTO> {
         try {
             const { email, password } = requestDTO;
 
@@ -101,7 +101,7 @@ export class UserInfoService {
             return {
                 status: true,
                 message: 'Login successfully',
-                _id: (await user)._id
+                user: (await user)
             }
         } catch (error: any) {
 

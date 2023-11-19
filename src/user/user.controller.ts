@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Query, Res, HttpStatus, HttpCode, Render } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Res, HttpStatus, HttpCode, Render, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Response } from 'express';
 import { Types } from 'mongoose';
@@ -42,19 +42,10 @@ export class UserController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @Post('updateCart')
+    @Put('updateCart')
     async UpdateCart(@Body() body: UserCart_FavoriteDTO, @Res() res: Response) {
         try {
             const user = await this.userService.UpdateCart(body);
-            return res.status(HttpStatus.OK).json(user);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
-    @Post('updateFavorite')
-    async UpdateFavorite(@Body() body: UserCart_FavoriteDTO, @Res() res: Response) {
-        try {
-            const user = await this.userService.UpdateFavorite(body);
             return res.status(HttpStatus.OK).json(user);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);

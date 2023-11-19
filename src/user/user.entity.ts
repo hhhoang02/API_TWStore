@@ -7,9 +7,8 @@ export class Users {
     _idUser: Types.ObjectId;
     avatar: string;
     cartID: Product[];
-    favoriteID: Product[];
     gender: string;
     birthDay: string;
     address: Array<Address>;
-    commentID: Types.ObjectId;
+    commentID: Array<Types.ObjectId>;
 }
