@@ -1,13 +1,13 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Prop, SchemaFactory } from "@nestjs/mongoose";
 export type BannerDocument = Banner & Document;
 
-@Schema()
 export class Banner {
     @Prop()
     title: string
     @Prop()
     image: string
+    @Prop()
+    typeUpdate: string
     @Prop()
     position: number
 }

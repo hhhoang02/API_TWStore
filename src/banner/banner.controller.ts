@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Put, Res } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Post, Put, Res } from "@nestjs/common";
 import { BannerService } from "./banner.service";
 import { BannerInsertDTO } from "./dto/banner_insert_request";
 import { Response } from "express";
@@ -9,20 +9,7 @@ export class BannerController {
 
     @Put('updateBanner')
     async UpdateBanner(@Body() body: BannerInsertDTO, @Res() res: Response) {
-        try {
-            const responseDTO = await this.bannerService.updateBanner(body);
-            return res.status(HttpStatus.OK).json(responseDTO);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
-    @Get('getAllBanner')
-    async GetAllBanner(@Res() res: Response) {
-        try {
-            const responseDTO = await this.bannerService.getAllBanner();
-            return res.status(HttpStatus.OK).json(responseDTO);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
+        const responseDTO = await this.bannerService.updateBanner(body);
+        return res.status(HttpStatus.OK).json(responseDTO);
     }
 }

@@ -5,7 +5,7 @@ import { BannerService } from "./banner.service";
 import { BannerController } from "./banner.controller";
 
 @Module({
-    imports: [
+    imports: [ 
         MongooseModule.forFeature([
             { name: Banner.name, schema: BannerSchema },
         ]),
