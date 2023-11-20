@@ -6,6 +6,7 @@ import { BrandGetAllResponseDTO } from "./dto/brand_getAll_response";
 import { BrandAddRequestDTO } from "./dto/brand_add_request";
 import { BrandResponseDTO } from "./dto/brand_response";
 import { BrandDeleteRequestDTO } from "./dto/brand_delete_request";
+import { FileDataReq, FileDataRes } from "./dto/brand_upload";
 
 @Injectable()
 export class BrandService {
@@ -66,6 +67,4 @@ export class BrandService {
             }
         }
     }
-
-
 }
