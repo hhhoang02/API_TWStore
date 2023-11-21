@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
 
 export class ProductGetbyIdDTO {
-    _id: Types.ObjectId
+    _id: string
 }
