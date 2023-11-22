@@ -4,6 +4,7 @@ import { Brand } from "src/brand/Brand.schema";
 import { Category } from "src/category/category.schema";
 import { Color } from "src/colorProduct/color.schema";
 import { Promotion } from "src/promotion/promotion.schema";
+import { Size } from "src/size/size.schema";
 
 export type ProductDocument = Product & Document;
 
@@ -12,7 +13,7 @@ export type ProductDocument = Product & Document;
 export class Product {
     @Prop()
     image: Array<string>;
-    
+
     @Prop({ required: true })
     productName: string;
 
@@ -25,9 +26,8 @@ export class Product {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Brand' })
     brand: Brand;
 
-    @Prop()
-    size: Array<string>;
-
+    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Size' }])
+    size: Size[];
     @Prop()
     description: string;
 

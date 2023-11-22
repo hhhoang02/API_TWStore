@@ -9,8 +9,7 @@ import { ProductUpdateDTO } from "./dto/product_update_request";
 import { ProductGetResponseDTO } from "./dto/product_get_response";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
 import { ProductGetByIdBranchRequestDTO } from './dto/product_getProductbyIdBranch_request';
-import { ProductGetByIdPromotionRequestDTO } from './dto/product_getProductbyIdPromotion_request';
-
+import uploadImage from 'src/upload/upload';
 
 @Injectable()
 export class ProductService {
@@ -20,13 +19,19 @@ export class ProductService {
 
     ) { }
 
-    async addProduct(requestDTO: ProductInsertDTO): Promise<ProductResponseDTO> {
+    async addProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
-            const { productName, price, quantity, brand, image, size, description, sale, colorID, categoryID } = requestDTO;
-            console.log(requestDTO);
-
+            const body: ProductInsertDTO = requestDTO.body;
+            const files: any = requestDTO.files.image;
+            console.log(files);
+            let data = [];
+            for (var i = 0; i < files.length; i++) {
+                const url = await uploadImage(files[i], "Sneaker");
+                data.push(url);
+            }
+            const { productName, price, quantity, brand, size, description, sale, colorID, categoryID } = body;
             const newProduct = new this.productModel({
-                image, 
+                image: data,
                 productName,
                 price,
                 quantity,
