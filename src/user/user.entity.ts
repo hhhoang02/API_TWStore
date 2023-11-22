@@ -10,5 +10,4 @@ export class Users {
     gender: string;
     birthDay: string;
     address: Array<Address>;
-    commentID: Array<Types.ObjectId>;
 }

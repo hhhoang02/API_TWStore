@@ -69,8 +69,7 @@ export class Users {
     @Prop()
     payment: PaymentDetail[];
     
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
-    commentID: Types.ObjectId;
+
 
 }
 
