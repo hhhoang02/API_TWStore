@@ -56,7 +56,7 @@ export class ProductsCpanelController {
         return null;
       }
       const product = await this.productService.addProduct({ body, files });
-      return res.redirect('productsCpanel/quanlysanpham');
+      return res.redirect('/productsCpanel/quanlysanpham');
     } catch (error) {
       console.log(error);
     }
@@ -137,6 +137,8 @@ export class ProductsCpanelController {
   async quanlysanpham(@Res() res: Response) {
     try {
       const products = await this.productService.getAllProduct();
+      console.log(products);
+      
       return { products };
     } catch (error) {
 

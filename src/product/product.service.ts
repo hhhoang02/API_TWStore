@@ -23,7 +23,6 @@ export class ProductService {
         try {
             const body: ProductInsertDTO = requestDTO.body;
             const files: any = requestDTO.files.image;
-            console.log(files);
             let data = [];
             for (var i = 0; i < files.length; i++) {
                 const url = await uploadImage(files[i], "Sneaker");
