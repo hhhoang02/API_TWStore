@@ -34,12 +34,12 @@ export class Product {
 
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Size' }])
     size: Size[];
-    
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
     categoryID: Category;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Color' })
-    colorID: Color;
+    colorID: Color[];
 
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);
