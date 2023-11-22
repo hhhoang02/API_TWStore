@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { UserSchema, Users } from './user.schema';
 import { UserCpanelController } from "./user.cpanel.controller";
 import { MailerModule } from "@nestjs-modules/mailer";
+import { UserInfoModule } from "src/userInfo/user.module";
 
 
 @Module({
@@ -15,8 +16,10 @@ import { MailerModule } from "@nestjs-modules/mailer";
         MongooseModule.forFeature([
             { name: Users.name, schema: UserSchema },
         ]),
+        UserInfoModule
     ],
     controllers: [UserController, UserCpanelController],
     providers: [UserService],
+    
 })
 export class UserModule { }

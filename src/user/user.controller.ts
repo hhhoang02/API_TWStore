@@ -12,7 +12,16 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     //Url: http://localhost:3000/users/RegisterUser
+    @Get('getAllUsers')
+    async GetAllUsers(@Res() res: Response) {
+        try {
+            const responseDTO = await this.userService.GetAllUsers();
+            return res.status(HttpStatus.OK).json(responseDTO);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
 
+        }
+    }
     @Post('getUser/:id')
     async getUserByID(@Param('id') _id: UserGetByIDRequestDTO, @Res() res: Response) {
         try {

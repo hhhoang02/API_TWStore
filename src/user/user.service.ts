@@ -12,6 +12,7 @@ import { UserCart_FavoriteDTO } from './dto/user_updateCart_request';
 import { UserUpdateInfoRequestDTO } from './dto/user_updateInfo_request';
 import { UserGetByIDRequestDTO } from './dto/user_getByID_request';
 import { UserAddIdRequestDTO } from './dto/user_addId_request';
+import { UserGetAllResponseDTO } from './dto/user_getAll_response';
 
 
 
@@ -38,7 +39,7 @@ export class UserService {
                     data: user,
                 }
             }
-            let newUser = new this.userModel({ _idUser, avatar: null, cartID: [], gender: null, birthDay: null, address: [], commentID: [] });
+            let newUser = new this.userModel({ _idUser, avatar: null, cartID: [], gender: null, birthDay: null, address: []});
             await newUser.save();
             return {
                 status: true,
@@ -139,6 +140,14 @@ export class UserService {
                 status: false,
                 message: 'Update cart error'
             }
+        }
+    }
+    async GetAllUsers(): Promise<UserGetAllResponseDTO[]> {
+        try {
+            const responseDTO = await this.userModel.find();
+            return responseDTO;
+        } catch (error) {
+            return error;
         }
     }
 
