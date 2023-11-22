@@ -13,6 +13,7 @@ import { PromotionModule } from './promotion/promotion.module';
 import { ColorModule } from './colorProduct/color.module';
 import { SizeModule } from './size/size.module';
 import { BannerModule } from './banner/banner.module';
+import { EventModule } from './event/event.module';
 
 
 @Module({
@@ -20,7 +21,7 @@ import { BannerModule } from './banner/banner.module';
 
     MongooseModule.forRoot('mongodb+srv://admin:haunho@cluster0.3oqlz8r.mongodb.net/TWStore?retryWrites=true&w=majority'),
     UserModule, UserInfoModule, OrderModule,CommentModule, BrandModule, CategoryModule, ProductModule, PromotionModule,
-    OrderModule, ColorModule, SizeModule, BannerModule
+    OrderModule, ColorModule, SizeModule, BannerModule, EventModule
   ],
   controllers: [AppController],
   providers: [AppService],

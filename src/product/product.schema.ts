@@ -23,25 +23,23 @@ export class Product {
     @Prop()
     quantity: number;
 
+    @Prop()
+    description: string;
+
+    @Prop()
+    offer: number;
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Brand' })
     brand: Brand;
 
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Size' }])
     size: Size[];
-    @Prop()
-    description: string;
-
-    @Prop()
-    sale: number;
-
+    
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
     categoryID: Category;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Color' })
     colorID: Color;
-
-    @Prop()
-    offer: number;
 
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);

@@ -2,5 +2,5 @@
 import { Product } from "../product.entity";
 
 export class ProductUpdateDTO extends Product{
-    _id: Types.ObjectId;
+    _id: string;
 }

@@ -29,18 +29,10 @@ export class ProductService {
                 const url = await uploadImage(files[i], "Sneaker");
                 data.push(url);
             }
-            const { productName, price, quantity, brand, size, description, sale, colorID, categoryID } = body;
+            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
+
             const newProduct = new this.productModel({
-                image: data,
-                productName,
-                price,
-                quantity,
-                brand,
-                size,
-                description,
-                sale,
-                colorID,
-                categoryID,
+                image, productName, price, quantity, description, offer, brand, size, categoryID, colorID
             });
             await newProduct.save();
             return {
@@ -56,25 +48,32 @@ export class ProductService {
             }
         }
     }
-    async updateProduct(requestDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
+    async updateProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
-            const { _id } = requestDTO;
-            const { productName, price, quantity, brand, image, size, description, sale, colorID, categoryID } = requestDTO;
+            const { _id, body } = requestDTO;
+            console.log("body", body);
+
+            const { image, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
+
             const product = await this.productModel.findById(_id);
-            if (!product) return {
-                status: false,
-                message: 'Product not found',
-            };
+            if (!product) {
+                return {
+                    status: false,
+                    message: 'Product not found',
+                };
+            }
+            console.log("product", product.description, description);
+
             product.image = image ? image : product.image;
             product.productName = productName ? productName : product.productName;
             product.price = price ? price : product.price;
             product.quantity = quantity ? quantity : product.quantity;
-            product.brand = brand ? brand : product.brand;
-            product.size = size ? product.size : product.size;
             product.description = description ? description : product.description;
-            product.sale = sale ? sale : product.sale;
-            product.colorID = colorID ? colorID : product.colorID;
+            product.offer = offer ? offer : product.offer;
+            product.brand = brand ? brand : product.brand;
+            product.size = size ? size : product.size;
             product.categoryID = categoryID ? categoryID : product.categoryID;
+            product.colorID = colorID ? colorID : product.colorID;
 
             await product.save();
             return {
@@ -112,7 +111,7 @@ export class ProductService {
     }
     async getAllProduct(): Promise<ProductGetResponseDTO[]> {
         try {
-            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'categoryID', select: 'name' }]);;
+            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'color' }]);;
             return product;
         } catch (error) {
             return
@@ -123,8 +122,8 @@ export class ProductService {
         try {
             const _id = requestDTO;
 
-            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'categoryID', select: 'name' }]);
-            console.log(product);
+            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'color' }]);;
+            console.log("product", product);
 
             if (!product) return
             return product;
