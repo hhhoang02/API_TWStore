@@ -38,7 +38,7 @@ export class Product {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
     categoryID: Category;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Color' })
+    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Color' }])
     colorID: Color[];
 
 }

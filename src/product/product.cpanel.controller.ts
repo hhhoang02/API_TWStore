@@ -56,7 +56,7 @@ export class ProductsCpanelController {
         return null;
       }
       const product = await this.productService.addProduct({ body, files });
-      return null;
+      return res.redirect('productsCpanel/quanlysanpham');
     } catch (error) {
       console.log(error);
     }
@@ -65,8 +65,7 @@ export class ProductsCpanelController {
   @Render('productDetail')
   async productDetail(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {
     try {
-      const product = await this.productService.getProductById(_id);
-
+      let product: any = await this.productService.getProductById(_id);
       let categories = await this.categoryService.GetAllCategory();
       let colors = await this.colorService.GetAllColor();
       let sizes = await this.sizeService.GetAllSize();
@@ -80,45 +79,43 @@ export class ProductsCpanelController {
       });
       colors = colors.map((item: any) => {
         item.selected = false;
-        if (item._id.toString() == product.colorID._id.toString()) {
-          item.selected = true;
-        }
+        product.colorID.map((color) => {
+          if (item._id.toString() == color._id.toString()) {
+            item.selected = true;
+          }
+        })
         return item;
       });
       categories = categories.map((item: any) => {
         item.selected = false;
-        if (item._id.toString() == product.categoryID._id.toString()) {
+        if (item._id.toString() == product.categoryID?._id?.toString()) {
           item.selected = true;
         }
         return item;
       });
       sizes = sizes.map((item: any) => {
         item.selected = false;
-        if (item._id.toString() == product.size._id.toString()) {
-          item.selected = true;
-        }
+        product.size.map((size: any) => {
+          if (item._id.toString() == size._id.toString()) {
+            item.selected = true;
+          }
+        })
         return item;
       });
-
-
-      return { product, categories, colors, sizes, brands };
-    } catch (error) { }
+      return { product, categories, colors, sizes, brands, imageProduct: product.image };
+    } catch (error) {
+      console.log(error);
+    }
   }
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 10 },
+  ]))
   @Post('productDetail/:_id/edit')
-  async editProduct(
-    @Param() _id: ProductGetbyIdDTO,
-    @Body() body: ProductUpdateDTO,
-    @Res() res: Response,
+  async editProduct(@Param() _id: ProductGetbyIdDTO, @Body() body: ProductUpdateDTO, @UploadedFiles() files: { image?: Express.Multer.File[] }, @Res() res: Response,
   ) {
     try {
-      /*if(file){
-                //cmd >>> ipconfig >> ipv4
-                file = `http://172.16.82.254:3000/images/${file.filename}`;
-                body = {...body, image:file};
-            }*/
-
-      const result = await this.productService.updateProduct({ _id, body });
-
+      console.log(files);
+      const result = await this.productService.updateProduct({ _id, body, files });
       if (result) {
         return res.redirect('/productsCpanel/quanlysanpham');
       }

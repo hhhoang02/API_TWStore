@@ -51,9 +51,14 @@ export class ProductService {
     async updateProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
             const { _id, body } = requestDTO;
-            console.log("body", body);
-
-            const { image, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
+            const files: any = requestDTO.files.image;
+            console.log(files);
+            let data = [];
+            for (var i = 0; i < files.length; i++) {
+                const url = await uploadImage(files[i], "Sneaker");
+                data.push(url);
+            }
+            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
 
             const product = await this.productModel.findById(_id);
             if (!product) {
@@ -118,18 +123,17 @@ export class ProductService {
         }
 
     }
-    async getProductById(requestDTO: ProductGetbyIdDTO): Promise<any> {
+    async getProductById(requestDTO: ProductGetbyIdDTO): Promise<ProductGetResponseDTO> {
         try {
             const _id = requestDTO;
-
             const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'color' }]);;
-            console.log("product", product);
-
-            if (!product) return
-            return product;
+            if (product) {
+                return product;
+            } {
+                return product;
+            }
         } catch (error) {
             console.log(error);
-
         }
     }
 
