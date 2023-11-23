@@ -9,9 +9,7 @@ import { ProductUpdateDTO } from "./dto/product_update_request";
 import { ProductGetResponseDTO } from "./dto/product_get_response";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
 import { ProductGetByIdBranchRequestDTO } from './dto/product_getProductbyIdBranch_request';
-import { ProductGetByIdPromotionRequestDTO } from './dto/product_getProductbyIdPromotion_request';
-import { of } from 'rxjs';
-
+import uploadImage from 'src/upload/upload';
 
 @Injectable()
 export class ProductService {
@@ -21,13 +19,19 @@ export class ProductService {
 
     ) { }
 
-    async addProduct(requestDTO: ProductInsertDTO): Promise<ProductResponseDTO> {
+    async addProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
-            const {  image,productName, price, quantity, description, offer, brand, size, categoryID, colorID } = requestDTO;
-            console.log(requestDTO);
+            const body: ProductInsertDTO = requestDTO.body;
+            const files: any = requestDTO.files.image;
+            let data = [];
+            for (var i = 0; i < files.length; i++) {
+                const url = await uploadImage(files[i], "Sneaker");
+                data.push(url);
+            }
+            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
 
             const newProduct = new this.productModel({
-                image,productName, price, quantity, description, offer, brand, size, categoryID, colorID
+                image, productName, price, quantity, description, offer, brand, size, categoryID, colorID
             });
             await newProduct.save();
             return {
@@ -45,11 +49,16 @@ export class ProductService {
     }
     async updateProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
-            const { _id, body} = requestDTO;
-            console.log("body",body);
-            
-            const { image,productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
-            
+            const { _id, body } = requestDTO;
+            const files: any = requestDTO.files.image;
+            console.log(files);
+            let data = [];
+            for (var i = 0; i < files.length; i++) {
+                const url = await uploadImage(files[i], "Sneaker");
+                data.push(url);
+            }
+            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
+
             const product = await this.productModel.findById(_id);
             if (!product) {
                 return {
@@ -57,8 +66,8 @@ export class ProductService {
                     message: 'Product not found',
                 };
             }
-            console.log("product",product.description, description);
-            
+            console.log("product", product.description, description);
+
             product.image = image ? image : product.image;
             product.productName = productName ? productName : product.productName;
             product.price = price ? price : product.price;
@@ -106,25 +115,24 @@ export class ProductService {
     }
     async getAllProduct(): Promise<ProductGetResponseDTO[]> {
         try {
-            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' },{path:'size', select:'name'}, { path: 'categoryID', select: 'name' }, {path:'colorID', select:'color'}]);;
+            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'color' }]);;
             return product;
         } catch (error) {
             return
         }
 
     }
-    async getProductById(requestDTO: ProductGetbyIdDTO): Promise<any> {
+    async getProductById(requestDTO: ProductGetbyIdDTO): Promise<ProductGetResponseDTO> {
         try {
             const _id = requestDTO;
-
-            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' },{path:'size', select:'name'}, { path: 'categoryID', select: 'name' }, {path:'colorID', select:'color'}]);;
-            console.log("product", product);
-            
-            if (!product) return
-            return product;
+            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'color' }]);;
+            if (product) {
+                return product;
+            } {
+                return product;
+            }
         } catch (error) {
             console.log(error);
-
         }
     }
 

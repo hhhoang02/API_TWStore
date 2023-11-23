@@ -5,9 +5,9 @@ import { MongooseModule } from "@nestjs/mongoose";
 
 import { UserInfoController } from './user.controller';
 import { UserInfoSchema, UsersInfo } from './user.schema';
-import { UserCpanelController } from "./user.cpanel.controller";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { UserInfoService } from "./user.service";
+import { UserModule } from "src/user/user.module";
 
 enum MailAdmin {
     EMAIL = "thewondershopfashion@gmail.com",
@@ -36,7 +36,8 @@ enum MailAdmin {
         }),
 
     ],
-    controllers: [UserInfoController, UserCpanelController],
+    controllers: [UserInfoController],
     providers: [UserInfoService],
+    exports:[UserInfoService]
 })
 export class UserInfoModule { }

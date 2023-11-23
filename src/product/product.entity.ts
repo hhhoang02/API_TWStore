@@ -12,7 +12,7 @@ export class Product {
     description: string;
     offer: number;
     brand: Brand;
-    size: Size;
+    size: Size[];
     categoryID: Category;
-    colorID: Color;
+    colorID: Color[];
 }

@@ -13,7 +13,7 @@ export type ProductDocument = Product & Document;
 export class Product {
     @Prop()
     image: Array<string>;
-    
+
     @Prop({ required: true })
     productName: string;
 
@@ -25,21 +25,21 @@ export class Product {
 
     @Prop()
     description: string;
-    
+
     @Prop()
     offer: number;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Brand' })
     brand: Brand;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Size' })
-    size: Size;
+    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Size' }])
+    size: Size[];
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
     categoryID: Category;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Color' })
-    colorID: Color;
+    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Color' }])
+    colorID: Color[];
 
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);
