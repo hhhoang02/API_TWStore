@@ -21,7 +21,7 @@ import { EventModule } from './event/event.module';
 
     MongooseModule.forRoot('mongodb+srv://admin:haunho@cluster0.3oqlz8r.mongodb.net/TWStore?retryWrites=true&w=majority'),
     UserModule, UserInfoModule, OrderModule,CommentModule, BrandModule, CategoryModule, ProductModule, PromotionModule,
-    OrderModule, ColorModule, SizeModule, BannerModule, EventModule
+    OrderModule, ColorModule, SizeModule, BannerModule, EventModule,
   ],
   controllers: [AppController],
   providers: [AppService],

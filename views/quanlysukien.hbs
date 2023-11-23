@@ -74,7 +74,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item active">
-                <a class="nav-link" href="/productsCpanel/quanlysukien">
+                <a class="nav-link" href="/eventsCpanel/quanlysukien">
                     <i class="fas fa-fw fa-calendar-alt"></i>
                     <span>Quản lý sự kiện</span></a>
             </li>
@@ -294,10 +294,10 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a href="/productsCpanel/addEvent" class="btn btn-primary text-white">Add Event</a>
+                            <a href="/eventsCpanel/addEvent" class="btn btn-primary text-white">Add Event</a>
                         </div>
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách sự kiện</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -306,23 +306,23 @@
                                         <tr>
                                             <th>Image</th>
                                             <th>Name</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Edit</th>
+                                            <th>Mức giảm giá</th>
+                                            <th>Số ngày giảm giá</th>
+                                            <th>Delete</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {{#each products}}
+                                        {{#each events}}
                                         <tr>
                                             <td>
-                                                <img src="{{this.image}}" height="100" width="100">
+                                                <img src="{{this.eventImage}}" height="100" width="100">
                                             </td>
-                                            <td>{{this.productName}}</td>
-                                            <td>{{this.price}}</td>
-                                            <td>{{this.quantity}}</td>
+                                            <td>{{this.eventName}}</td>
+                                            <td>{{this.levelGiamgia}}</td>
+                                            <td>{{this.soNgayGiamgia}}</td>
                                             <td>
-                                                <a class="btn btn-primary" href="/productsCpanel/getProductById/{{this._id}}">Xem Chi Tiết</a>
+                                                <a class="btn btn-primary" href="/eventsCpanel/getEventById/{{this._id}}">Xóa event</a>
                                             </td>
 
                                         </tr>

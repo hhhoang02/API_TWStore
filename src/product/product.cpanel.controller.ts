@@ -21,6 +21,7 @@ import { BrandService } from 'src/brand/brand.service';
 import { ProductGetbyIdDTO } from './dto/product_getProductbyID_request';
 import { Category } from 'src/category/category.schema';
 import { ProductUpdateDTO } from './dto/product_update_request';
+
 @Controller('productsCpanel')
 export class ProductsCpanelController {
   constructor(
@@ -48,7 +49,7 @@ export class ProductsCpanelController {
   async productDetail(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {
     try {
       const product = await this.productService.getProductById(_id);
-      
+
       let categories = await this.categoryService.GetAllCategory();
       let colors = await this.colorService.GetAllColor();
       let sizes = await this.sizeService.GetAllSize();
@@ -81,7 +82,6 @@ export class ProductsCpanelController {
         }
         return item;
       });
-      
 
       return { product, categories, colors, sizes, brands };
     } catch (error) {}
@@ -109,19 +109,18 @@ export class ProductsCpanelController {
   }
 
   @Post('productDetail/:_id/delete')
-  async deleteProduct(
-    @Param() _id: ProductUpdateDTO,
-    @Res() res: Response,
-  ) {
+  async deleteProduct(@Param() _id: ProductUpdateDTO, @Res() res: Response) {
     try {
       console.log(_id);
-      
+
       const result = await this.productService.deleteProduct(_id);
-      return res.json({result});
-  } catch (error) {
-      return res.json({result: false});
+      return res.json({ result });
+    } catch (error) {
+      return res.json({ result: false });
+    }
   }
-  }
+
+
   @Get('quanlysanpham')
   @Render('quanlysanpham')
   async quanlysanpham(@Res() res: Response) {
@@ -130,6 +129,7 @@ export class ProductsCpanelController {
       return { products };
     } catch (error) {}
   }
+
   @Get('quanlydonhang')
   @Render('quanlydonhang')
   async quanlydonhang(@Res() res: Response) {
@@ -137,13 +137,7 @@ export class ProductsCpanelController {
       message: 'Hello',
     };
   }
-  @Get('quanlysukien')
-  @Render('quanlysukien')
-  async quanlysukien(@Res() res: Response) {
-    return {
-      message: 'Hello',
-    };
-  }
+
   @Get('quanlythanhtoan')
   @Render('quanlythanhtoan')
   async quanlythanhtoan(@Res() res: Response) {

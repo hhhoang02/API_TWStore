@@ -1,100 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <!-- Bootstrap CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <link
+      href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css'
+      rel='stylesheet'
+      integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC'
+      crossorigin='anonymous'
+    />
     <title>New Event</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-        crossorigin="anonymous"></script>
-</head>
+  </head>
 
-<body>
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 mb-4 border-bottom">
-            <h2>Add New Event</h2>
+  <body>
+    <main class='col-md-9 ms-sm-auto col-lg-10 px-md-4'>
+      <div
+        class='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 mb-4 border-bottom'
+      >
+        <h2>Add New Event</h2>
+      </div>
+
+      <form
+        class='row g-3 col-lg-8'
+        method='post'
+        action='/eventsCpanel/addEvent'
+        enctype='multipart/form-data'
+      >
+        <div class='col-md-6'>
+          <label class='form-label' for='phone'>Image Event</label>
+          <input
+            type='file'
+            name='eventImage'
+            class='form-control'
+            placeholder='Choose file'
+          />
+        </div>
+        <div class='mb-3 mt-3'>
+          <label class='form-label' for='username'>Event name</label>
+          <input
+            type='text'
+            class='form-control'
+            name='eventName'
+            placeholder='Name'
+          />
+        </div>
+        <div class='mb-3 mt-3'>
+          <label class='form-label' for='price'>Mức giảm giá</label>
+          <input
+            type='text'
+            class='form-control'
+            name='levelGiamgia'
+            placeholder='Nhập mức giảm giá (ví dụ: 10%)'
+          />
+        </div>
+        <div class='mb-3 mt-3'>
+          <label class='form-label' for='quantity'>Bạn muốn giảm bao nhiêu ngày</label>
+          <input
+            type='text'
+            class='form-control'
+            name='soNgayGiamgia'
+            placeholder='Nhập số ngày giảm giá (ví dụ: 7 ngày)'
+          />
         </div>
 
-        <form class="row g-3 col-lg-8" method="post" action="/productsCpanel/addEvent" enctype="multipart/form-data">
-            <div class="col-md-6">
-                <label class="form-label" for="phone">Image</label>
-                <input type="file" name="image" class="form-control" placeholder="Choose file">
-            </div>
-            <div class="mb-3 mt-3">
-                <label class="form-label" for="username">ProductName</label>
-                <input type="text" class="form-control" name="name" placeholder="Name">
-            </div>
-            <div class="mb-3 mt-3">
-                <label class="form-label" for="price">Price</label>
-                <input type="text" class="form-control" name="price" placeholder="price">
-            </div>
-            <div class="mb-3 mt-3">
-                <label class="form-label" for="quantity">Quantity</label>
-                <input type="text" class="form-control" name="quantity" placeholder="quantity">
-            </div>
+        <div class='mb-3 mt-3'>
+          <label for='selectedProducts' class='form-label'>Select Products:</label>
+          <input
+            type='text'
+            id='selectedProducts'
+            class='form-control'
+            placeholder='Type to search products...'
+            oninput='filterProducts()'
+          />
+          <div id='productList' style='max-height: 150px; overflow-y: auto;'>
+            {{#each products}}
+              <div class='product-item'>
+                <label class='form-check-label'>
 
-            <div class="mb-3 mt-3">
-                <label class="form-label" for="password">Type</label>
-                <input checked="checked" name="gender" type="radio" value="Man" />Man Fashion
-                <input name="gender" type="radio" value="Woman" />Woman Fashion
-            </div>
-            <div class="mb-3 mt-3">
-                <label for="brand" class="form-label">Brand:</label>
-                <select name="brand" class="form-control">
-                    {{#each brands}}
-                    <option value="{{this._id}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="mb-3 mt-3">
-                <label class="form-label">Color:</label>
-                <select name="color" class="form-control">
-                    {{#each colors}}
-                    <option value="{{this._id}}">{{this.color}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="mb-3 mt-3">
-                <label class="form-label">Category:</label>
-                <select name="category" class="form-control">
-                    {{#each categories}}
-                    <option value="{{this._id}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="mb-3 mt-3">
-                <label for="email" class="form-label">Size:</label>
-                <select name="size" class="form-control">
-                    {{#each sizes}}
-                    <option value="{{this._id}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-left mb-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-secondary">Cancel</button>
-            </div>
-        </form>
+                  <img
+                    src='{{this.image}}'
+                    alt='{{this.productName}}'
+                    style='max-width: 50px; max-height: 50px;'
+                  />
+                  <span>{{this.productName}}
+                    - Quantity:
+                    {{this.quantity}}</span>
+                  <input
+                    class='form-check-input'
+                    type='checkbox'
+                    name='selectedProducts'
+                    value='{{this._id}}'
+                  />
+                </label>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+
+        <div class='d-grid gap-2 d-md-flex justify-content-md-left mb-3'>
+          <button type='submit' class='btn btn-primary'>Submit</button>
+          <button type='button' class='btn btn-secondary'>Cancel</button>
+        </div>
+      </form>
     </main>
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="/javascripts/bootstrap.bundle.min.js"></script>
-    <script src="/javascripts/feather.min.js"></script>
-    <script src="/javascripts/main.js"></script>
-    <script src="/javascripts/main.js"></script>
-    <script src="/js/uploadFile.js">
-       
-    </script>
-</body>
+    <!-- Bootstrap Bundle with Popper and Bootstrap JS -->
+    <script
+      src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js'
+      integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM'
+      crossorigin='anonymous'
+    ></script>
+
+<!-- Script để xử lý khi trang web đã được tải -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Lấy ra thẻ form từ DOM
+    const form = document.querySelector('form');
+
+    // Thêm sự kiện lắng nghe khi form được submit
+    form.addEventListener('submit', async function (event) {
+      // Ngăn chặn hành động mặc định của form (chặn việc submit theo cách truyền thống)
+      event.preventDefault();
+
+      // Lấy dữ liệu từ form sử dụng FormData
+      const formData = new FormData(form);
+
+      try {
+        // Gửi request POST đến '/eventsCpanel/addEvent' với dữ liệu từ form
+        const response = await fetch('/eventsCpanel/addEvent', {
+          method: 'POST',
+          body: formData,
+        });
+
+        // Kiểm tra xem request có thành công không
+        if (response.ok) {
+          // Xử lý khi request thành công, ví dụ như log thông báo và redirect
+          console.log('Event added successfully');
+          // Redirect hoặc thực hiện các hành động cần thiết sau khi thêm sự kiện
+        } else {
+          // Xử lý khi request không thành công, ví dụ như log thông báo lỗi
+          console.error('Failed to add event');
+        }
+      } catch (error) {
+        // Xử lý lỗi khi gửi request, ví dụ như log thông báo lỗi
+        console.error('Error adding event:', error);
+      }
+    });
+  });
+</script>
+
+<!-- Script để lọc và hiển thị danh sách sản phẩm -->
+<script>
+  function filterProducts() {
+    var input, filter, productList, productItems, productName;
+
+    // Lấy thẻ input để nhập từ DOM
+    input = document.getElementById('selectedProducts');
+
+    // Chuyển đổi giá trị nhập thành chữ hoa để so sánh không phân biệt chữ hoa chữ thường
+    filter = input.value.toUpperCase();
+
+    // Lấy ra danh sách sản phẩm từ DOM
+    productList = document.getElementById('productList');
+
+    // Lấy ra danh sách các phần tử sản phẩm
+    productItems = productList.getElementsByClassName('product-item');
+
+    // Duyệt qua danh sách sản phẩm và ẩn/hiển thị dựa trên giá trị nhập
+    for (var i = 0; i < productItems.length; i++) {
+      // Lấy ra phần tử chứa tên sản phẩm
+      productName = productItems[i].getElementsByTagName('span')[0];
+
+      // Kiểm tra xem tên sản phẩm có chứa giá trị nhập không
+      if (productName.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        // Nếu có, hiển thị phần tử
+        productItems[i].style.display = '';
+      } else {
+        // Nếu không, ẩn phần tử
+        productItems[i].style.display = 'none';
+      }
+    }
+  }
+</script>
+
+
+  </body>
 
 </html>
