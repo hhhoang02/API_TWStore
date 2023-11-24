@@ -20,28 +20,6 @@ export class Address {
 
     @Prop()
     street: string;
-
-    @Prop()
-    phone: string;
-}
-export class PaymentDetail {
-    @Prop()
-    paymentMethods: string;
-
-    @Prop()
-    status: string;
-
-    @Prop()
-    total: number;
-
-    @Prop()
-    voucher: string;
-
-    @Prop()
-    phoneReceiver: string;
-    
-    @Prop()
-    nameReceiver: string;
 }
 @Schema()
 export class Users {
@@ -64,10 +42,8 @@ export class Users {
     birthDay: string;
 
     @Prop()
-    address: Address[];
+    address: Address[] | null;
 
-    @Prop()
-    payment: PaymentDetail[];
     
 
 
