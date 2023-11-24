@@ -313,7 +313,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a href="/productsCpanel/addProduct" class="btn btn-primary text-white">Add Product</a>
+                            <a href="/bannerCpanel/addBanner" class="btn btn-primary text-white">Add Banner</a>
                         </div>
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -323,31 +323,23 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Title</th>
                                             <th>Image</th>
-                                            <th>Name</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Action</th>
+                                            <th>Delete</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {{#each products}}
+                                        {{#each banner}}
                                         <tr>
+                                            <td>{{this.title}}</td>
                                             <td>
-                                                <img src="{{this.image}}" height="200" width="200">
+                                                <img src="{{this.image}}" height="200" width="300">
                                             </td>
-                                            <td>{{this.productName}}</td>
-                                            <td>{{this.price}}</td>
-                                            <td>{{this.quantity}}</td>
                                             <td>
                                                 <a class="btn btn-primary"
-                                                    href="/productsCpanel/productDetail/{{this._id}}/edit">Xem Chi
-                                                    Tiết</a>
-                                                <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
-
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -428,9 +420,9 @@
                 return res.json();
             }
             const deleteProduct = async (id) => {
-                const url = `/productsCpanel/productDetail/${id}/delete`;
+                const url = `/bannerCpanel/deleteBanner/${id}`;
                 const option = {
-                    method: 'DELETE',
+                    method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 }
                 const res = await fetchAPI(url, option);

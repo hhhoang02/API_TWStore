@@ -5,6 +5,7 @@ import { CategoryController } from './../category/category.controller';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -121,10 +122,9 @@ export class ProductsCpanelController {
       }
     } catch (error) { }
   }
-  @Post('productDetail/:_id/delete')
+  @Delete('productDetail/:_id/delete')
   async deleteProduct(@Param() _id: ProductUpdateDTO, @Res() res: Response,) {
     try {
-      console.log(_id);
 
       const result = await this.productService.deleteProduct(_id);
       return res.json({ result });
@@ -138,7 +138,7 @@ export class ProductsCpanelController {
     try {
       const products = await this.productService.getAllProduct();
       console.log(products);
-      
+
       return { products };
     } catch (error) {
 

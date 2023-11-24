@@ -8,7 +8,5 @@ export class Banner {
     title: string
     @Prop()
     image: string
-    @Prop()
-    position: number
 }
 export const BannerSchema = SchemaFactory.createForClass(Banner);

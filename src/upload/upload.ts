@@ -1,7 +1,6 @@
 
 import { initializeApp } from 'firebase/app';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import multer from 'multer';
 const firebaseConfig = {
     apiKey: "AIzaSyAcP-f3nqlV5im7DZcTheVvoNj4t3SNKC8",
     authDomain: "twstore-f4ae5.firebaseapp.com",

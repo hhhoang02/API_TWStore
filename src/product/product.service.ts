@@ -28,10 +28,10 @@ export class ProductService {
                 const url = await uploadImage(files[i], "Sneaker");
                 data.push(url);
             }
-            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
+            const { productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
 
             const newProduct = new this.productModel({
-                image, productName, price, quantity, description, offer, brand, size, categoryID, colorID
+                image: data, productName, price, quantity, description, offer, brand, size, categoryID, colorID
             });
             await newProduct.save();
             return {
@@ -94,7 +94,9 @@ export class ProductService {
     }
     async deleteProduct(requestDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
         try {
-            const _id = requestDTO;
+            const { _id } = requestDTO;
+            console.log(_id);
+            
             const product = await this.productModel.findByIdAndDelete(_id);
             if (!product) return {
                 status: false,
