@@ -1,12 +1,31 @@
-import { Controller, Get, Render, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Render, Res } from "@nestjs/common";
 import { BrandService } from "./brand.service";
 import { Response } from 'express';
+import { BrandDeleteRequestDTO } from "./dto/brand_delete_request";
+import { BrandAddRequestDTO } from "./dto/brand_add_request";
 @Controller('brandsCpanel')
 export class BrandsCpanelController {
   constructor(
     private readonly brandService: BrandService
   ) { }
-
+  @Get('addBrand')
+  @Render('addBrand')
+  async AddBrand(@Res() res: Response) {
+      try {
+          return {};
+      } catch (error) {
+          return error;
+      }
+  }
+  @Post('addBrand')
+  async addBrand(requestDTO: BrandAddRequestDTO, @Body() body:any, @Res() res: Response) {
+      try {
+          await this.brandService.AddBrand(body);
+          return res.redirect('/brandsCpanel/quanlythuonghieu');
+      } catch (error) {
+          console.log(error);
+      }
+  }
 @Get('quanlythuonghieu')
   @Render('quanlythuonghieu')
   async quanlythuonghieu(@Res() res: Response) {
@@ -15,6 +34,17 @@ export class BrandsCpanelController {
       return { brands };
     } catch (error) {
 
+    }
+  }
+
+  @Delete('quanlythuonghieu/:_id/delete')
+  async deleteBrand(@Param() _id: BrandDeleteRequestDTO, @Res() res: Response,) {
+    try {
+
+      const result = await this.brandService.DeleteBrand(_id);
+      return res.json({ result });
+    } catch (error) {
+      return res.json({ result: false });
     }
   }
 }

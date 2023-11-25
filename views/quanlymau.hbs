@@ -333,7 +333,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a href="/productsCpanel/addProduct" class="btn btn-primary text-white">Add Product</a>
+                            <a href="/colorsCpanel/addColor" class="btn btn-primary text-white">Add Color</a>
                         </div>
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -351,10 +351,8 @@
                                     <tbody>
                                         {{#each colors}}
                                         <tr>
-                                            <td>{{this.color}}</td>
+                                            <td>{{this.name}}</td>
                                             <td>
-                                                <a class="btn btn-primary"
-                                                    href="/productsCpanel/productDetail/{{this._id}}/edit">Sửa</a>
                                                 <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
@@ -438,8 +436,8 @@
                 const res = await fetch(url, option);
                 return res.json();
             }
-            const deleteProduct = async (id) => {
-                const url = `/productsCpanel/productDetail/${id}/delete`;
+            const deleteColor = async (id) => {
+                const url = `/colorsCpanel/quanlymau/${id}/delete`;
                 const option = {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }
@@ -464,7 +462,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        deleteProduct(id)
+                        deleteColor(id)
                     }
                 });
         }

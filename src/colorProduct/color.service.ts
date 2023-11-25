@@ -13,17 +13,17 @@ export class ColorService {
     private readonly ColorModel: Model<ColorDocument>) { }
     async AddColor(requestDTO: ColorAddRequestDTO): Promise<ColorResponseDTO> {
         try {
-            const { color } = requestDTO;
-            const Color = await this.ColorModel.findOne({ color });
+            const { name } = requestDTO;
+            const Color = await this.ColorModel.findOne({ name });
             if (Color) {
                 return {
                     status: false,
                     message: 'Color already exists',
                 }
             }
-            console.log(color);
+            console.log(name);
 
-            const newColor = new this.ColorModel({ color });
+            const newColor = new this.ColorModel({ name });
             await newColor.save();
             return {
                 status: true,

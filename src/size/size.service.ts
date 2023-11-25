@@ -13,8 +13,8 @@ export class SizeService {
     private readonly sizeModel: Model<SizeDocument>) { }
     async AddSize(requestDTO: SizeAddRequestDTO): Promise<SizeResponseDTO> {
         try {
-            const { name} = requestDTO;
-            const size = await this.sizeModel.findOne({ name});
+            const {name} = requestDTO;
+            const size = await this.sizeModel.findOne({name});
             if (size) {
                 return {
                     status: false,
@@ -22,8 +22,7 @@ export class SizeService {
                 }
             }
             console.log(name);
-
-            const newSize = new this.sizeModel({ name});
+            const newSize = new this.sizeModel({name});
             await newSize.save();
             return {
                 status: true,
