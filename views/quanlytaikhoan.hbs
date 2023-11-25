@@ -44,7 +44,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-<!-- Nav Item - Dashboard -->
+            <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="/usersCpanel/index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -72,6 +72,8 @@
                     <span>Quản lý sản phẩm</span>
                 </a>
             </li>
+
+            <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/categoriesCpanel/quanlytheloai">
                     <i class="fas fa-fw fa-folder"></i>
@@ -88,7 +90,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Quản lý kích cở</span></a>
             </li>
-           <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="/brandsCpanel/quanlythuonghieu">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Quản lý thương hiệu</span></a>
@@ -117,6 +119,9 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+
+            <!-- Sidebar Message -->
+
 
         </ul>
         <!-- End of Sidebar -->
@@ -245,8 +250,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -257,8 +261,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -269,8 +272,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -302,8 +304,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -348,35 +349,47 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>ID</th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Password</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Trạng thái</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th>ID</th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Password</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Trạng thái</th>
+                                            <th>Action</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         {{#each users}}
-                                            <tr>  
-                                                <td>{{this.username}}</td>
-                                                <td>{{this.email}}</td>
-                                                <td>{{this.phone}}</td>
-                                                <td>{{this.password}}</td>
-                                                <!--<td>
-                                                    <img src="{{this.image}}" height="100" width="100">
-                                                </td>-->
-                                                <td>
-                                                    <a class="btn btn-primary" href="/cpanel/product/{{this._id}}/edit">Sửa</a>
-                                                    <a class="btn btn-danger" onclick="confirmDelete('{{this._id}}')">Xóa</a>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>{{this._id}}</td>
+                                            <td>{{this.name}}</td>
+                                            <td>{{this.email}}</td>
+                                            <td>{{this.phone}}</td>
+                                            {{#if this.active}}
+                                            <td>Đang hoạt động</td>
+                                            {{else}}
+                                            <td>Bị khóa</td>
+                                            {{/if}}
+                                            <td class="d-flex">
+                                                {{#if this.active}}
+                                                <a class="btn btn-primary"
+                                                    onclick="confirmDelete('{{this._id}}','{{this.active}}')">Khóa</a>
+                                                {{else}}
+                                                <a class="btn btn-primary"
+                                                    onclick="confirmDelete('{{this._id}}','{{this.active}}')">Mở
+                                                    khóa</a>
+                                                {{/if}}
+                                            </td>
+                                        </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -440,14 +453,65 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
-
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+    <script>
+        const confirmDelete = (id, active) => {
+            console.log(id);
+            const fetchAPI = async (url, option) => {
+                const res = await fetch(url, option);
+                return res.json();
+            }
+            const deleteProduct = async (id) => {
+                const url = `/usersCpanel/setActive/${id}`;
+                const option = {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        active: active
+                    })
+                }
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    if (active == 'true') {
+                        console.log(active);
+                        swal("Thành công!", "Khóa thành công!", "success");
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                    if (active == 'false') {
+                        console.log(active);
+                        swal("Thành động!", "Mở khóa thành công!", "success");
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    }
 
+                } else {
+                    swal("Thất Bại!", "Khóa thất bại!", "error");
+                }
+
+            }
+            swal({
+                title: active == 'true' ? "Khóa?" : "Mở khóa?",
+                text: `Bạn có chắc chắn muốn thực hiện hành động này không?`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        deleteProduct(id)
+                    }
+                });
+        }
+    </script>
 </body>
 
 </html>

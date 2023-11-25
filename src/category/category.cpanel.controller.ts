@@ -4,10 +4,8 @@ import { Response } from 'express';
 import { CategoryDeleteRequestDTO } from "./dto/category_delete_request";
 import { CategoryAddRequestDTO } from "./dto/category_add_request";
 @Controller('categoriesCpanel')
-export class CategoriesCpanelController {
-  constructor(
-    private readonly categoryService: CategoryService
-  ) { }
+export class CategoryCpanelController {
+    constructor(private readonly categoryService: CategoryService) { }
 
   @Get('addCategory')
   @Render('addCategory')
@@ -36,8 +34,9 @@ export class CategoriesCpanelController {
       const categories = await this.categoryService.GetAllCategory();
       return { categories };
     } catch (error) {
-
+        
     }
+
   }
   @Delete('quanlytheloai/:_id/delete')
   async deleteCategory(@Param() _id: CategoryDeleteRequestDTO, @Res() res: Response,) {

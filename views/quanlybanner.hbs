@@ -31,7 +31,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/usersCpanel/index">
@@ -43,6 +43,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="/usersCpanel/index">
@@ -67,46 +68,48 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/productsCpanel/quanlysanpham">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý sản phẩm</span>
                 </a>
             </li>
+
+            <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/categoriesCpanel/quanlytheloai">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý thể loại</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/colorsCpanel/quanlymau">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý màu</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/sizesCpanel/quanlykichco">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý kích cở</span></a>
             </li>
            <li class="nav-item">
                 <a class="nav-link" href="/brandsCpanel/quanlythuonghieu">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý thương hiệu</span></a>
             </li>
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="/bannerCpanel/quanlybanner">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý Banner</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/productsCpanel/quanlysukien">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý sự kiện</span></a>
-            </li>
+            </li>   
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="/productsCpanel/quanlythanhtoan">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý thanh toán</span></a>
             </li>
             <!-- Divider -->
@@ -116,6 +119,9 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+
+            <!-- Sidebar Message -->
+
 
         </ul>
         <!-- End of Sidebar -->
@@ -442,7 +448,7 @@
             const deleteProduct = async (id) => {
                 const url = `/bannerCpanel/deleteBanner/${id}`;
                 const option = {
-                    method: 'GET',
+                    method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }
                 }
                 const res = await fetchAPI(url, option);

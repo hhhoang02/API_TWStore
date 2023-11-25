@@ -52,20 +52,13 @@
                 <input type="text" class="form-control" name="productName" placeholder="Name">
             </div>
             <div class="mb-3 mt-3">
-                <label class="form-label" for="price">Price</label>
-                <input type="text" class="form-control" name="price" placeholder="price">
+                <label class="form-label">Category:</label>
+                <select name="categoryID" class="form-control">
+                    {{#each categories}}
+                    <option value="{{this._id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
             </div>
-            <div class="mb-3 mt-3">
-                <label class="form-label" for="quantity">Quantity</label>
-                <input type="text" class="form-control" name="quantity" placeholder="quantity">
-            </div>
-
-            <div class="mb-3 mt-3">
-                <label class="form-label" for="password">Type</label>
-                <input checked="checked" name="gender" type="radio" value="Man" />Man Fashion
-                <input name="gender" type="radio" value="Woman" />Woman Fashion
-            </div>
-
             <div class="mb-3 mt-3">
                 <label for="brand" class="form-label">Brand:</label>
                 <select name="brand" class="form-control">
@@ -75,20 +68,22 @@
                 </select>
             </div>
             <div class="mb-3 mt-3">
+                <label class="form-label" for="price">Price</label>
+                <input type="text" class="form-control" name="price" placeholder="Price">
+            </div>
+            <div class="mb-3 mt-3">
+                <label class="form-label" for="quantity">Quantity</label>
+                <input type="text" class="form-control" name="quantity" placeholder="Quantity">
+            </div>
+
+            <div class="mb-3 mt-3">
                 <label class="form-label">Color:</label>
                 {{#each colors}}
                 <input type="checkbox" name="colorID" onclick="getSelectedColor()" value="{{this._id}}">{{this.name}}
                 </input>
                 {{/each}}
             </div>
-            <div class="mb-3 mt-3">
-                <label class="form-label">Category:</label>
-                <select name="category" class="form-control">
-                    {{#each categories}}
-                    <option value="{{this._id}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
+
             <div class="mb-3 mt-3">
                 <label class="form-label">Size:</label>
                 {{!-- <select name="size" class="form-control">

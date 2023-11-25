@@ -3,7 +3,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Category, CategorySchema } from "./category.schema";
 import { CategoryController } from "./category.controller";
 import { CategoryService } from "./category.service";
-import { CategoriesCpanelController } from "./category.cpanel.controller";
+import { CategoryCpanelController } from "./category.cpanel.controller";
 
 
 @Module({
@@ -12,7 +12,7 @@ import { CategoriesCpanelController } from "./category.cpanel.controller";
             { name: Category.name, schema: CategorySchema },
         ]),
     ],
-    controllers: [CategoryController, CategoriesCpanelController],
+    controllers: [CategoryController, CategoryCpanelController],
     providers: [CategoryService],
     exports: [CategoryService]
 })
