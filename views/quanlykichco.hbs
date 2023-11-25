@@ -43,8 +43,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
-<!-- Nav Item - Dashboard -->
+            <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="/usersCpanel/index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -245,8 +244,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -257,8 +255,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -269,8 +266,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -302,8 +298,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -338,7 +333,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a href="/usersCpanel/addUser" class="btn btn-primary text-white">Add User</a>
+                            <a href="/productsCpanel/addProduct" class="btn btn-primary text-white">Add Product</a>
                         </div>
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -349,34 +344,22 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Password</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Password</th>
-                                        </tr>
-                                    </tfoot>
+
                                     <tbody>
-                                        {{#each users}}
-                                            <tr>  
-                                                <td>{{this.username}}</td>
-                                                <td>{{this.email}}</td>
-                                                <td>{{this.phone}}</td>
-                                                <td>{{this.password}}</td>
-                                                <!--<td>
-                                                    <img src="{{this.image}}" height="100" width="100">
-                                                </td>-->
-                                                <td>
-                                                    <a class="btn btn-primary" href="/cpanel/product/{{this._id}}/edit">Sửa</a>
-                                                    <a class="btn btn-danger" onclick="confirmDelete('{{this._id}}')">Xóa</a>
-                                                </td>
-                                            </tr>
+                                        {{#each sizes}}
+                                        <tr>
+                                            <td>{{this.name}}</td>
+                                            <td>
+                                                <a class="btn btn-primary"
+                                                    href="/productsCpanel/productDetail/{{this._id}}/edit">Sửa</a>
+                                                <a class="btn btn-danger"
+                                                    onclick="confirmDelete('{{this._id}}')">Xóa</a>
+                                            </td>
+
+                                        </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -440,6 +423,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
@@ -447,6 +431,44 @@
 
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+    <script>
+        const confirmDelete = (id) => {
+            console.log(id);
+            const fetchAPI = async (url, option) => {
+                const res = await fetch(url, option);
+                return res.json();
+            }
+            const deleteProduct = async (id) => {
+                const url = `/productsCpanel/productDetail/${id}/delete`;
+                const option = {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    swal("Thành công!", "Xóa sản phẩm thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal("Thất Bại!", "Xóa sản phẩm thất bại!", "error");
+                }
+
+            }
+            swal({
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        deleteProduct(id)
+                    }
+                });
+        }
+    </script>
 
 </body>
 
