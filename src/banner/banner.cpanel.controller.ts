@@ -43,7 +43,7 @@ export class BannerCpanelController {
             console.log(error);
         }
     }
-    @Get('deleteBanner/:_id')
+    @Delete('deleteBanner/:_id')
     async deleteBanner(@Param() _id: Types.ObjectId, @Res() res: Response) {
         try {
             await this.bannerService.deleteBanner(_id);

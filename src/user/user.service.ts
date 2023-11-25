@@ -25,12 +25,11 @@ export class UserService {
     ) { }
 
     //Hàm insert vào database
-    async GetUserByID(requestDTO: UserGetByIDRequestDTO): Promise<UserGetByIDResponseDTO | any> {
+    async GetUserByID(requestDTO: any): Promise<UserGetByIDResponseDTO | any> {
         try {
-            const _idUser = requestDTO;
-            console.log(requestDTO);
-
-            const user = await this.userModel.findOne({ _idUser }).populate([{ path: 'cartID' }]);
+            const { _id, body } = requestDTO;
+            const { name, email } = body;
+            const user = await this.userModel.findOne({ _idUser: _id }).populate([{ path: 'cartID' }]);
 
             if (user) {
                 return {
@@ -39,7 +38,7 @@ export class UserService {
                     data: user,
                 }
             }
-            let newUser = new this.userModel({ _idUser, avatar: null, cartID: [], gender: null, birthDay: null, address: []});
+            let newUser = new this.userModel({ _idUser: _id, name, email, phone: null, active: true, avatar: null, cartID: [], gender: null, birthDay: null, address: [] });
             await newUser.save();
             return {
                 status: true,
@@ -58,12 +57,20 @@ export class UserService {
 
     }
 
-    async UpdateInfoUser(requestDTO: UserUpdateInfoRequestDTO): Promise<UserResponseDTO> {
+    async UpdateInfoUser(requestDTO: UserUpdateInfoRequestDTO | any): Promise<UserResponseDTO> {
         try {
-            const { _id, avatar, gender, birthDay } = requestDTO;
-            const user = await this.userModel.findById(_id);
+            const { _id, active = null, phone = null, avatar = null, gender = null, birthDay = null } = requestDTO;
+            console.log(active);
 
+            const user = await this.userModel.findById(_id.id);
             if (user) {
+                if(user.active == true){
+                    user.active = false;
+                }else{
+                    user.active = true;
+                }
+                
+                user.phone = phone ? phone : user.phone;
                 user.avatar = avatar ? avatar : user.avatar;
                 user.gender = gender ? gender : user.gender;
                 user.birthDay = birthDay ? birthDay : user.birthDay;
@@ -92,7 +99,7 @@ export class UserService {
             if (typeUpdate === "insert") {
                 console.log(requestDTO);
 
-                user.address.push({ position: user.address.length + 1, city, district, ward, street});
+                user.address.push({ position: user.address.length + 1, city, district, ward, street });
                 await user.save();
                 return {
                     status: true,

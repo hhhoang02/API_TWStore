@@ -28,12 +28,22 @@ export class Users {
     _idUser: Types.ObjectId;
 
     @Prop()
-    avatar: string;
+    name: string;
 
+    @Prop()
+    email: string;
+
+    @Prop()
+    phone: string;
+
+    @Prop()
+    active: boolean;
+
+    @Prop()
+    avatar: string;
 
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }])
     cartID: Product[];
-
 
     @Prop()
     gender: string;
@@ -44,7 +54,7 @@ export class Users {
     @Prop()
     address: Address[] | null;
 
-    
+
 
 
 }

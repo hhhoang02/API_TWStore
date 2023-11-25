@@ -23,9 +23,9 @@ export class UserController {
         }
     }
     @Post('getUser/:id')
-    async getUserByID(@Param('id') _id: UserGetByIDRequestDTO, @Res() res: Response) {
+    async getUserByID(@Param('id') _id: UserGetByIDRequestDTO, @Body() body: { name: string, email: string }, @Res() res: Response) {
         try {
-            const user = await this.userService.GetUserByID(_id);
+            const user = await this.userService.GetUserByID({ _id, body });
             return res.status(HttpStatus.OK).json(user);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);

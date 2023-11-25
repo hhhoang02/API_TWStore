@@ -322,56 +322,30 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a href="/usersCpanel/addUser" class="btn btn-primary text-white">Add User</a>
+                            <a href="/categoryCpanel/addCategory" class="btn btn-primary text-white">Add Category</a>
                         </div>
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách tất cả sản phẩm</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Trạng thái</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Trạng thái</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
+
                                     <tbody>
-                                        {{#each users}}
+                                        {{#each category}}
                                         <tr>
-                                            <td>{{this._id}}</td>
+
                                             <td>{{this.name}}</td>
-                                            <td>{{this.email}}</td>
-                                            <td>{{this.phone}}</td>
-                                            {{#if this.active}}
-                                            <td>Đang hoạt động</td>
-                                            {{else}}
-                                            <td>Bị khóa</td>
-                                            {{/if}}
-                                            <td class="d-flex">
-                                                {{#if this.active}}
-                                                <a class="btn btn-primary"
-                                                    onclick="confirmDelete('{{this._id}}','{{this.active}}')">Khóa</a>
-                                                {{else}}
-                                                <a class="btn btn-primary"
-                                                    onclick="confirmDelete('{{this._id}}','{{this.active}}')">Mở
-                                                    khóa</a>
-                                                {{/if}}
+                                            <td>
+                                                <a class="btn btn-danger"
+                                                    onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
+
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -437,6 +411,7 @@
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
     <script src="/js/sweetalert/sweetalert.min.js"></script>
+
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
@@ -444,46 +419,32 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
-        const confirmDelete = (id, active) => {
+        const confirmDelete = (id) => {
             console.log(id);
             const fetchAPI = async (url, option) => {
                 const res = await fetch(url, option);
                 return res.json();
             }
             const deleteProduct = async (id) => {
-                const url = `/usersCpanel/setActive/${id}`;
+                const url = `/categoryCpanel/deleteCategory/${id}/delete`;
                 const option = {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        active: active
-                    })
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
                 }
                 const res = await fetchAPI(url, option);
                 if (res.result) {
-                    if (active == 'true') {
-                        console.log(active);
-                        swal("Thành công!", "Khóa thành công!", "success");
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
-                    }
-                    if (active == 'false') {
-                        console.log(active);
-                        swal("Thành động!", "Mở khóa thành công!", "success");
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
-                    }
-
+                    swal("Thành công!", "Xóa sản phẩm thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
                 } else {
-                    swal("Thất Bại!", "Khóa thất bại!", "error");
+                    swal("Thất Bại!", "Xóa sản phẩm thất bại!", "error");
                 }
 
             }
             swal({
-                title: active == 'true' ? "Khóa?" : "Mở khóa?",
-                text: `Bạn có chắc chắn muốn thực hiện hành động này không?`,
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -495,6 +456,7 @@
                 });
         }
     </script>
+
 </body>
 
 </html>
