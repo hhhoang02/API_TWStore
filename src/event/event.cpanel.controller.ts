@@ -15,9 +15,8 @@ import {
 import { Response } from 'express';
 import { EventService } from './event.service';
 import { ProductService } from 'src/product/product.service';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { EventUpdateDTO } from './dto/event_update_request';
-import { EventGetbyIdDTO } from './dto/event_getEventbyID_request';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Types } from 'mongoose';
 
 @Controller('eventsCpanel')
 export class EventsCpanelController {
@@ -25,46 +24,6 @@ export class EventsCpanelController {
     private readonly eventService: EventService,
     private readonly productService: ProductService,
   ) {}
-
-  @Get('addEvent')
-  @Render('addEvent')
-  async addEvent(@Res() res: Response) {
-    try {
-      const products = await this.productService.getAllProduct();
-      return { products };
-    } catch (error) {}
-  }
-
-
-  @UseInterceptors(FileFieldsInterceptor([
-    { name: 'image', maxCount: 1 },
-  ]))
-  @Post('addEvent')
-  async handleAddEvent(@Body() body: any, @UploadedFiles() files: { image?: Express.Multer.File[] }, @Res() res: Response) {
-    try {
-      if(!files){
-        return null;
-      }
-      const event = await this.eventService.addEvent({ body , files });
-      return res.redirect("/eventsCpanel/quanlysukien")
-    } catch (error) {
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
-
-
-  
-  @Post('eventDetail/:_id/delete')
-  async deleteProduct(@Param() _id: EventUpdateDTO, @Res() res: Response,) {
-    try {
-      console.log(_id);
-
-      const result = await this.eventService.deleteEvent(_id);
-      return res.json({ result });
-    } catch (error) {
-      return res.json({ result: false });
-    }
-  }
 
   @Get('quanlysukien')
   @Render('quanlysukien')
@@ -74,5 +33,45 @@ export class EventsCpanelController {
       return { events };
     } catch (error) {}
   }
+
+  @Get('addEvent')
+  @Render('addEvent')
+  async addEventCpanel(@Res() res: Response) {
+    try {
+      const products = await this.productService.getAllProduct();
+      return { products };
+    } catch (error) {}
+  }
+
+
+  @UseInterceptors(FileInterceptor('image'))
+  @Post('addEvent')
+  async addEvent(@Body() body: any, @UploadedFile() files: Express.Multer.File, @Res() res: Response) {
+    try {
+      if(!files){
+        return null;
+      }
+      await this.eventService.addEvent({ body , files });
+      return res.redirect("/eventsCpanel/quanlysukien")
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  
+  @Get('deleteEvent/:_id')
+  async deleteEvent(@Param() _id: Types.ObjectId, @Res() res: Response) {
+    try {
+      await this.eventService.deleteEvent(_id);
+      console.log(_id);
+      
+      return res.json({ result: true });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
 
 }

@@ -71,6 +71,12 @@
                     <span>Quản lý sản phẩm</span>
                 </a>
             </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/bannerCpanel/quanlybanner">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Quản lý Banner</span>
+                </a>
+            </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item active">
@@ -322,8 +328,8 @@
                                             <td>{{this.levelGiamgia}}</td>
                                             <td>{{this.soNgayGiamgia}}</td>
                                             <td>
-                                                <a class="btn btn-primary" href="/eventsCpanel/getEventById/{{this._id}}">xem chi tiết</a>
-                                                <a class="btn btn-danger"  onclick="confirmDelete('{{this._id}}')">Xóa</a>
+                                                {{!-- <a class="btn btn-primary" href="/eventsCpanel/getEventById/{{this._id}}">xem chi tiết</a> --}}
+                                                <a class="btn btn-danger" onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
 
                                         </tr>
@@ -399,16 +405,18 @@
     <script src="/js/demo/datatables-demo.js"></script>
 
     <script>
+
+
+
         const confirmDelete = (id) => {
-            console.log(id);
             const fetchAPI = async (url, option) => {
                 const res = await fetch(url, option);
                 return res.json();
             }
             const deleteEvent = async (id) => {
-                const url = `/eventsCpanel/eventDetail/${id}/delete`;
+                const url = `/eventsCpanel/deleteEvent/${id}`;
                 const option = {
-                    method: 'DELETE',
+                    method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 }
                 const res = await fetchAPI(url, option);
