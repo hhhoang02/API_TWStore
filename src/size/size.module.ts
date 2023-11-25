@@ -3,6 +3,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Size, SizeSchema } from "./size.schema";
 import { SizeController } from "./size.controller";
 import { SizeService } from "./size.service";
+import { SizesCpanelController } from "./size.cpanel.controller";
 
 
 
@@ -14,7 +15,7 @@ import { SizeService } from "./size.service";
             { name: Size.name, schema: SizeSchema },
         ]),
     ],
-    controllers: [SizeController],
+    controllers: [SizeController, SizesCpanelController],
     providers: [SizeService],
     exports: [SizeService]
 })

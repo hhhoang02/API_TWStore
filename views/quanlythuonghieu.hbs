@@ -333,10 +333,10 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a href="/categoryCpanel/addCategory" class="btn btn-primary text-white">Add Category</a>
+                            <a href="/productsCpanel/addProduct" class="btn btn-primary text-white">Add Product</a>
                         </div>
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Danh sách tất cả sản phẩm</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -349,11 +349,12 @@
                                     </thead>
 
                                     <tbody>
-                                        {{#each category}}
+                                        {{#each brands}}
                                         <tr>
-
                                             <td>{{this.name}}</td>
                                             <td>
+                                                <a class="btn btn-primary"
+                                                    href="/productsCpanel/productDetail/{{this._id}}/edit">Sửa</a>
                                                 <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
@@ -438,7 +439,7 @@
                 return res.json();
             }
             const deleteProduct = async (id) => {
-                const url = `/categoryCpanel/deleteCategory/${id}/delete`;
+                const url = `/productsCpanel/productDetail/${id}/delete`;
                 const option = {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }

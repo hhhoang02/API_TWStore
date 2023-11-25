@@ -3,6 +3,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Brand, BrandSchema } from "./brand.schema";
 import { BrandController } from "./brand.controller";
 import { BrandService } from "./brand.service";
+import { BrandsCpanelController } from "./brand.cpanel.controller";
 
 
 
@@ -14,7 +15,7 @@ import { BrandService } from "./brand.service";
             { name: Brand.name, schema: BrandSchema },
         ]),
     ],
-    controllers: [BrandController],
+    controllers: [BrandController, BrandsCpanelController],
     providers: [BrandService],
     exports: [BrandService]
 })

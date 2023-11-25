@@ -3,6 +3,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Color, ColorSchema } from "./color.schema";
 import { ColorController } from "./color.controller";
 import { ColorService } from "./color.service";
+import { ColorsCpanelController } from "./color.cpanel.controller";
 
 
 
@@ -14,7 +15,7 @@ import { ColorService } from "./color.service";
             { name: Color.name, schema: ColorSchema },
         ]),
     ],
-    controllers: [ColorController],
+    controllers: [ColorController, ColorsCpanelController],
     providers: [ColorService],
     exports: [ColorService]
 })
