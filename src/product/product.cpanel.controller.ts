@@ -24,6 +24,7 @@ import { BrandService } from 'src/brand/brand.service';
 import { ProductGetbyIdDTO } from './dto/product_getProductbyID_request';
 import { AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { ProductUpdateDTO } from './dto/product_update_request';
+
 @Controller('productsCpanel')
 export class ProductsCpanelController {
   constructor(
@@ -62,6 +63,8 @@ export class ProductsCpanelController {
       console.log(error);
     }
   }
+
+  
   @Get('productDetail/:_id/edit')
   @Render('productDetail')
   async productDetail(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {
@@ -132,6 +135,8 @@ export class ProductsCpanelController {
       return res.json({ result: false });
     }
   }
+
+
   @Get('quanlysanpham')
   @Render('quanlysanpham')
   async quanlysanpham(@Res() res: Response) {
@@ -144,6 +149,7 @@ export class ProductsCpanelController {
 
     }
   }
+
   @Get('quanlydonhang')
   @Render('quanlydonhang')
   async quanlydonhang(@Res() res: Response) {
@@ -151,13 +157,7 @@ export class ProductsCpanelController {
       message: 'Hello',
     };
   }
-  @Get('quanlysukien')
-  @Render('quanlysukien')
-  async quanlysukien(@Res() res: Response) {
-    return {
-      message: 'Hello',
-    };
-  }
+
   @Get('quanlythanhtoan')
   @Render('quanlythanhtoan')
   async quanlythanhtoan(@Res() res: Response) {
