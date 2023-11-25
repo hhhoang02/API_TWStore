@@ -25,24 +25,18 @@ export class EventController {
   @Post('addEvent')
   async AddEvent(@Body() body: EventInsertDTO, @Res() res: Response) {
     try {
-      const product = await this.productService.getAllProduct();
-      const eventWithProduct = {
-        ...body,
-        product,
-      };
-      const event = await this.eventService.addEvent(eventWithProduct);
-      console.log(event);
-      
+      const event = await this.eventService.addEvent(body);
       return res.status(HttpStatus.OK).json(event);
-
-    } catch (error) {
-      return res.status(HttpStatus.BAD_REQUEST).json(error);
-    }
+  } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json(error);
+  }
   }
 
   @Delete('deleteEvent/:_id')
   async DeleteEvent(@Param() _id: EventUpdateDTO, @Res() res: Response) {
     try {
+      console.log(_id);
+
       const event = await this.eventService.deleteEvent(_id);
       return res.status(HttpStatus.OK).json(event);
     } catch (error) {

@@ -62,6 +62,8 @@ export class ProductsCpanelController {
       console.log(error);
     }
   }
+
+  
   @Get('productDetail/:_id/edit')
   @Render('productDetail')
   async productDetail(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {

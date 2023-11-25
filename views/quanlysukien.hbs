@@ -322,7 +322,8 @@
                                             <td>{{this.levelGiamgia}}</td>
                                             <td>{{this.soNgayGiamgia}}</td>
                                             <td>
-                                                <a class="btn btn-primary" href="/eventsCpanel/getEventById/{{this._id}}">Xóa event</a>
+                                                <a class="btn btn-primary" href="/eventsCpanel/getEventById/{{this._id}}">xem chi tiết</a>
+                                                <a class="btn btn-danger"  onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
 
                                         </tr>
@@ -396,6 +397,45 @@
 
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+
+    <script>
+        const confirmDelete = (id) => {
+            console.log(id);
+            const fetchAPI = async (url, option) => {
+                const res = await fetch(url, option);
+                return res.json();
+            }
+            const deleteEvent = async (id) => {
+                const url = `/eventsCpanel/eventDetail/${id}/delete`;
+                const option = {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    swal("Thành công!", "Xóa sản phẩm thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal("Thất Bại!", "Xóa sản phẩm thất bại!", "error");
+                }
+
+            }
+            swal({
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        deleteEvent(id)
+                    }
+                });
+        }
+    </script>
 
 </body>
 

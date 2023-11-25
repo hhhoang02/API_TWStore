@@ -7,6 +7,7 @@ import { EventResponseDTO } from "./dto/event_response";
 import { EventUpdateDTO } from "./dto/event_update_request";
 import { EventGetResponseDTO } from "./dto/event_get_response";
 import { EventGetbyIdDTO } from "./dto/event_getEventbyID_request";
+import uploadImage from 'src/upload/upload';
 
 
 @Injectable()
@@ -14,13 +15,18 @@ export class EventService {
     constructor(@InjectModel(Event.name)
     private readonly eventModel: Model<EventDocument>,
     ) { }
-    async addEvent(requestDTO: EventInsertDTO): Promise<EventResponseDTO> {
+    async addEvent(requestDTO: any): Promise<EventResponseDTO> {
         try {
-            const {eventImage , eventName , levelGiamgia , soNgayGiamgia , product} = requestDTO;
-            console.log(requestDTO);
-
+            const body: EventInsertDTO = requestDTO.body;
+            const files: any = requestDTO.files.image;
+    
+            const file = files[0];
+    
+            const url = await uploadImage(file, "Event");
+            const {eventImage , eventName , levelGiamgia , soNgayGiamgia , product} = body;
+            
             const newEvent = new this.eventModel({
-                eventImage, eventName , levelGiamgia , soNgayGiamgia , product
+                eventImage: url, eventName , levelGiamgia , soNgayGiamgia , product
             });
             await newEvent.save();
             return {
@@ -60,7 +66,7 @@ export class EventService {
 
     async getAllEvent(): Promise<EventGetResponseDTO[]> {
         try {
-            const event = await this.eventModel.find().populate([{ path: 'Product', select: 'name' }])
+            const event = await this.eventModel.find();
             return event;
         } catch (error) {
             return
@@ -75,7 +81,6 @@ export class EventService {
             console.log("event", event);
         } catch (error) {
             console.log(error);
-
         }
     }
     

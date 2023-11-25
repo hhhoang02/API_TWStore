@@ -8,10 +8,16 @@ import {
   Post,
   Render,
   Res,
+  UploadedFile,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { EventService } from './event.service';
 import { ProductService } from 'src/product/product.service';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { EventUpdateDTO } from './dto/event_update_request';
+import { EventGetbyIdDTO } from './dto/event_getEventbyID_request';
 
 @Controller('eventsCpanel')
 export class EventsCpanelController {
@@ -25,24 +31,38 @@ export class EventsCpanelController {
   async addEvent(@Res() res: Response) {
     try {
       const products = await this.productService.getAllProduct();
-      console.log(products);
       return { products };
     } catch (error) {}
   }
 
+
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'image', maxCount: 1 },
+  ]))
   @Post('addEvent')
-  async handleAddEvent(@Body() body: any, @Res() res: Response) {
+  async handleAddEvent(@Body() body: any, @UploadedFiles() files: { image?: Express.Multer.File[] }, @Res() res: Response) {
     try {
-      // Xử lý dữ liệu từ form ở đây, ví dụ lưu vào cơ sở dữ liệu
-      console.log(body);
-
-      // Gọi hàm để thêm sự kiện với dữ liệu từ form
-      const event = await this.eventService.addEvent(body);
-
-      // Redirect hoặc trả về dữ liệu cần thiết
-      return res.status(200).json(event);
+      if(!files){
+        return null;
+      }
+      const event = await this.eventService.addEvent({ body , files });
+      return res.redirect("/eventsCpanel/quanlysukien")
     } catch (error) {
       return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
+
+  
+  @Post('eventDetail/:_id/delete')
+  async deleteProduct(@Param() _id: EventUpdateDTO, @Res() res: Response,) {
+    try {
+      console.log(_id);
+
+      const result = await this.eventService.deleteEvent(_id);
+      return res.json({ result });
+    } catch (error) {
+      return res.json({ result: false });
     }
   }
 
