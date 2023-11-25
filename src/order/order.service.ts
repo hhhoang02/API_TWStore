@@ -14,13 +14,12 @@ export class OrderService {
     ) { }
     async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO>{
         try {
-            const { status, productID, quantity, bookingDate, deliveryDate, userID, promotionID } = requestDTO;
+            const { status, listProduct, bookingDate, deliveryDate, userID, promotionID } = requestDTO;
             console.log(requestDTO);
 
             const newOrder = new this.orderModel({
                 status, 
-                productID, 
-                quantity, 
+                listProduct, 
                 bookingDate, 
                 deliveryDate, 
                 userID, 

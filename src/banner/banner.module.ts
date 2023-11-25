@@ -3,6 +3,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Banner, BannerSchema } from "./banner.schema";
 import { BannerService } from "./banner.service";
 import { BannerController } from "./banner.controller";
+import { BannerCpanelController } from "./banner.cpanel.controller";
 
 @Module({
     imports: [
@@ -10,7 +11,7 @@ import { BannerController } from "./banner.controller";
             { name: Banner.name, schema: BannerSchema },
         ]),
     ],
-    controllers: [BannerController],
+    controllers: [BannerController, BannerCpanelController],
     providers: [BannerService],
 })
 export class BannerModule { }

@@ -7,15 +7,7 @@ import { Response } from "express";
 export class BannerController {
     constructor(private readonly bannerService: BannerService) { }
 
-    @Put('updateBanner')
-    async UpdateBanner(@Body() body: BannerInsertDTO, @Res() res: Response) {
-        try {
-            const responseDTO = await this.bannerService.updateBanner(body);
-            return res.status(HttpStatus.OK).json(responseDTO);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
+
     @Get('getAllBanner')
     async GetAllBanner(@Res() res: Response) {
         try {

@@ -44,30 +44,30 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/usersCpanel/index">
-                    <i class="fas fa-fw fa-home"></i>
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Trang chủ</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/usersCpanel/quanlytaikhoan">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-cog"></i>
                     <span>Quản lý tài khoản khách hàng</span>
                 </a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="/productsCpanel/quanlydonhang">
-                    <i class="fas fa-fw fa-shopping-cart"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Quản lý đơn hàng</span>
                 </a>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item active">
-                <a class="nav-link collapsed" href="/productsCpanel/quanlysanpham" >
-                    <i class="fas fa-fw fa-shopping-bag"></i>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/productsCpanel/quanlysanpham">
+                    <i class="fas fa-fw fa-folder"></i>
                     <span>Quản lý sản phẩm</span>
                 </a>
             </li>
@@ -78,15 +78,15 @@
             </li>
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="/eventsCpanel/quanlysukien">
-                    <i class="fas fa-fw fa-calendar-alt"></i>
+                <a class="nav-link" href="/productsCpanel/quanlysukien">
+                    <i class="fas fa-fw fa-chart-area"></i>
                     <span>Quản lý sự kiện</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/productsCpanel/quanlythanhtoan">
-                    <i class="fas fa-fw fa-credit-card"></i>
+                    <i class="fas fa-fw fa-table"></i>
                     <span>Quản lý thanh toán</span></a>
             </li>
             <!-- Divider -->
@@ -313,7 +313,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a href="/productsCpanel/addProduct" class="btn btn-primary text-white">Add Product</a>
+                            <a href="/bannerCpanel/addBanner" class="btn btn-primary text-white">Add Banner</a>
                         </div>
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -323,31 +323,23 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Title</th>
                                             <th>Image</th>
-                                            <th>Name</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Action</th>
+                                            <th>Delete</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {{#each products}}
+                                        {{#each banner}}
                                         <tr>
+                                            <td>{{this.title}}</td>
                                             <td>
-                                                <img src="{{this.image}}" height="200" width="200">
+                                                <img src="{{this.image}}" height="200" width="300">
                                             </td>
-                                            <td>{{this.productName}}</td>
-                                            <td>{{this.price}}</td>
-                                            <td>{{this.quantity}}</td>
                                             <td>
                                                 <a class="btn btn-primary"
-                                                    href="/productsCpanel/productDetail/{{this._id}}/edit">Xem Chi
-                                                    Tiết</a>
-                                                <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
-
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -428,9 +420,9 @@
                 return res.json();
             }
             const deleteProduct = async (id) => {
-                const url = `/productsCpanel/productDetail/${id}/delete`;
+                const url = `/bannerCpanel/deleteBanner/${id}`;
                 const option = {
-                    method: 'DELETE',
+                    method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 }
                 const res = await fetchAPI(url, option);
