@@ -5,7 +5,7 @@ import { Types } from "mongoose";
 import { CategoryService } from "./category.service";
 import { CategoryAddRequestDTO } from "./dto/category_add_request";
 
-@Controller('categoryCpanel')
+@Controller('categoriesCpanel')
 export class CategoryCpanelController {
     constructor(private readonly categoryService: CategoryService) { }
 
@@ -36,7 +36,7 @@ export class CategoryCpanelController {
         try {
             console.log(body);
             await this.categoryService.AddCategory(body);
-            return res.redirect('/categoryCpanel/quanlytheloai');
+            return res.redirect('/categoriesCpanel/quanlytheloai');
         } catch (error) {
             console.log(error);
         }
