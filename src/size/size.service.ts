@@ -13,8 +13,8 @@ export class SizeService {
     private readonly sizeModel: Model<SizeDocument>) { }
     async AddSize(requestDTO: SizeAddRequestDTO): Promise<SizeResponseDTO> {
         try {
-            const { name} = requestDTO;
-            const size = await this.sizeModel.findOne({ name});
+            const { name } = requestDTO;
+            const size = await this.sizeModel.findOne({ name });
             if (size) {
                 return {
                     status: false,
@@ -23,7 +23,7 @@ export class SizeService {
             }
             console.log(name);
 
-            const newSize = new this.sizeModel({ name});
+            const newSize = new this.sizeModel({ name });
             await newSize.save();
             return {
                 status: true,
@@ -48,13 +48,13 @@ export class SizeService {
     }
     async DeleteSize(requestDTO: SizeDeleteRequestDTO): Promise<SizeResponseDTO> {
         try {
-            const { _id } = requestDTO;
-            const Size = await this.sizeModel.findById(_id);
+            const { id } = requestDTO;
+            const Size = await this.sizeModel.findById(id);
             if (!Size) return {
                 status: false,
                 message: 'Size not found',
             };
-            await this.sizeModel.findByIdAndDelete(_id);
+            await this.sizeModel.findByIdAndDelete(id);
             return {
                 status: true,
                 message: 'Delete Size successfully',

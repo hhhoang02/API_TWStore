@@ -114,9 +114,11 @@
                 <input type="checkbox" checked name="colorID" onclick="getSelectedFruits()"
                     value="{{this._id}}">{{this.color}}
                 </input>
+                <input type="color" value="{{this.code}}" disabled>
                 {{else}}
-                <input type="checkbox" name="colorID" onclick="getSelectedFruits()" value="{{this._id}}">{{this.color}}
+                <input type="checkbox" name="colorID" onclick="getSelectedFruits()" value="{{this._id}}">{{this.name}}
                 </input>
+                <input type="color" value="{{this.code}}" disabled>
                 {{/if}}
                 {{/each}}
             </div>

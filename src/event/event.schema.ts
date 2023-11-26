@@ -8,16 +8,16 @@ export type EventDocument = Event & Document;
 @Schema()
 export class Event {
     @Prop()
-    eventImage:string;
+    eventImage: string;
 
     @Prop()
-    eventName:string;
+    eventName: string;
 
     @Prop()
-    levelGiamgia:number;
-    
+    levelGiamgia: number;
+
     @Prop()
-    soNgayGiamgia:number;
+    soNgayGiamgia: Date;
 
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }])
     product: Product[];

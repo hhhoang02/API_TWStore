@@ -15,8 +15,6 @@ export class CategoryCpanelController {
     async quanlysanpham(@Res() res: Response) {
         try {
             const category = await this.categoryService.GetAllCategory();
-            console.log(category);
-
             return { category: category };
         } catch (error) {
         }
@@ -34,7 +32,6 @@ export class CategoryCpanelController {
     @Post('addCategory')
     async addCategory(@Body() body: CategoryAddRequestDTO, @Res() res: Response) {
         try {
-            console.log(body);
             await this.categoryService.AddCategory(body);
             return res.redirect('/categoriesCpanel/quanlytheloai');
         } catch (error) {

@@ -90,7 +90,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Quản lý kích cở</span></a>
             </li>
-           <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="/brandsCpanel/quanlythuonghieu">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Quản lý thương hiệu</span></a>
@@ -102,7 +102,7 @@
                     <span>Quản lý Banner</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/productsCpanel/quanlysukien">
+                <a class="nav-link" href="/eventsCpanel/quanlysukien">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Quản lý sự kiện</span></a>
             </li>
@@ -339,7 +339,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a href="/productsCpanel/addProduct" class="btn btn-primary text-white">Add Product</a>
+                            <a href="/sizesCpanel/addSize" class="btn btn-primary text-white">Add Size</a>
                         </div>
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -359,8 +359,6 @@
                                         <tr>
                                             <td>{{this.name}}</td>
                                             <td>
-                                                <a class="btn btn-primary"
-                                                    href="/productsCpanel/productDetail/{{this._id}}/edit">Sửa</a>
                                                 <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
@@ -445,7 +443,7 @@
                 return res.json();
             }
             const deleteProduct = async (id) => {
-                const url = `/productsCpanel/productDetail/${id}/delete`;
+                const url = `/sizesCpanel/deleteSize/${id}/delete`;
                 const option = {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }
