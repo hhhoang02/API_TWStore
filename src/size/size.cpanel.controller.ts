@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Render, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Render, Res } from "@nestjs/common";
 import { SizeService } from "./size.service";
 import { Response } from 'express';
 import { SizeDeleteRequestDTO } from "./dto/size_delete_request";
@@ -8,24 +8,7 @@ export class SizesCpanelController {
   constructor(
     private readonly sizeService: SizeService
   ) { }
-  @Get('addSize')
-  @Render('addSize')
-  async AddSize(@Res() res: Response) {
-      try {
-          return {};
-      } catch (error) {
-          return error;
-      }
-  }
-  @Post('addSize')
-  async addSize(requestDTO: SizeAddRequestDTO, @Body() body:any, @Res() res: Response) {
-      try {
-          await this.sizeService.AddSize(body);
-          return res.redirect('/sizesCpanel/quanlykichco');
-      } catch (error) {
-          console.log(error);
-      }
-  }
+
   @Get('quanlykichco')
   @Render('quanlykichco')
   async quanlykichco(@Res() res: Response) {
@@ -36,12 +19,32 @@ export class SizesCpanelController {
 
     }
   }
-  @Delete('quanlykichco/:_id/delete')
-  async deleteSize(@Param() _id: SizeDeleteRequestDTO, @Res() res: Response,) {
+  @Get('addSize')
+  @Render('addSize')
+  async AddSizeRender(@Res() res: Response) {
     try {
+      const sizes = await this.sizeService.GetAllSize();
+      return { sizes };
+    } catch (error) {
 
-      const result = await this.sizeService.DeleteSize(_id);
-      return res.json({ result });
+    }
+  }
+  @Post('addSize')
+  async AddSize(@Body() body: SizeAddRequestDTO, @Res() res: Response) {
+    try {
+      const responseDTO = await this.sizeService.AddSize(body);
+      return res.redirect('/sizesCpanel/quanlykichco')
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json(error);
+
+    }
+  }
+
+  @Delete('deleteSize/:id/delete')
+  async DeleteSize(@Param() id: SizeDeleteRequestDTO, @Res() res: Response) {
+    try {
+      const responseDTO = await this.sizeService.DeleteSize(id);
+      return res.json({ result: true });
     } catch (error) {
       return res.json({ result: false });
     }

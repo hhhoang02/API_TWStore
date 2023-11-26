@@ -17,17 +17,19 @@ export class EventService {
     async addEvent(requestDTO: any): Promise<EventResponseDTO> {
         try {
             const body: EventInsertDTO = requestDTO.body;
+            console.log(body);
+
             const files = requestDTO.files;
             const url = await uploadImage(files, "Event");
-            const {eventName , levelGiamgia , soNgayGiamgia , product} = body;
-            const newEvent = new this.eventModel({ eventImage: url, eventName , levelGiamgia , soNgayGiamgia , product});
+            const { eventName, levelGiamgia, soNgayGiamgia, product } = body;
+            const newEvent = new this.eventModel({ eventImage: url, eventName, levelGiamgia, soNgayGiamgia, product });
             await newEvent.save();
             return {
                 status: true,
                 message: 'Add event successfully',
             }
         } catch (error) {
-            console.log(error); 
+            console.log(error);
 
             return {
                 status: false,
@@ -46,11 +48,12 @@ export class EventService {
 
     }
 
-    
-    async deleteEvent(id: Types.ObjectId): Promise<EventResponseDTO> {
+
+    async deleteEvent(_id: Types.ObjectId): Promise<EventResponseDTO> {
         try {
-            const {_id} = id;
-            await this.eventModel.findByIdAndDelete(_id);
+            const { id } = _id;
+
+            await this.eventModel.findByIdAndDelete(id);
             return {
                 status: true,
                 message: 'Delete event successfull',
@@ -65,6 +68,6 @@ export class EventService {
     }
 
 
-    
+
 
 }

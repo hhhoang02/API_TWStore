@@ -13,7 +13,7 @@ export class ColorService {
     private readonly ColorModel: Model<ColorDocument>) { }
     async AddColor(requestDTO: ColorAddRequestDTO): Promise<ColorResponseDTO> {
         try {
-            const { name } = requestDTO;
+            const { name, code } = requestDTO;
             const Color = await this.ColorModel.findOne({ name });
             if (Color) {
                 return {
@@ -23,7 +23,7 @@ export class ColorService {
             }
             console.log(name);
 
-            const newColor = new this.ColorModel({ name });
+            const newColor = new this.ColorModel({ name, code });
             await newColor.save();
             return {
                 status: true,
@@ -46,15 +46,17 @@ export class ColorService {
             return error;
         }
     }
-    async DeleteColor(requestDTO: ColorDeleteRequestDTO): Promise<ColorResponseDTO> {
+    async DeleteColor(requestDTO: any): Promise<ColorResponseDTO> {
         try {
-            const { _id } = requestDTO;
-            const Color = await this.ColorModel.findById(_id);
+            const { id }: ColorDeleteRequestDTO = requestDTO;
+            console.log(id);
+
+            const Color = await this.ColorModel.findById(id);
             if (!Color) return {
                 status: false,
                 message: 'Color not found',
             };
-            await this.ColorModel.findByIdAndDelete(_id);
+            await this.ColorModel.findByIdAndDelete(id);
             return {
                 status: true,
                 message: 'Delete Color successfully',

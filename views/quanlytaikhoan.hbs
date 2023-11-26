@@ -381,9 +381,17 @@
                                             <td>{{this.email}}</td>
                                             <td>{{this.phone}}</td>
                                             {{#if this.active}}
-                                            <td>Đang hoạt động</td>
+                                            <td>
+                                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/green-circle-icon.png"
+                                                    width="20" height="20">
+                                                Đang hoạt động
+                                            </td>
                                             {{else}}
-                                            <td>Bị khóa</td>
+                                            <td>
+                                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/red-circle-icon.png"
+                                                    width="20" height="20">
+                                                Bị khóa
+                                            </td>
                                             {{/if}}
                                             <td class="d-flex">
                                                 {{#if this.active}}

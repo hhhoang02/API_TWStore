@@ -52,7 +52,7 @@ export class EventsCpanelController {
         return null;
       }
       await this.eventService.addEvent({ body , files });
-      return res.redirect("/eventsCpanel/quanlysukien")
+      return res.redirect("/eventsCpanel/quanlysukien");
     } catch (error) {
       console.log(error);
     }
@@ -60,12 +60,10 @@ export class EventsCpanelController {
 
 
   
-  @Get('deleteEvent/:_id')
-  async deleteEvent(@Param() _id: Types.ObjectId, @Res() res: Response) {
+  @Get('deleteEvent/:id')
+  async deleteEvent(@Param() id: Types.ObjectId, @Res() res: Response) {
     try {
-      await this.eventService.deleteEvent(_id);
-      console.log(_id);
-      
+      await this.eventService.deleteEvent(id);
       return res.json({ result: true });
     } catch (error) {
       console.log(error);

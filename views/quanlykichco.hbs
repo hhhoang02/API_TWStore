@@ -90,7 +90,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Quản lý kích cở</span></a>
             </li>
-           <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="/brandsCpanel/quanlythuonghieu">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Quản lý thương hiệu</span></a>
@@ -102,7 +102,7 @@
                     <span>Quản lý Banner</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/productsCpanel/quanlysukien">
+                <a class="nav-link" href="/eventsCpanel/quanlysukien">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Quản lý sự kiện</span></a>
             </li>
@@ -442,8 +442,8 @@
                 const res = await fetch(url, option);
                 return res.json();
             }
-            const deleteSize = async (id) => {
-                const url = `/sizesCpanel/quanlykichco/${id}/delete`;
+            const deleteProduct = async (id) => {
+                const url = `/sizesCpanel/deleteSize/${id}/delete`;
                 const option = {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }
@@ -468,7 +468,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        deleteSize(id)
+                        deleteProduct(id)
                     }
                 });
         }

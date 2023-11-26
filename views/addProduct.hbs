@@ -80,6 +80,7 @@
                 <label class="form-label">Color:</label>
                 {{#each colors}}
                 <input type="checkbox" name="colorID" onclick="getSelectedColor()" value="{{this._id}}">{{this.name}}
+                <input type="color" value="{{this.code}}" disabled>
                 </input>
                 {{/each}}
             </div>
@@ -95,8 +96,6 @@
                 <input type="checkbox" name="size" onclick="getSelectedSize()" value="{{this._id}}">{{this.name}}
                 </input>
                 {{/each}}
-                <p id="selectedSize"></p>
-
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-left mb-3">
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -120,8 +119,6 @@
                 }
             }
             const selectedSizeText = selectedFruits.join(', ');
-            const selectedSizeElement = document.getElementById('selectedSize');
-            selectedSizeElement.textContent = `Selected fruits: ${selectedSizeText}`;
         }
         function getSelectedColor() {
             const checkboxGroup = document.getElementsByName('size');
