@@ -1,9 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Order, OrderDocument } from "./order.schema";
+import { Order, OrderDocument, listProduct } from "./order.schema";
 import { Model } from "mongoose";
 import { OrderInsertDTO } from "./dto/order_insert_request";
 import { OrderResponseDTO } from "./dto/order_response";
+import { OrderGetbyIdDTO } from "./dto/order_getOrderbyID_request";
+import { OrderGetResponseDTO } from "./dto/order_get_response";
 
 @Injectable()
 export class OrderService {
@@ -14,7 +16,7 @@ export class OrderService {
     ) { }
     async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO>{
         try {
-            const { status, listProduct, bookingDate, deliveryDate, userID, promotionID } = requestDTO;
+            const { status, listProduct, bookingDate, deliveryDate, userID, promotionID, phoneReceiver, nameReceiver } = requestDTO;
             console.log(requestDTO);
 
             const newOrder = new this.orderModel({
@@ -23,7 +25,9 @@ export class OrderService {
                 bookingDate, 
                 deliveryDate, 
                 userID, 
-                promotionID
+                promotionID,
+                phoneReceiver,
+                nameReceiver
             });
             await newOrder.save();
             return {
@@ -39,5 +43,26 @@ export class OrderService {
             }
         }
     }
-    
+    async getAllOrder(): Promise<OrderResponseDTO | any> {
+        try {
+            const order = await this.orderModel.find().populate([{ path: 'promotionID', select: 'name' }]);;;
+            return order
+        } catch (error) {
+            console.log(error);
+            return {
+                status: false,
+                message: 'Get all banner failed',
+            }
+        }
+    }
+    async getOrderbyID(requestDTO: OrderGetbyIdDTO): Promise<OrderGetResponseDTO> {
+        try {
+            const _id = requestDTO;
+            const order = await this.orderModel.findById(_id).populate([{ path: 'userID' }, { path: 'promotionID', select: 'name' }]);;;;
+            return order;
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

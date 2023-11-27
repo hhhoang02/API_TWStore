@@ -45,7 +45,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="/usersCpanel/index">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Trang chủ</span></a>
@@ -60,9 +60,16 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link " href="/productsCpanel/quanlydonhang">
+                <a class="nav-link " href="/ordersCpanel/quanlydonhang">
                     <i class="fas fa-fw fa-shopping-cart"></i>
                     <span>Quản lý đơn hàng</span>
+                </a>
+            </li>
+                        <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link " href="/promotionsCpanel/quanlymagiamgia">
+                    <i class="fas fa-fw fa-shopping-cart"></i>
+                    <span>Quản lý voucher</span>
                 </a>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
@@ -72,7 +79,7 @@
                     <span>Quản lý sản phẩm</span>
                 </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -449,37 +456,35 @@
                 return res.json();
             }
             const deleteCategory = async (id) => {
-                const url = `/categoriesCpanel/quanlytheloai/${id}/delete`;
-                const deleteProduct = async (id) => {
-                    const url = `/categoriesCpanel/deleteCategory/${id}/delete`;
-                    const option = {
-                        method: 'DELETE',
-                        headers: { 'Content-Type': 'application/json' }
-                    }
-                    const res = await fetchAPI(url, option);
-                    if (res.result) {
-                        swal("Thành công!", "Xóa sản phẩm thành công!", "success");
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
-                    } else {
-                        swal("Thất Bại!", "Xóa sản phẩm thất bại!", "error");
-                    }
-
+                const url = `/categoriesCpanel/deleteCategory/${id}/delete`;
+                const option = {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
                 }
-                swal({
-                    title: "Xác nhận?",
-                    text: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            deleteCategory(id)
-                        }
-                    });
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    swal("Thành công!", "Xóa sản phẩm thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal("Thất Bại!", "Xóa sản phẩm thất bại!", "error");
+                }
+
             }
+            swal({
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        deleteCategory(id)
+                    }
+                });
+        }
     </script>
 
 </body>

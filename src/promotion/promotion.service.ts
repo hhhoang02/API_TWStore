@@ -5,6 +5,7 @@ import { Model } from "mongoose";
 import { PromotionInsertDTO } from "./dto/promotion_insert_request";
 import { PromotionResponseDTO } from "./dto/promotion_response";
 import { PromotionGetResponseDTO } from "./dto/promotion_get_response";
+import { PromotionDeleteRequestDTO } from "./dto/promotion_delete_request";
 
 function randomPromotion(): string {
     const length = 6;
@@ -60,6 +61,25 @@ export class PromotionService {
         } catch (error) {
             return
         }
-
+    }
+    async DeletePromotion(requestDTO: PromotionDeleteRequestDTO): Promise<PromotionResponseDTO> {
+        try {
+            const { _id } = requestDTO;
+            const promotion = await this.promotionModel.findById(_id);
+            if (!promotion) return {
+                status: false,
+                message: 'Promotion not found',
+            };
+            await this.promotionModel.findByIdAndDelete(_id);
+            return {
+                status: true,
+                message: 'Delete promotion successfully',
+            }
+        } catch (error) {
+            return {
+                status: false,
+                message: 'Delete promotion failed',
+            }
+        }
     }
 }

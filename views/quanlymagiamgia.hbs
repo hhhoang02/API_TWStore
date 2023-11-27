@@ -350,6 +350,9 @@
                 <div class="container-fluid">
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <a href="/promotionsCpanel/addPromotion" class="btn btn-primary text-white">Add New Promotion</a>
+                        </div>
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
                         </div>
@@ -358,23 +361,26 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Image</th>
-                                            <th>Delete</th>
+                                            <th>DiscountCode</th>
+                                            <th>DiscountLevel</th>
+                                            <th>StartDay</th>
+                                            <th>EndDay</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
-
+                                    
                                     <tbody>
-                                        {{#each banner}}
+                                        {{#each promotions}}
                                         <tr>
-                                            <td>{{this.title}}</td>
+                                            <td>{{this.discountCode}}</td>
+                                            <td>{{this.discountLevel}}</td>
+                                            <td>{{this.startDay}}</td>
+                                            <td>{{this.endDay}}</td>
                                             <td>
-                                                <img src="{{this.image}}" height="200" width="300">
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary"
+                                                <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
+
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -439,6 +445,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
@@ -446,6 +453,44 @@
 
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+    <script>
+        const confirmDelete = (id) => {
+            console.log(id);
+            const fetchAPI = async (url, option) => {
+                const res = await fetch(url, option);
+                return res.json();
+            }
+            const deletePromotion = async (id) => {
+                const url = `/promotionsCpanel/quanlymagiamgia/${id}/delete`;
+                const option = {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    swal("Thành công!", "Xóa sản phẩm thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal("Thất Bại!", "Xóa sản phẩm thất bại!", "error");
+                }
+
+            }
+            swal({
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        deletePromotion(id)
+                    }
+                });
+        }
+    </script>
 
 </body>
 
