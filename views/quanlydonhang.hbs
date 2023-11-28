@@ -359,17 +359,23 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr> 
-                                            <th>Name</th>                          
+                                            <th>Name</th>      
+                                            <th>Phone</th>                   
                                             <th>Action</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each orders}}
                                         <tr>
-                                            <td>{{this.userID.name}}</td>
+                                            <td>{{this.nameReceiver}}</td>
+                                            <td>{{this.phoneReceiver}}</td>
                                             <td>
                                                 <a class="btn btn-primary"
                                                     href="/ordersCpanel/orderDetail/{{this._id}}">Xem Chi Tiết</a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-success">{{this.status}}</a>
                                             </td>
 
                                         </tr>
