@@ -12,24 +12,7 @@ import { ProductGetByIdPromotionRequestDTO } from "./dto/product_getProductbyIdP
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
-    @Post('addProduct')
-    async AddProduct(@Body() body: ProductInsertDTO, @Res() res: Response) {
-        try {
-            const product = await this.productService.addProduct(body);
-            return res.status(HttpStatus.OK).json(product);
-        } catch (error) {
-            res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
-    @Post('updateProduct')
-    async UpdateProduct(@Body() body: ProductUpdateDTO, @Res() res: Response) {
-        try {
-            const product = await this.productService.updateProduct(body);
-            return res.status(HttpStatus.OK).json(product);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
+
     @Get('getAllProduct')
     async GetAllProduct(@Res() res: Response) {
         try {

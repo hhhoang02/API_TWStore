@@ -64,7 +64,7 @@ export class ProductsCpanelController {
     }
   }
 
-  
+
   @Get('productDetail/:_id/edit')
   @Render('productDetail')
   async productDetail(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {
@@ -118,7 +118,7 @@ export class ProductsCpanelController {
   async editProduct(@Param() _id: ProductGetbyIdDTO, @Body() body: ProductUpdateDTO, @UploadedFiles() files: { image?: Express.Multer.File[] }, @Res() res: Response,
   ) {
     try {
-      console.log(files);
+
       const result = await this.productService.updateProduct({ _id, body, files });
       if (result) {
         return res.redirect('/productsCpanel/quanlysanpham');
@@ -142,8 +142,6 @@ export class ProductsCpanelController {
   async quanlysanpham(@Res() res: Response) {
     try {
       const products = await this.productService.getAllProduct();
-      console.log(products);
-
       return { products };
     } catch (error) {
 

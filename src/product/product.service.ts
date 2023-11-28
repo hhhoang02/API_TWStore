@@ -49,14 +49,17 @@ export class ProductService {
     }
     async updateProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
-            const { _id, body } = requestDTO;
-            const files: any = requestDTO.files.image;
-            console.log(files);
+            const _id: any = requestDTO._id;
+            const body: any = requestDTO.body;
+            const files: any = requestDTO.files?.image;
             let data = [];
-            for (var i = 0; i < files.length; i++) {
-                const url = await uploadImage(files[i], "Sneaker");
-                data.push(url);
+            if (files) {
+                for (var i = 0; i < files.length; i++) {
+                    const url = await uploadImage(files[i], "Sneaker");
+                    data.push(url);
+                }
             }
+
             const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
 
             const product = await this.productModel.findById(_id);
@@ -66,8 +69,6 @@ export class ProductService {
                     message: 'Product not found',
                 };
             }
-            console.log("product", product.description, description);
-
             product.image = image ? image : product.image;
             product.productName = productName ? productName : product.productName;
             product.price = price ? price : product.price;
@@ -117,7 +118,7 @@ export class ProductService {
     }
     async getAllProduct(): Promise<ProductGetResponseDTO[]> {
         try {
-            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'color' }]);;
+            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'code' }]);;
             return product;
         } catch (error) {
             return
@@ -127,7 +128,7 @@ export class ProductService {
     async getProductById(requestDTO: ProductGetbyIdDTO): Promise<ProductGetResponseDTO> {
         try {
             const _id = requestDTO;
-            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'name' }]);;
+            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'code' }]);;
             if (product) {
                 return product;
             } {
