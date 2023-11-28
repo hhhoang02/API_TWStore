@@ -56,6 +56,9 @@ export class Order {
 
     @Prop()
     nameReceiver: string;
+
+    @Prop()
+    addressDelivery: string;
     
     @Prop()
     payment: PaymentDetail | null;
