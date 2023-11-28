@@ -150,14 +150,6 @@ export class ProductsCpanelController {
     }
   }
 
-  @Get('quanlydonhang')
-  @Render('quanlydonhang')
-  async quanlydonhang(@Res() res: Response) {
-    return {
-      message: 'Hello',
-    };
-  }
-
   @Get('quanlythanhtoan')
   @Render('quanlythanhtoan')
   async quanlythanhtoan(@Res() res: Response) {
