@@ -462,18 +462,18 @@
                 }
                 const res = await fetchAPI(url, option);
                 if (res.result) {
-                    swal("Thành công!", "Xóa sản phẩm thành công!", "success");
+                    swal("Thành công!", "Xóa thương hiệu thành công!", "success");
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
                 } else {
-                    swal("Thất Bại!", "Xóa sản phẩm thất bại!", "error");
+                    swal("Thất Bại!", "Xóa thương hiệu thất bại!", "error");
                 }
 
             }
             swal({
                 title: "Xác nhận?",
-                text: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
+                text: "Bạn có chắc chắn muốn xóa thương hiệu này không?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
