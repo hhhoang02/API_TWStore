@@ -6,7 +6,7 @@ import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { UserInfoService } from './user.service';
 import { Response } from "express";
 //Url: http://localhost:3000/users
-@Controller('users')
+@Controller('usersInfo')
 export class UserInfoController {
     constructor(private readonly userService: UserInfoService) { }
 
