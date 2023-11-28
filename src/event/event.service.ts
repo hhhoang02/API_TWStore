@@ -40,7 +40,7 @@ export class EventService {
 
     async getAllEvent(): Promise<EventGetResponseDTO | any> {
         try {
-            const event = await this.eventModel.find();
+            const event = await this.eventModel.find().populate('product');
             return event;
         } catch (error) {
             return

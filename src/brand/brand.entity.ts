@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 
-export class Brand{
+export class Brand {
     name: string;
+    linkIcon: string;
 }

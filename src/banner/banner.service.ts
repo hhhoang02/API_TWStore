@@ -40,7 +40,7 @@ export class BannerService {
             return {
                 status: true,
                 message: 'Get all banner success',
-                data: banner
+                banner
             }
         } catch (error) {
             console.log(error);

@@ -9,17 +9,6 @@ import { AnyFilesInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/
 export class BrandController {
     constructor(private readonly brandService: BrandService) { }
 
-    @Post('addBrand')
-    async AddBrand(@Body() body: BrandAddRequestDTO, @Res() res: Response) {
-        try {
-            const responseDTO = await this.brandService.AddBrand(body);
-            return res.status(HttpStatus.OK).json(responseDTO);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-
-        }
-    }
-
     @Get('getAllBrand')
     async GetAllBrand(@Res() res: Response) {
         try {
@@ -28,15 +17,6 @@ export class BrandController {
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
 
-        }
-    }
-    @Post('deleteBrand')
-    async DeleteBrand(@Body() body: BrandDeleteRequestDTO, @Res() res: Response) {
-        try {
-            const responseDTO = await this.brandService.DeleteBrand(body);
-            return res.status(HttpStatus.OK).json(responseDTO);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
 }

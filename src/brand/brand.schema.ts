@@ -7,6 +7,8 @@ export class Brand {
     //Các thuộc tính của product
     @Prop()
     name: string;
+    @Prop()
+    linkIcon: string;
 }
 
 export const BrandSchema = SchemaFactory.createForClass(Brand);

@@ -69,13 +69,16 @@
             </div>
             <div class="mb-3 mt-3">
                 <label class="form-label" for="price">Price</label>
-                <input type="text" class="form-control" name="price" placeholder="Price">
+                <input type="text" class="form-control" name="price" placeholder="Price" value="1">
             </div>
             <div class="mb-3 mt-3">
                 <label class="form-label" for="quantity">Quantity</label>
-                <input type="text" class="form-control" name="quantity" placeholder="Quantity">
+                <input type="text" class="form-control" name="quantity" placeholder="Quantity" value="1">
             </div>
-
+            <div class="mb-3 mt-3">
+                <label class="form-label" for="quantity">Offer</label>
+                <input type="text" class="form-control" name="offer" placeholder="Quantity" value="0">
+            </div>
             <div class="mb-3 mt-3">
                 <label class="form-label">Color:</label>
                 {{#each colors}}
@@ -87,11 +90,6 @@
 
             <div class="mb-3 mt-3">
                 <label class="form-label">Size:</label>
-                {{!-- <select name="size" class="form-control">
-                    {{#each sizes}}
-                    <option value="{{this._id}}">{{this.name}}</option>
-                    {{/each}}
-                </select> --}}
                 {{#each sizes}}
                 <input type="checkbox" name="size" onclick="getSelectedSize()" value="{{this._id}}">{{this.name}}
                 </input>

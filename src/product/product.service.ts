@@ -96,7 +96,7 @@ export class ProductService {
         try {
             const { _id } = requestDTO;
             console.log(_id);
-            
+
             const product = await this.productModel.findByIdAndDelete(_id);
             if (!product) return {
                 status: false,
@@ -127,7 +127,7 @@ export class ProductService {
     async getProductById(requestDTO: ProductGetbyIdDTO): Promise<ProductGetResponseDTO> {
         try {
             const _id = requestDTO;
-            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'color' }]);;
+            const product = await this.productModel.findById(_id).populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'name' }]);;
             if (product) {
                 return product;
             } {

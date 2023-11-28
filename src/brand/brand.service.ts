@@ -13,7 +13,7 @@ export class BrandService {
     private readonly brandModel: Model<BrandDocument>) { }
     async AddBrand(requestDTO: BrandAddRequestDTO): Promise<BrandResponseDTO> {
         try {
-            const { name } = requestDTO;
+            const { name, linkIcon } = requestDTO;
             const Brand = await this.brandModel.findOne({ name });
             if (Brand) {
                 return {
@@ -23,7 +23,7 @@ export class BrandService {
             }
             console.log(name);
 
-            const newBrand = new this.brandModel({ name });
+            const newBrand = new this.brandModel({ name, linkIcon });
             await newBrand.save();
             return {
                 status: true,

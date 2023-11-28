@@ -30,17 +30,6 @@ export class ProductController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @Delete('deleteProduct/:_id')
-    async DeleteProduct(@Param() _id: ProductUpdateDTO, @Res() res: Response) {
-        try {
-            console.log(_id);
-
-            const product = await this.productService.deleteProduct(_id);
-            return res.status(HttpStatus.OK).json(product);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
     @Get('getAllProduct')
     async GetAllProduct(@Res() res: Response) {
         try {
