@@ -9,5 +9,4 @@ export class UserAddressDTO {
     district: string;
     ward: string;
     street: string;
-    phone: string;
 }
