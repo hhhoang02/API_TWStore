@@ -14,8 +14,8 @@ export class BannerCpanelController {
     @Render('quanlybanner')
     async quanlysanpham(@Res() res: Response) {
         try {
-            const banner = await this.bannerService.getAllBanner();
-            return { banner: banner.data };
+            const response = await this.bannerService.getAllBanner();
+            return { banner: response.banner };
         } catch (error) {
         }
     }
