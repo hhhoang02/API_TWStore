@@ -57,7 +57,7 @@ export class OrderService {
       const order = await this.orderModel
         .find()
         .populate([
-          { path: 'listProduct', populate: { path: 'productID' } },
+          { path: 'listProduct', populate: { path: 'productID' }},
           { path: 'userID' },
           { path: 'promotionID', select: 'name' },
         ]);
@@ -78,11 +78,14 @@ export class OrderService {
       const order = await this.orderModel.findById(_id).populate([
         {
           path: 'listProduct',
-          populate: {
+          populate: [{
             path: 'productID',
             model: 'Product',
             select: ['productName','price']
           },
+          {path: 'colorID',model:'Color', select:'name'}
+          ,{path: 'sizeID',model:'Size' ,select:'name'}
+        ],
         },
         { path: 'userID' },
         { path: 'promotionID', select: 'name' },

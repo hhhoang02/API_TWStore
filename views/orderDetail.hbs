@@ -73,6 +73,8 @@
               <tr>
                 <th>Name</th>
                 <th>Quantity</th>
+                <th>Color</th>
+                <th>Size</th>
                 <th>Price</th>
               </tr>
             </thead>
@@ -81,13 +83,15 @@
               <tr>
                 <td>{{this.productID.productName}}</td>
                 <td>{{{this.quantityProduct}}}</td>
-                <td>${{this.productID.price}}</td>
+                <td>{{this.colorID.name}}</td>
+                <td>{{this.sizeID.name}}</td>
+                <td>{{{this.productID.price}}}</td>
               </tr>
               {{/each}}
             </tbody>
             <tfoot>
               <tr class="table-secondary">
-                <th colspan="2">Total Price</th>
+                <th colspan="4">Total Price</th>
                 <td>${{totalPrice}}</td>
               </tr>
             </tfoot>
