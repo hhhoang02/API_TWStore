@@ -47,11 +47,9 @@ export class PaymentService {
             }
         }
     }
-    async deletePaymentMethod(id: Types.ObjectId): Promise<PaymentResponseDTO> {
+    async deletePaymentMethod(id: any): Promise<PaymentResponseDTO> {
         try {
-            const { _id } = id;
-
-            await this.paymentModel.findByIdAndDelete(_id);
+            await this.paymentModel.findByIdAndDelete(id);
             return {
                 status: true,
                 message: 'Delete payment success',
