@@ -27,6 +27,11 @@ export class listProduct{
     @Prop()
     quantityProduct: number;
 
+    @Prop()
+    sizeProduct: number;
+    @Prop()
+    colorProduct: string;
+    
 }
 @Schema()
 export class Order {

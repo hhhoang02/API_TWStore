@@ -51,15 +51,6 @@ export class UserController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @Put('updateCart')
-    async UpdateCart(@Body() body: UserCart_FavoriteDTO, @Res() res: Response) {
-        try {
-            const user = await this.userService.UpdateCart(body);
-            return res.status(HttpStatus.OK).json(user);
-        } catch (error) {
-            return res.status(HttpStatus.BAD_REQUEST).json(error);
-        }
-    }
 
 
 
