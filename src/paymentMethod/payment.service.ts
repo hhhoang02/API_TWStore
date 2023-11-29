@@ -54,13 +54,13 @@ export class PaymentService {
             await this.paymentModel.findByIdAndDelete(_id);
             return {
                 status: true,
-                message: 'Delete banner success',
+                message: 'Delete payment success',
             }
         } catch (error) {
             console.log(error);
             return {
                 status: false,
-                message: 'Delete banner failed',
+                message: 'Delete payment failed',
             }
         }
     }

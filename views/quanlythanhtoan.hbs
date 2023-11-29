@@ -117,7 +117,7 @@
                         <a class="collapse-item" href="/eventsCpanel/quanlysukien">
                             <i class="fas fa-fw fa-chart-area"></i>
                             <span>Quản lý sự kiện</span></a>
-                        <a class="collapse-item" href="/productsCpanel/quanlythanhtoan">
+                        <a class="collapse-item" href="/paymentCpanel/quanlythanhtoan">
                             <i class="fas fa-fw fa-credit-card"></i>
                             <span>Quản lý thanh toán</span></a>
                     </div>
@@ -348,10 +348,14 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <a href="/paymentCpanel/addPaymentMethod" class="btn btn-primary text-white">Add PaymentMethod</a>
+                        </div>
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách phương thức thanh toán</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -360,19 +364,19 @@
                                         <tr>
                                             <th>Title</th>
                                             <th>Image</th>
-                                            <th>Delete</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {{#each banner}}
+                                        {{#each payment}}
                                         <tr>
-                                            <td>{{this.title}}</td>
+                                            <td>{{this.name}}</td>
                                             <td>
-                                                <img src="{{this.image}}" height="200" width="300">
+                                                <img src="{{this.linkIcon}}" height="150" width="150">
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary"
+                                                <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>
                                             </td>
                                         </tr>
@@ -446,7 +450,44 @@
 
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+    <script>
+        const confirmDelete = (id) => {
+            console.log(id);
+            const fetchAPI = async (url, option) => {
+                const res = await fetch(url, option);
+                return res.json();
+            }
+            const deletePayment = async (id) => {
+                const url = `/paymentCpanel/deletePayment/${id}`;
+                const option = {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    swal("Thành công!", "Xóa phương thức thanh toán thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal("Thất Bại!", "Xóa phương thức thanh toán thất bại!", "error");
+                }
 
+            }
+            swal({
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xóa phương thức thanh toán này không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        deletePayment(id)
+                    }
+                });
+        }
+    </script>
 </body>
 
 </html>

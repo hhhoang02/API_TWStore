@@ -13,6 +13,7 @@ export class PaymentCpanelController {
     async quanlyPaymentMethod(@Res() res: Response) {
         try {
             const payment = await this.paymentService.getAllPaymentMethod();
+            
             return { payment: payment.data };
         } catch (error) {
         }
@@ -31,7 +32,8 @@ export class PaymentCpanelController {
     async addPaymentMethod(@Body() body: any, @Res() res: Response) {
         try {
             await this.paymentService.addPaymentMethod(body);
-            return res.redirect('/paymentCpanel/quanlypaymentmethod');
+            
+            return res.redirect('/paymentCpanel/quanlythanhtoan');
         } catch (error) {
             console.log(error);
         }
@@ -40,6 +42,7 @@ export class PaymentCpanelController {
     async deletePayment(@Param() _id: Types.ObjectId, @Res() res: Response) {
         try {
             await this.paymentService.deletePaymentMethod(_id);
+            console.log(_id);
             return res.json({ result: true });
         } catch (error) {
             console.log(error);

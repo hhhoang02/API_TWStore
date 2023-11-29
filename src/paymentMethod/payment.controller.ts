@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Put, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from "@nestjs/common";
 import { Response } from "express";
 import { PaymentService } from "./payment.service";
 
