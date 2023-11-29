@@ -23,7 +23,7 @@ export class OrderCpanelController {
   async orderDetail(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
     try {
       const orders = await this.orderService.getOrderbyID(_id);
-      console.log(orders.userID.address);
+      console.log(orders.listProduct);
       return { orders,listProduct:orders.listProduct };
     } catch (error) {}
   }
