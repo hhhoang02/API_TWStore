@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { SchemaTypes, Types } from "mongoose";
-import { Brand } from "src/brand/Brand.schema";
+import { Brand } from "src/brand/brand.schema";
 import { Category } from "src/category/category.schema";
 import { Color } from "src/colorProduct/color.schema";
 import { Promotion } from "src/promotion/promotion.schema";
