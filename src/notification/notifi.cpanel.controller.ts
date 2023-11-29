@@ -17,9 +17,7 @@ import { NotificationService } from './notifi.service';
 
 @Controller('notifiCpanel')
 export class NotificationCpanelController {
-  constructor(
-    private readonly notifiService: NotificationService,
-  ) {}
+  constructor(private readonly notifiService: NotificationService) {}
 
   @Get('quanlythongbao')
   @Render('quanlythongbao')
@@ -32,10 +30,9 @@ export class NotificationCpanelController {
 
   @Get('addNotification')
   @Render('addNotification')
-  async addNotifiCpanel(@Res() res: Response) {
+  async AddNotification(@Res() res: Response) {
     try {
-      const notifi = await this.notifiService.getAllNotification();
-      return { notifi };
+      return {};
     } catch (error) {}
   }
 
@@ -43,9 +40,8 @@ export class NotificationCpanelController {
   @Post('addNotification')
   async addNotification(@Body() body: any, @Res() res: Response) {
     try {
-
-      await this.notifiService.addNotification( body );
-      return ;
+      await this.notifiService.addNotification(body);
+      return res.redirect('/notifiCpanel/quanlythongbao');
     } catch (error) {
       console.log(error);
     }
