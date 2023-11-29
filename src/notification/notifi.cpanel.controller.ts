@@ -1,5 +1,3 @@
-import { Event } from './notifi.schema';
-
 import {
   Body,
   Controller,
@@ -13,63 +11,44 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { EventService } from './notifi.service';
-import { ProductService } from 'src/product/product.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Types } from 'mongoose';
+import { NotificationService } from './notifi.service';
 
-@Controller('eventsCpanel')
-export class EventsCpanelController {
+@Controller('notifiCpanel')
+export class NotificationCpanelController {
   constructor(
-    private readonly eventService: EventService,
-    private readonly productService: ProductService,
+    private readonly notifiService: NotificationService,
   ) {}
 
-  @Get('quanlysukien')
-  @Render('quanlysukien')
-  async quanlysukien(@Res() res: Response) {
+  @Get('quanlythongbao')
+  @Render('quanlythongbao')
+  async quanlythongbao(@Res() res: Response) {
     try {
-      const events = await this.eventService.getAllEvent();
-      return { events };
+      const notifi = await this.notifiService.getAllNotification();
+      return { notifi };
     } catch (error) {}
   }
 
-  @Get('addEvent')
-  @Render('addEvent')
-  async addEventCpanel(@Res() res: Response) {
+  @Get('addNotification')
+  @Render('addNotification')
+  async addNotifiCpanel(@Res() res: Response) {
     try {
-      const products = await this.productService.getAllProduct();
-      return { products };
+      const notifi = await this.notifiService.getAllNotification();
+      return { notifi };
     } catch (error) {}
   }
 
 
-  @UseInterceptors(FileInterceptor('image'))
-  @Post('addEvent')
-  async addEvent(@Body() body: any, @UploadedFile() files: Express.Multer.File, @Res() res: Response) {
+  @Post('addNotification')
+  async addNotification(@Body() body: any, @Res() res: Response) {
     try {
-      if(!files){
-        return null;
-      }
-      await this.eventService.addEvent({ body , files });
-      return res.redirect("/eventsCpanel/quanlysukien");
+
+      await this.notifiService.addNotification( body );
+      return ;
     } catch (error) {
       console.log(error);
     }
   }
-
-
-  
-  @Get('deleteEvent/:id')
-  async deleteEvent(@Param() id: Types.ObjectId, @Res() res: Response) {
-    try {
-      await this.eventService.deleteEvent(id);
-      return res.json({ result: true });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-
 
 }

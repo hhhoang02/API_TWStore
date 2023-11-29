@@ -1,5 +1,5 @@
-import { Event } from "../notifi.entity";
+import { Notification } from "../notifi.entity";
 
-export class EventInsertDTO extends Event{
+export class NotificationInsertDTO extends Notification{
 
 }

@@ -8,22 +8,22 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
-import { EventService } from './notifi.service';
-import { ProductService } from 'src/product/product.service';
-import { Response } from 'express';
 
-@Controller('event')
-export class EventController {
+import { Response } from 'express';
+import { NotificationService } from './notifi.service';
+
+@Controller('notifications')
+export class NotificationController {
   constructor(
-    private readonly eventService: EventService,
-    private readonly productService: ProductService,
+    private readonly NotificationService: NotificationService,
+
   ) {}
 
-  @Get('getAllEvent')
-  async getAllEvent(@Res() res: Response) {
+  @Get('getAllNotification')
+  async getAllNotification(@Res() res: Response) {
     try {
-      const event = await this.eventService.getAllEvent();
-      return res.status(HttpStatus.OK).json(event);
+      const notifi = await this.NotificationService.getAllNotification();
+      return res.status(HttpStatus.OK).json(notifi);
     } catch (error) {
       return res.status(HttpStatus.BAD_REQUEST).json(error);
     }

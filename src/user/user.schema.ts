@@ -1,7 +1,9 @@
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document, ObjectId, SchemaTypes, Types } from "mongoose";
+import { Color } from "src/colorProduct/color.schema";
 import { Product } from "src/product/product.schema";
+import { Size } from "src/size/size.schema";
 export type UserDocument = Users & Document;
 
 
@@ -20,6 +22,14 @@ export class Address {
 
     @Prop()
     street: string;
+}
+export class ListProduct{
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
+    productID: Product;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Size' })
+    sizeProduct: Size;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Color' })
+    colorProduct: Color;
 }
 @Schema()
 export class Users {
@@ -42,8 +52,8 @@ export class Users {
     @Prop()
     avatar: string;
 
-    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }])
-    cartID: Product[];
+    @Prop()
+    cartItem: ListProduct[];
 
     @Prop()
     gender: string;

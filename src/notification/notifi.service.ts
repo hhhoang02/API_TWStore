@@ -1,73 +1,44 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
-import { EventDocument } from "./notifi.schema";
-import { EventInsertDTO } from "./dto/notifi_insert_request";
-import { EventResponseDTO } from "./dto/notifi_response";
-import { EventGetResponseDTO } from "./dto/notifi_get_response";
-import { EventGetbyIdDTO } from "./dto/notifi_getNotifibyID_request";
 import uploadImage from 'src/upload/upload';
+import { NotifiGetResponseDTO } from "./dto/notifi_get_response";
+import { Notification, NotificationDocument } from "./notifi.schema";
+import { NotificationInsertDTO } from "./dto/notifi_insert_request";
 
 
 @Injectable()
-export class EventService {
-    constructor(@InjectModel(Event.name)
-    private readonly eventModel: Model<EventDocument>,
+export class NotificationService {
+    constructor(@InjectModel(Notification.name)
+    private readonly notifiModel: Model<NotificationDocument>,
     ) { }
-    async addEvent(requestDTO: any): Promise<EventResponseDTO> {
-        try {
-            const body: EventInsertDTO = requestDTO.body;
-            console.log(body);
+    async addNotification(requestDTO: NotificationInsertDTO): Promise<NotifiGetResponseDTO> {
 
-            const files = requestDTO.files;
-            const url = await uploadImage(files, "Event");
-            const { eventName, levelGiamgia, soNgayGiamgia, product } = body;
-            const newEvent = new this.eventModel({ eventImage: url, eventName, levelGiamgia, soNgayGiamgia, product });
-            await newEvent.save();
-            return {
+        try {
+            const {title , content  } = requestDTO;
+            const newNotifi = new this.notifiModel({
+                title,
+                content,
+            });
+            return { 
                 status: true,
-                message: 'Add event successfully',
+                message: 'Notification added successfully',
             }
         } catch (error) {
-            console.log(error);
-
             return {
                 status: false,
-                message: 'Add event failed',
+                message: error.message,
             }
         }
     }
 
-    async getAllEvent(): Promise<EventGetResponseDTO | any> {
+    async getAllNotification(): Promise<NotifiGetResponseDTO | any> {
         try {
-            const event = await this.eventModel.find().populate('product');
-            return event;
+            const notifi = await this.notifiModel.find();
+            return notifi;
         } catch (error) {
             return
         }
 
     }
-
-
-    async deleteEvent(_id: Types.ObjectId): Promise<EventResponseDTO> {
-        try {
-            const { id } = _id;
-
-            await this.eventModel.findByIdAndDelete(id);
-            return {
-                status: true,
-                message: 'Delete event successfull',
-            };
-        } catch (error) {
-            console.log(error);
-            return {
-                status: false,
-                message: 'Delete event failed',
-            }
-        }
-    }
-
-
-
-
 }

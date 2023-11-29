@@ -1,5 +1,7 @@
-import { Notifi } from "../notifi.entity";
+import { Notification } from "../notifi.entity";
 
-export class NotifiGetResponseDTO extends Notifi {
+export class NotifiGetResponseDTO {
+    status : boolean ;
+    message : string ;
 
 }

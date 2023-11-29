@@ -1,22 +1,21 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { EventSchema } from "./notifi.schema";
-import { EventService } from "./notifi.service";
-import { EventController } from "./notifi.controller";
-import { ProductModule } from "src/product/product.module";
-import { EventsCpanelController } from "./notifi.cpanel.controller";
+import { NotificationSchema } from "./notifi.schema";
+import { NotificationController } from "./notifi.controller";
+import { NotificationCpanelController } from "./notifi.cpanel.controller";
+import { NotificationService } from "./notifi.service";
+
 
 
 @Module({
     imports: [
         MongooseModule.forFeature([
-            { name: Event.name, schema: EventSchema },
+            { name: Notification.name, schema: NotificationSchema },
         ]),
-        ProductModule
+        
     ],
 
-    controllers: [EventController, EventsCpanelController],
-    providers: [EventService ],
-    exports: [EventService],
+    controllers: [NotificationController, NotificationCpanelController],
+    providers: [NotificationService ],
 })
-export class EventModule { }
+export class NotificationModule { }
