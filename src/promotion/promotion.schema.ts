@@ -7,6 +7,11 @@ export type PromotionDocument = Promotion & Document;
 
 @Schema()
 export class Promotion {
+    @Prop()
+    title : string;
+
+    @Prop()
+    content : string;
 
     @Prop()
     discountCode : string;
