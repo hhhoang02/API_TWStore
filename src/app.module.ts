@@ -15,6 +15,7 @@ import { SizeModule } from './size/size.module';
 import { BannerModule } from './banner/banner.module';
 import { EventModule } from './event/event.module';
 import { PaymentModule } from './paymentMethod/payment.module';
+import { NotificationModule } from './notification/notifi.module';
 
 
 @Module({
@@ -22,7 +23,7 @@ import { PaymentModule } from './paymentMethod/payment.module';
 
     MongooseModule.forRoot('mongodb+srv://admin:haunho@cluster0.3oqlz8r.mongodb.net/TWStore?retryWrites=true&w=majority'),
     UserModule, UserInfoModule, CommentModule, BrandModule, CategoryModule, ProductModule, PromotionModule,
-    OrderModule, ColorModule, SizeModule, BannerModule, EventModule, PaymentModule
+    OrderModule, ColorModule, SizeModule, BannerModule, EventModule, PaymentModule,NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService],

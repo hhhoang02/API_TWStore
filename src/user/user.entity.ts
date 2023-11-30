@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { Address } from "./user.schema";
+import { Address, ListProduct } from "./user.schema";
 import { Product } from "src/product/product.schema";
 
 export class Users {
@@ -10,7 +10,7 @@ export class Users {
     phone: string;
     active: boolean;
     avatar: string;
-    cartID: Product[];
+    cartItem: ListProduct[];
     gender: string;
     birthDay: string;
     address: Array<Address>;

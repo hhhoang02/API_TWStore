@@ -29,7 +29,8 @@ export class UserService {
         try {
             const { _id, body } = requestDTO;
             const { name, email } = body;
-            const user = await this.userModel.findOne({ _idUser: _id }).populate([{ path: 'cartID' }]);
+            const user = await this.userModel.findOne({ _idUser: _id }).populate([{ path: 'cartItem', populate: [{ path: 'productID', model: 'Product', select: ['productName', 'offer'] }, { path: 'sizeProduct', model: 'Size' }, { path: 'colorProduct', model: 'Color' }] }]);
+            console.log("user: " + user);
 
             if (user) {
                 return {
@@ -38,7 +39,7 @@ export class UserService {
                     data: user,
                 }
             }
-            let newUser = new this.userModel({ _idUser: _id, name, email, phone: null, active: true, avatar: null, cartID: [], gender: null, birthDay: null, address: [] });
+            let newUser = new this.userModel({ _idUser: _id, name, email, phone: null, active: true, avatar: null, cartItem: [], gender: null, birthDay: null, address: [] });
             await newUser.save();
             return {
                 status: true,
@@ -57,23 +58,46 @@ export class UserService {
 
     }
 
+    async UpdateActiveUser(responseDTO: UserUpdateInfoRequestDTO | any): Promise<UserResponseDTO> {
+        try {
+            const { _id, active = null } = responseDTO;
+            const { id } = _id;
+            console.log(id, active);
+            
+            const user = await this.userModel.findById(id);
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'User not found'
+                }
+            }
+            if(active == 'true'){
+                user.active = false;
+            }else{
+                user.active = true;
+            }
+             await user.save();
+            return {
+                status: true,
+                message: 'Update User successfully'
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async UpdateInfoUser(requestDTO: UserUpdateInfoRequestDTO | any): Promise<UserResponseDTO> {
         try {
-            const { _id, active = null, phone = null, avatar = null, gender = null, birthDay = null } = requestDTO;
-            console.log(active);
+            const { _id, phone = null, avatar = null, gender = null, birthDay = null, cartItem = null } = requestDTO;
+            const user = await this.userModel.findById(_id);
+            console.log(user);
 
-            const user = await this.userModel.findById(_id.id);
             if (user) {
-                if(user.active == true){
-                    user.active = false;
-                }else{
-                    user.active = true;
-                }
-                
                 user.phone = phone ? phone : user.phone;
                 user.avatar = avatar ? avatar : user.avatar;
                 user.gender = gender ? gender : user.gender;
                 user.birthDay = birthDay ? birthDay : user.birthDay;
+                user.cartItem = cartItem ? cartItem : user.cartItem;
                 await user.save();
                 return {
                     status: true,
@@ -122,33 +146,7 @@ export class UserService {
             }
         }
     }
-    async UpdateCart(requestDTO: UserCart_FavoriteDTO): Promise<UserResponseDTO> {
-        try {
-            const { _idUser, _idProduct } = requestDTO;
-            const user = await this.userModel.findOne({ _idUser });
-            console.log(user);
 
-            if (user) {
-                user.cartID.push(_idProduct)
-                await user.save();
-                return {
-                    status: true,
-                    message: 'Update cart successfully'
-                }
-            }
-            return {
-                status: false,
-                message: 'Update cart failed'
-            }
-        } catch (error) {
-            console.log(error);
-
-            return {
-                status: false,
-                message: 'Update cart error'
-            }
-        }
-    }
     async GetAllUsers(): Promise<UserGetAllResponseDTO[]> {
         try {
             const responseDTO = await this.userModel.find();
