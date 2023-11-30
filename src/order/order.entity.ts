@@ -5,6 +5,7 @@ import { Users } from 'src/user/user.schema';
 import { UsersInfo } from "src/userInfo/user.schema";
 
 export class Order {
+    orderCode: string;
 
     status: number;
 

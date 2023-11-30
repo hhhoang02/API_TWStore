@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Order, OrderDocument, listProduct } from './order.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { OrderInsertDTO } from './dto/order_insert_request';
 import { OrderResponseDTO } from './dto/order_response';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
@@ -17,6 +17,7 @@ export class OrderService {
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
     try {
       const {
+        orderCode = Math.floor(Math.random() * (999999 - 100000)) + 100000,
         status,
         listProduct,
         bookingDate,
@@ -29,9 +30,8 @@ export class OrderService {
         payment,
         totalPrice
       } = requestDTO;
-      console.log(requestDTO);
-
       const newOrder = new this.orderModel({
+        orderCode,
         status,
         listProduct,
         bookingDate,
@@ -65,7 +65,6 @@ export class OrderService {
         .populate([
           { path: 'listProduct', populate: { path: 'productID' } },
           { path: 'userID' },
-          { path: 'promotionID', select: 'name' },
         ]);
       return order;
     } catch (error) {
@@ -98,6 +97,31 @@ export class OrderService {
       return order;
     } catch (error) {
       console.log(error);
+    }
+  }
+  async updateStatusOrder(requestDTO: { id: string }): Promise<OrderResponseDTO> {
+    try {
+      const { id } = requestDTO;
+      const order = await this.orderModel.findById(id);
+      if (order) {
+        order.status = 2;
+        await order.save();
+        return {
+          status: true,
+          message: "Update status for Order successfully"
+        }
+      } else {
+        return {
+          status: false,
+          message: "Update status for Order failed"
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        status: false,
+        message: "Update status for Order failed"
+      }
     }
   }
 }

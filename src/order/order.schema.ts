@@ -34,6 +34,9 @@ export class listProduct {
 @Schema()
 export class Order {
     @Prop()
+    orderCode: string;
+
+    @Prop()
     status: number;
 
     @Prop()
