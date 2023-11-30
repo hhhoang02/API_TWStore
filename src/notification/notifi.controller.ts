@@ -16,7 +16,6 @@ import { NotificationService } from './notifi.service';
 export class NotificationController {
   constructor(
     private readonly NotificationService: NotificationService,
-
   ) {}
 
   @Get('getAllNotification')
