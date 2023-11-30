@@ -54,8 +54,7 @@ export class UserCpanelController {
   async blockAccount(@Param() id: Types.ObjectId, @Body() body: any, @Res() res: Response) {
     try {
       const { active } = body;
-      const users = await this.userService.UpdateInfoUser({ _id: id, active: active });
-      console.log(users);
+      const users = await this.userService.UpdateActiveUser({ _id: id, active: active });
 
       return res.json({ result: true });
     } catch (error) { }
