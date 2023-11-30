@@ -13,7 +13,7 @@ export class OrderService {
   constructor(
     @InjectModel(Order.name)
     private readonly orderModel: Model<OrderDocument>,
-  ) {}
+  ) { }
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
     try {
       const {
@@ -22,9 +22,12 @@ export class OrderService {
         bookingDate,
         deliveryDate,
         userID,
-        promotionID,
+        voucher,
         phoneReceiver,
         nameReceiver,
+        addressDelivery,
+        payment,
+        totalPrice
       } = requestDTO;
       console.log(requestDTO);
 
@@ -34,9 +37,12 @@ export class OrderService {
         bookingDate,
         deliveryDate,
         userID,
-        promotionID,
+        voucher,
         phoneReceiver,
         nameReceiver,
+        addressDelivery,
+        payment,
+        totalPrice
       });
       await newOrder.save();
       return {
@@ -57,7 +63,7 @@ export class OrderService {
       const order = await this.orderModel
         .find()
         .populate([
-          { path: 'listProduct', populate: { path: 'productID' }},
+          { path: 'listProduct', populate: { path: 'productID' } },
           { path: 'userID' },
           { path: 'promotionID', select: 'name' },
         ]);
@@ -81,14 +87,13 @@ export class OrderService {
           populate: [{
             path: 'productID',
             model: 'Product',
-            select: ['productName','price']
+            select: ['productName', 'price']
           },
-          {path: 'colorID',model:'Color', select:'name'}
-          ,{path: 'sizeID',model:'Size' ,select:'name'}
-        ],
+          { path: 'colorID', model: 'Color', select: 'name' }
+            , { path: 'sizeID', model: 'Size', select: 'name' }
+          ],
         },
         { path: 'userID' },
-        { path: 'promotionID', select: 'name' },
       ]);
       return order;
     } catch (error) {

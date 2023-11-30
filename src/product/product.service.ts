@@ -141,8 +141,8 @@ export class ProductService {
 
     async getProductbyIdCategory(requestDTO: ProductGetByIdCategoryRequestDTO): Promise<any> {
         try {
-            const _id = requestDTO;
-            const product = await this.productModel.find({ categoryID: _id }).populate([{ path: 'categoryID', select: 'name' }, { path: 'branch', select: 'name' }]);
+            const { _id } = requestDTO;
+            const product = await this.productModel.find({ categoryID: _id }).populate([{ path: "brand", select: 'name' }, { path: "size", select: 'name' }, { path: "colorID" },]);
             return product
         } catch (error) {
             return
@@ -152,7 +152,7 @@ export class ProductService {
     async getProductbyIdBranch(requestDTO: ProductGetByIdBranchRequestDTO): Promise<any> {
         try {
             const _id = requestDTO;
-            const product = await this.productModel.find({ branch: _id }).populate([{ path: 'branch', select: 'name' }, { path: 'categoryID', select: 'name' }]);
+            const product = await this.productModel.findOne({ branch: _id });
             return product
         } catch (error) {
             return

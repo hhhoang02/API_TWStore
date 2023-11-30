@@ -7,7 +7,7 @@ export class Color {
     //Các thuộc tính của product
     @Prop()
     name: string;
-    
+
     @Prop()
     code: string;
 }
