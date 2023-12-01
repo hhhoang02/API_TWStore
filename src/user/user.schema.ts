@@ -23,13 +23,15 @@ export class Address {
     @Prop()
     street: string;
 }
-export class ListProduct{
+export class ListProduct {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
     productID: Product;
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Size' })
     sizeProduct: Size;
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Color' })
     colorProduct: Color;
+    @Prop()
+    quantity: number;
 }
 @Schema()
 export class Users {
