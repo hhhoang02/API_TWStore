@@ -14,16 +14,10 @@ export class PaymentDetail {
     paymentMethods: string;
 
     @Prop()
-    status: string;
-
-    @Prop()
-    total: number;
-
-    @Prop()
-    voucher: string;
+    status: number;
 
 }
-export class listProduct{
+export class listProduct {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
     productID: Product;
 
@@ -32,7 +26,7 @@ export class listProduct{
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Color' })
     colorID: Color;
-    
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Size' })
     sizeID: Size;
 
@@ -40,22 +34,22 @@ export class listProduct{
 @Schema()
 export class Order {
     @Prop()
-    status: string;
+    orderCode: string;
 
     @Prop()
-    listProduct:  listProduct[]; 
+    status: number;
 
     @Prop()
-    bookingDate: string;
+    listProduct: listProduct[];
 
     @Prop()
-    deliveryDate: string;
+    bookingDate: Date;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users'})
+    @Prop()
+    deliveryDate: Date;
+
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userID: Users;
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Promotion'})
-    promotionID: Promotion;
 
     @Prop()
     voucher: string;
@@ -68,9 +62,12 @@ export class Order {
 
     @Prop()
     addressDelivery: string;
-    
+
     @Prop()
     payment: PaymentDetail | null;
+
+    @Prop()
+    totalPrice: number;
 
 }
 

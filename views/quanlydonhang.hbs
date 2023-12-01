@@ -66,7 +66,7 @@
                     <span>Quản lý đơn hàng</span>
                 </a>
             </li>
-                        <!-- Nav Item - Utilities Collapse Menu -->
+            <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link " href="/promotionsCpanel/quanlymagiamgia">
                     <i class="fas fa-fw fa-shopping-cart"></i>
@@ -358,9 +358,9 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-                                        <tr> 
-                                            <th>Name</th>      
-                                            <th>Phone</th>                   
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Phone</th>
                                             <th>Action</th>
                                             <th>Status</th>
                                         </tr>
@@ -375,7 +375,7 @@
                                                     href="/ordersCpanel/orderDetail/{{this._id}}">Xem Chi Tiết</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success">{{this.status}}</a>
+                                                <a class="btn btn-success" id="btnAccept">Xac nhan don hang</a>
                                             </td>
 
                                         </tr>
@@ -449,7 +449,13 @@
 
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+    <script>
+        const btn = document.getElementById('btnAccept');
+        if (order.status === 1) {
+            btn.innerHTML = "Xac nhan don hang";
+        }
 
+    </script>
 </body>
 
 </html>

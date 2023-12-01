@@ -8,7 +8,8 @@
     <!-- Bootstrap CSS với tông màu xanh dương -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="..." crossorigin="anonymous">
-
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         /* Tùy chỉnh màu chủ đạo thành xanh dương */
         :root {
@@ -65,41 +66,75 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Địa Người Nhận</label>
-                <p>{{orders.userID.address.city}}</p>
+                <p>{{orders.addressDelivery}}</p>
             </div>
             <label class="form-label">Sản Phẩm Đã Đặt</label>
-            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-            <thead class="table-dark">
-              <tr>
+     
+      <table class="table table-bordered" id="invoiceTable">
+        <thead class="table-dark">
+            <tr>
                 <th>Name</th>
                 <th>Quantity</th>
+                <th>Price</th>
                 <th>Color</th>
                 <th>Size</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{#each listProduct}}
-              <tr>
+                <td class="product-sum">Sum</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each listProduct}}
+            <tr>
                 <td>{{this.productID.productName}}</td>
                 <td>{{{this.quantityProduct}}}</td>
+                <td>{{{this.productID.price}}}</td>
                 <td>{{this.colorID.name}}</td>
                 <td>{{this.sizeID.name}}</td>
-                <td>{{{this.productID.price}}}</td>
-              </tr>
-              {{/each}}
-            </tbody>
-            <tfoot>
-              <tr class="table-secondary">
-                <th colspan="4">Total Price</th>
-                <td>${{totalPrice}}</td>
-              </tr>
-            </tfoot>
-          </table>
-                    
+                <td class="product-sum">$0.00</td>
+            </tr>
+            {{/each}}
+        </tbody>
+        <tfoot>
+            <tr class="table-secondary">
+                <th colspan="5">Total Price</th>
+                <td id="totalPrice">$0.00</td>
+            </tr>
+        </tfoot>
+    </table>
+
         </form>
     </div>
+ 
+     <script>
+        $(document).ready(function() {
+            // Calculate and update product sum for each row
+            $('tbody tr').each(function() {
+                var quantity = parseFloat($(this).find('td:eq(1)').text().trim());
+                var price = parseFloat($(this).find('td:eq(2)').text().replace('$', '').trim()); // Remove '$' and convert to float
 
+                // Check if quantity and price are valid numbers
+                if (!isNaN(quantity) && !isNaN(price)) {
+                    var productSum = quantity * price;
+                    $(this).find('.product-sum').text('$' + productSum.toFixed(2));
+                } else {
+                    $(this).find('.product-sum').text('$0.00');
+                }
+            });
+
+            // Calculate and update total price
+            var totalPrice = 0;
+            $('.product-sum').each(function() {
+                var productSum = parseFloat($(this).text().replace('$', '').trim()); // Remove '$' and convert to float
+
+                // Check if productSum is a valid number
+                if (!isNaN(productSum)) {
+                    totalPrice += productSum;
+                }
+            });
+
+            // Update the total price in the footer
+            $('#totalPrice').text('$' + totalPrice.toFixed(2));
+        });
+    </script>
     <!-- Bootstrap JS Bundle (Popper included) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="..."
         crossorigin="anonymous" defer></script>
