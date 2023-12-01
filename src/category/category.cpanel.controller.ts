@@ -29,10 +29,15 @@ export class CategoryCpanelController {
             return error;
         }
     }
+    @UseInterceptors(FileInterceptor('image'))
     @Post('addCategory')
-    async addCategory(@Body() body: CategoryAddRequestDTO, @Res() res: Response) {
+    async addCategory(@Body() body: any, @UploadedFile() files: Express.Multer.File, @Res() res: Response) {
         try {
-            await this.categoryService.AddCategory(body);
+            if (!files) {
+                return null;
+            }
+            console.log(body, files);
+            await this.categoryService.AddCategory({ body, files });
             return res.redirect('/categoriesCpanel/quanlytheloai');
         } catch (error) {
             console.log(error);

@@ -361,8 +361,8 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Action</th>
+                                            <th>Title</th>
+                                            <th>Image</th>
                                         </tr>
                                     </thead>
 
@@ -370,6 +370,7 @@
                                         {{#each category}}
                                         <tr>
 
+                                            <td>{{this.name}}</td>
                                             <td>{{this.name}}</td>
                                             <td>
                                                 <a class="btn btn-danger"
