@@ -375,9 +375,8 @@
                                                     href="/ordersCpanel/orderDetail/{{this._id}}">Xem Chi Tiết</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success" id="btnAccept">Xac nhan don hang</a>
+                                               <a class="btn btn-primary">Xác nhận đơn hàng</a>
                                             </td>
-
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -446,15 +445,54 @@
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
-        const btn = document.getElementById('btnAccept');
-        if (order.status === 1) {
-            btn.innerHTML = "Xac nhan don hang";
+        if (orders.status == 1){
+            document.getElementById('btnAccept').innerHTML = "Hello"
+        }else{
+            document.getElementById('btnAccept').innerHTML = "Hello1"
         }
+    </script>
+    <script>
+        const confirmUpdate = (id) => {
+            
+            const fetchAPI = async (url, option) => {
+                const res = await fetch(url, option);
+                return res.json();
+            }
+            const updateStatus = async (id) => {
+                const url = `/ordersCpanel/updateStatusOrder/${id}`;
+                const option = {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' }
+                }
 
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    swal("Thành công!", "Đã xác nhận đơn hàng thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal("Thất Bại!", "Xác nhận đơn hàng thất bại!", "error");
+                }
+
+            }
+            swal({
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xác nhận đơn hàng này không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        updateStatus(id)
+                    }
+                });
+        }
     </script>
 </body>
 

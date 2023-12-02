@@ -17,7 +17,6 @@ import { EventModule } from './event/event.module';
 import { PaymentModule } from './paymentMethod/payment.module';
 import { NotificationModule } from './notification/notifi.module';
 
-
 @Module({
   imports: [
 
@@ -28,4 +27,4 @@ import { NotificationModule } from './notification/notifi.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
