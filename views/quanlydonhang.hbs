@@ -376,7 +376,8 @@
                                             </td>
                                             <td>
                                                 {{#if this.status}}
-                                                <a class="btn btn-success" id="btnAccept">Xac nhan don hang</a>
+                                                <a class="btn btn-success" id="btnAccept"
+                                                    onclick="confirmUpdate('{{this.order._id}}')">Xac nhan don hang</a>
                                                 {{/if}}
                                             </td>
 
@@ -444,6 +445,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
@@ -452,11 +454,43 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
-        const btn = document.getElementById('btnAccept');
-        if (order.status === 1) {
-            btn.innerHTML = "Xac nhan don hang";
-        }
+        const confirmUpdate = (id) => {
 
+            const fetchAPI = async (url, option) => {
+                const res = await fetch(url, option);
+                return res.json();
+            }
+            const updateStatus = async (id) => {
+                const url = `/ordersCpanel/updateStatusOrder/${id}`;
+                const option = {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    swal("Thành công!", "Đã xác nhận đơn hàng thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal("Thất Bại!", "Xác nhận đơn hàng thất bại!", "error");
+                }
+
+            }
+            swal({
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xác nhận đơn hàng này không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        updateStatus(id)
+                    }
+                });
+        }
     </script>
 </body>
 
