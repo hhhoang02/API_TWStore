@@ -362,6 +362,7 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
+                                            <th>Image</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -371,6 +372,9 @@
                                         <tr>
 
                                             <td>{{this.name}}</td>
+                                            <td>
+                                                <img src="{{this.linkIcon}}" height="150" width="150">
+                                            </td>
                                             <td>
                                                 <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>
