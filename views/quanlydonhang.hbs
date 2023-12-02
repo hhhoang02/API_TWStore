@@ -368,14 +368,16 @@
                                     <tbody>
                                         {{#each orders}}
                                         <tr>
-                                            <td>{{this.nameReceiver}}</td>
-                                            <td>{{this.phoneReceiver}}</td>
+                                            <td>{{this.order.nameReceiver}}</td>
+                                            <td>{{this.order.phoneReceiver}}</td>
                                             <td>
                                                 <a class="btn btn-primary"
                                                     href="/ordersCpanel/orderDetail/{{this._id}}">Xem Chi Tiết</a>
                                             </td>
                                             <td>
-                                               <a class="btn btn-primary">Xác nhận đơn hàng</a>
+                                                {{#if this.status}}
+                                                <a class="btn btn-success" id="btnAccept">Xac nhan don hang</a>
+                                                {{/if}}
                                             </td>
                                         </tr>
                                         {{/each}}
