@@ -368,14 +368,21 @@
                                     <tbody>
                                         {{#each orders}}
                                         <tr>
-                                            <td>{{this.nameReceiver}}</td>
-                                            <td>{{this.phoneReceiver}}</td>
+                                            <td>{{this.order.nameReceiver}}</td>
+                                            <td>{{this.order.phoneReceiver}}</td>
                                             <td>
                                                 <a class="btn btn-primary"
                                                     href="/ordersCpanel/orderDetail/{{this._id}}">Xem Chi Tiết</a>
                                             </td>
                                             <td>
-                                               <a class="btn btn-primary">Xác nhận đơn hàng</a>
+                                                <<<<<<< HEAD <a class="btn btn-primary">Xác nhận đơn hàng</a>
+                                                    =======
+                                                    {{#if this.status}}
+                                                    <a class="btn btn-success" id="btnAccept"
+                                                        onclick="confirmUpdate('{{this.order._id}}')">Xac nhan don
+                                                        hang</a>
+                                                    {{/if}}
+                                                    >>>>>>> main
                                             </td>
                                         </tr>
                                         {{/each}}
@@ -441,6 +448,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
@@ -449,15 +457,8 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
-        if (orders.status == 1){
-            document.getElementById('btnAccept').innerHTML = "Hello"
-        }else{
-            document.getElementById('btnAccept').innerHTML = "Hello1"
-        }
-    </script>
-    <script>
         const confirmUpdate = (id) => {
-            
+
             const fetchAPI = async (url, option) => {
                 const res = await fetch(url, option);
                 return res.json();
