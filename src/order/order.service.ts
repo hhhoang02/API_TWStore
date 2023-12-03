@@ -15,13 +15,18 @@ export class OrderService {
     private readonly orderModel: Model<OrderDocument>,
   ) { }
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
+    const date = new Date();
+    const time = date.getTime();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
     try {
       const {
         orderCode = Math.floor(Math.random() * (999999 - 100000)) + 100000,
-        status,
+        status = 1,
         listProduct,
-        bookingDate,
-        deliveryDate,
+        bookingDate = `${time}, ${day}/${month}/${year}`,
+        deliveryDate = `${day + 5}/${month}/${year}`,
         userID,
         voucher,
         phoneReceiver,
@@ -75,12 +80,32 @@ export class OrderService {
       };
     }
   }
-  async getOrderbyID(
-    requestDTO: OrderGetbyIdDTO,
-  ): Promise<OrderGetResponseDTO> {
+  async getOrderbyID(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO> {
     try {
       const _id = requestDTO;
       const order = await this.orderModel.findById(_id).populate([
+        {
+          path: 'listProduct',
+          populate: [{
+            path: 'productID',
+            model: 'Product',
+            select: ['productName', 'price']
+          },
+          { path: 'colorID', model: 'Color', select: 'name' }
+            , { path: 'sizeID', model: 'Size', select: 'name' }
+          ],
+        },
+        { path: 'userID' },
+      ]);
+      return order;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO[]> {
+    try {
+      const _id = requestDTO;
+      const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
           populate: [{

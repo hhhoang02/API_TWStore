@@ -43,10 +43,10 @@ export class Order {
     listProduct: listProduct[];
 
     @Prop()
-    bookingDate: Date;
+    bookingDate: string;
 
     @Prop()
-    deliveryDate: Date;
+    deliveryDate: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userID: Users;

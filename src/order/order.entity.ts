@@ -11,9 +11,9 @@ export class Order {
 
     listProduct: listProduct[];
 
-    bookingDate: Date;
+    bookingDate: string;
 
-    deliveryDate: Date;
+    deliveryDate: string;
 
     userID: Users;
 

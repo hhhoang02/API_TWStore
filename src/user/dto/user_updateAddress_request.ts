@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 export class UserAddressDTO {
-    _id: Types.ObjectId;
+    _idUser: string;
     typeUpdate: "insert" | "delete";
     position: number;
     emailUser: string;
