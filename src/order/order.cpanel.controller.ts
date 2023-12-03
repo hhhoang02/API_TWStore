@@ -14,10 +14,7 @@ export class OrderCpanelController {
   async quanlydonhang(@Res() res: Response) {
     try {
       const data = await this.orderService.getAllOrder();
-
       const orders = data.map((order: any) => order.status === 1 ? { order, status: true } : { order, status: false });
-      console.log(orders);
-
       return { orders };
     } catch (error) { }
   }
