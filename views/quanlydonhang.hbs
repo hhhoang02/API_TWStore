@@ -372,17 +372,15 @@
                                             <td>{{this.order.phoneReceiver}}</td>
                                             <td>
                                                 <a class="btn btn-primary"
-                                                    href="/ordersCpanel/orderDetail/{{this._id}}">Xem Chi Tiết</a>
+                                                    href="/ordersCpanel/orderDetail/{{this.order._id}}">Xem Chi Tiết</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary">Xác nhận đơn hàng</a>
-                                                
-                                                    {{#if this.status}}
-                                                    <a class="btn btn-success" id="btnAccept"
-                                                        onclick="confirmUpdate('{{this.order._id}}')">Xac nhan don
-                                                        hang</a>
-                                                    {{/if}}
-                                                    
+                                                {{#if this.status}}
+                                                <a class="btn btn-success" id="btnAccept"
+                                                    onclick="confirmUpdate('{{this.order._id}}')">Xac nhan don
+                                                    hang</a>
+                                                {{/if}}
+
                                             </td>
                                         </tr>
                                         {{/each}}
