@@ -356,22 +356,22 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped" id="dataTable">
+                                <table class="table table-bordered" id="dataTable">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Phone</th>
-                                            <th scope="col">Address</th>
-                                            <th scope="col">Action</th>
-                                            <th scope="col">Status</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Address</th>
+                                            <th>Action</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each orders}}
                                         <tr>
-                                            <td>{{this.order.nameReceiver}}</td>
-                                            <td>{{this.order.phoneReceiver}}</td>
-                                            <td>{{this.order.addressDelivery}}</td>
+                                            <td><strong>{{this.order.nameReceiver}}</strong></td>
+                                            <td><strong>{{this.order.phoneReceiver}}</strong></td>
+                                            <td><strong>{{this.order.addressDelivery}}</strong></td>
                                             <td>
                                                 <a class="btn btn-primary" href="/ordersCpanel/orderDetail/{{this.order._id}}">View Details</a>
                                             </td>

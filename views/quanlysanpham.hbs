@@ -358,8 +358,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table  class="table table-bordered" id="dataTable">
+                                    <thead class="thead-dark">
                                         <tr>
                                             <th>Image</th>
                                             <th>Name</th>
@@ -375,9 +375,9 @@
                                             <td>
                                                 <img src="{{this.image}}" height="200" width="200">
                                             </td>
-                                            <td>{{this.productName}}</td>
-                                            <td>{{this.price}}</td>
-                                            <td>{{this.quantity}}</td>
+                                            <td><strong>{{this.productName}}</strong></td>
+                                            <td><strong>{{this.price}}</strong></td>
+                                            <td><strong>{{this.quantity}}</strong></td>
                                             <td>
                                                 <a class="btn btn-primary"
                                                     href="/productsCpanel/productDetail/{{this._id}}/edit">Xem Chi

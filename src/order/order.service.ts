@@ -131,8 +131,6 @@ export class OrderService {
   async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
     try {
       const _id = requestDTO;
-      console.log(requestDTO);
-      
       const order = await this.orderModel.find({userID:_id}).populate([
         {
           path: 'listProduct',
@@ -148,8 +146,6 @@ export class OrderService {
         },
         { path: 'userID' },
       ]);
-      console.log(order);
-      
       return order;
     } catch (error) {
       return;
