@@ -352,17 +352,18 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table class="table table-bordered table-striped" id="dataTable">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Phone</th>
-                                            <th>Action</th>
-                                            <th>Status</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Address</th>
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -370,19 +371,14 @@
                                         <tr>
                                             <td>{{this.order.nameReceiver}}</td>
                                             <td>{{this.order.phoneReceiver}}</td>
+                                            <td>{{this.order.addressDelivery}}</td>
                                             <td>
-                                                <a class="btn btn-primary"
-                                                    href="/ordersCpanel/orderDetail/{{this._id}}">Xem Chi Tiết</a>
+                                                <a class="btn btn-primary" href="/ordersCpanel/orderDetail/{{this.order._id}}">View Details</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary">Xác nhận đơn hàng</a>
-                                                
-                                                    {{#if this.status}}
-                                                    <a class="btn btn-success" id="btnAccept"
-                                                        onclick="confirmUpdate('{{this.order._id}}')">Xac nhan don
-                                                        hang</a>
-                                                    {{/if}}
-                                                    
+                                                {{#if this.order.status}}
+                                                <a class="btn btn-success" id="btnAccept" onclick="confirmUpdate('{{this.order._id}}')">Confirm Order</a>
+                                                {{/if}}
                                             </td>
                                         </tr>
                                         {{/each}}

@@ -7,13 +7,14 @@ import { OrderResponseDTO } from './dto/order_response';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { OrderGetResponseDTO } from './dto/order_get_response';
 import { Product } from 'src/product/product.schema';
+import { GetOrderByIdUser } from './dto/order_getOrderbyIDUser_request';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectModel(Order.name)
     private readonly orderModel: Model<OrderDocument>,
-  ) { }
+  ) {}
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
     try {
       const {
@@ -28,7 +29,7 @@ export class OrderService {
         nameReceiver,
         addressDelivery,
         payment,
-        totalPrice
+        totalPrice,
       } = requestDTO;
       const newOrder = new this.orderModel({
         orderCode,
@@ -42,7 +43,7 @@ export class OrderService {
         nameReceiver,
         addressDelivery,
         payment,
-        totalPrice
+        totalPrice,
       });
       await newOrder.save();
       return {
@@ -83,13 +84,14 @@ export class OrderService {
       const order = await this.orderModel.findById(_id).populate([
         {
           path: 'listProduct',
-          populate: [{
-            path: 'productID',
-            model: 'Product',
-            select: ['productName', 'price']
-          },
-          { path: 'colorID', model: 'Color', select: 'name' }
-            , { path: 'sizeID', model: 'Size', select: 'name' }
+          populate: [
+            {
+              path: 'productID',
+              model: 'Product',
+              select: ['productName', 'price'],
+            },
+            { path: 'colorID', model: 'Color', select: 'name' },
+            { path: 'sizeID', model: 'Size', select: 'name' },
           ],
         },
         { path: 'userID' },
@@ -99,7 +101,9 @@ export class OrderService {
       console.log(error);
     }
   }
-  async updateStatusOrder(requestDTO: { id: string }): Promise<OrderResponseDTO> {
+  async updateStatusOrder(requestDTO: {
+    id: string;
+  }): Promise<OrderResponseDTO> {
     try {
       const { id } = requestDTO;
       const order = await this.orderModel.findById(id);
@@ -108,20 +112,47 @@ export class OrderService {
         await order.save();
         return {
           status: true,
-          message: "Update status for Order successfully"
-        }
+          message: 'Update status for Order successfully',
+        };
       } else {
         return {
           status: false,
-          message: "Update status for Order failed"
-        }
+          message: 'Update status for Order failed',
+        };
       }
     } catch (error) {
       console.log(error);
       return {
         status: false,
-        message: "Update status for Order failed"
-      }
+        message: 'Update status for Order failed',
+      };
+    }
+  }
+  async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
+    try {
+      const _id = requestDTO;
+      console.log(requestDTO);
+      
+      const order = await this.orderModel.find({userID:_id}).populate([
+        {
+          path: 'listProduct',
+          populate: [
+            {
+              path: 'productID',
+              model: 'Product',
+              select: ['productName', 'price'],
+            },
+            { path: 'colorID', model: 'Color', select: 'name' },
+            { path: 'sizeID', model: 'Size', select: 'name' },
+          ],
+        },
+        { path: 'userID' },
+      ]);
+      console.log(order);
+      
+      return order;
+    } catch (error) {
+      return;
     }
   }
 }
