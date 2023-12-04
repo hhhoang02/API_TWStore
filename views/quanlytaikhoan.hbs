@@ -350,16 +350,16 @@
                 <div class="container-fluid">
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <!--<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <a href="/usersCpanel/addUser" class="btn btn-primary text-white">Add User</a>
-                        </div>
+                        </div>-->
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách tài khoản người dùng</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table class="table table-bordered" id="dataTable">
+                                    <thead class="thead-dark">
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
@@ -369,34 +369,24 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Trạng thái</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         {{#each users}}
                                         <tr>
-                                            <td>{{this._id}}</td>
-                                            <td>{{this.name}}</td>
-                                            <td>{{this.email}}</td>
-                                            <td>{{this.phone}}</td>
+                                            <td><strong>{{this._id}}</strong></td>
+                                            <td><strong>{{this.name}}</strong></td>
+                                            <td><strong>{{this.email}}</strong></td>
+                                            <td><strong>{{this.phone}}</strong></td>
                                             {{#if this.active}}
                                             <td>
                                                 <img src="https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/green-circle-icon.png"
                                                     width="20" height="20">
-                                                Đang hoạt động
+                                                <strong>Đang hoạt động</strong>
                                             </td>
                                             {{else}}
                                             <td>
                                                 <img src="https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/red-circle-icon.png"
                                                     width="20" height="20">
-                                                Bị khóa
+                                                <strong>Bị khóa</strong>
                                             </td>
                                             {{/if}}
                                             <td class="d-flex">
