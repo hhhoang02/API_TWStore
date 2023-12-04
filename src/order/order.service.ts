@@ -14,7 +14,7 @@ export class OrderService {
   constructor(
     @InjectModel(Order.name)
     private readonly orderModel: Model<OrderDocument>,
-  ) {}
+  ) { }
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
     const date = new Date();
     const time = date.getTime();
@@ -126,12 +126,13 @@ export class OrderService {
       console.log(error);
     }
   }
-  async updateStatusOrder(requestDTO: { id: string }): Promise<OrderResponseDTO> {
+  async updateStatusOrder(requestDTO: { id: string, body: any }): Promise<OrderResponseDTO> {
     try {
       const { id } = requestDTO;
+      const { status } = requestDTO.body
       const order = await this.orderModel.findById(id);
       if (order) {
-        order.status = 2;
+        order.status = status;
         await order.save();
         return {
           status: true,
@@ -154,7 +155,7 @@ export class OrderService {
   async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
     try {
       const _id = requestDTO;
-      const order = await this.orderModel.find({userID:_id}).populate([
+      const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
           populate: [

@@ -15,9 +15,7 @@ export class CommentService {
     async AddComment(requestDTO: CommentAddRequestDTO): Promise<CommentResponseDTO> {
         try {
             const { userID, productID, createAt, content, star } = requestDTO;
-            const comment = await this.commentModel.findOne({ userID});
-            console.log();
-            
+            const comment = await this.commentModel.findOne({ userID });
             if (comment) {
                 return {
                     status: false,
@@ -32,7 +30,7 @@ export class CommentService {
             }
         } catch (error) {
             console.log(error);
-            
+
             return {
                 status: false,
                 message: 'Add Comment failed',
@@ -43,9 +41,9 @@ export class CommentService {
         try {
             const _id = requestDTO;
 
-            const responseDTO = await this.commentModel.findOne({productID:_id}).populate('userID');
+            const responseDTO = await this.commentModel.findOne({ productID: _id }).populate('userID');
             console.log(responseDTO);
-            
+
             return responseDTO;
         } catch (error) {
             return error;

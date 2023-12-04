@@ -465,7 +465,11 @@
                 const url = `/ordersCpanel/updateStatusOrder/${id}`;
                 const option = {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        status: 2
+                    })
+
                 }
 
                 const res = await fetchAPI(url, option);
