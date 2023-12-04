@@ -373,11 +373,13 @@
                                             <td><strong>{{this.order.phoneReceiver}}</strong></td>
                                             <td><strong>{{this.order.addressDelivery}}</strong></td>
                                             <td>
-                                                <a class="btn btn-primary" href="/ordersCpanel/orderDetail/{{this.order._id}}">View Details</a>
+                                                <a class="btn btn-primary"
+                                                    href="/ordersCpanel/orderDetail/{{this.order._id}}">View Details</a>
                                             </td>
                                             <td>
-                                                {{#if this.order.status}}
-                                                <a class="btn btn-success" id="btnAccept" onclick="confirmUpdate('{{this.order._id}}')">Confirm Order</a>
+                                                {{#if this.status}}
+                                                <a class="btn btn-success" id="btnAccept"
+                                                    onclick="confirmUpdate('{{this.order._id}}')">Confirm Order</a>
                                                 {{/if}}
                                             </td>
                                         </tr>
