@@ -8,12 +8,14 @@ import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { OrderGetResponseDTO } from './dto/order_get_response';
 import { Product } from 'src/product/product.schema';
 import { GetOrderByIdUser } from './dto/order_getOrderbyIDUser_request';
+import { ProductService } from 'src/product/product.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectModel(Order.name)
     private readonly orderModel: Model<OrderDocument>,
+    private readonly productService: ProductService
   ) {}
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
     try {
@@ -44,11 +46,12 @@ export class OrderService {
         addressDelivery,
         payment,
         totalPrice,
-      });
+      });      
       await newOrder.save();
       return {
         status: true,
         message: 'Add order successfully',
+        order: newOrder
       };
     } catch (error) {
       console.log(error);
@@ -56,6 +59,7 @@ export class OrderService {
       return {
         status: false,
         message: 'Add order failed',
+        order: null
       };
     }
   }
@@ -113,11 +117,13 @@ export class OrderService {
         return {
           status: true,
           message: 'Update status for Order successfully',
+          order: order
         };
       } else {
         return {
           status: false,
           message: 'Update status for Order failed',
+          order: null
         };
       }
     } catch (error) {
@@ -125,6 +131,7 @@ export class OrderService {
       return {
         status: false,
         message: 'Update status for Order failed',
+        order:null
       };
     }
   }

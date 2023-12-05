@@ -5,9 +5,14 @@ import { Response } from 'express';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { log } from 'console';
 import Handlebars from 'handlebars';
+import { ProductService } from 'src/product/product.service';
 @Controller('ordersCpanel')
 export class OrderCpanelController {
-  constructor(private readonly orderService: OrderService) { }
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly productService: ProductService
+
+    ) { }
 
   @Get('quanlydonhang')
   @Render('quanlydonhang')
