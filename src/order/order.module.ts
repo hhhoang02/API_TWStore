@@ -4,7 +4,6 @@ import { Order, OrderSchema } from "./order.schema";
 import { OrderService } from "./order.service";
 import { OrderController } from "./order.controller";
 import { OrderCpanelController } from "./order.cpanel.controller";
-import { ProductModule } from "src/product/product.module";
 
 
 
@@ -15,7 +14,6 @@ import { ProductModule } from "src/product/product.module";
         MongooseModule.forFeature([
             { name: Order.name, schema: OrderSchema },
         ]),
-        ProductModule
     ],
     controllers: [OrderController, OrderCpanelController],
     providers: [OrderService],

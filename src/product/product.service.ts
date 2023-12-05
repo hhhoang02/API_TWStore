@@ -60,7 +60,8 @@ export class ProductService {
                 }
             }
 
-            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID , quantityOfOrder} = body;
+            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
+
             const product = await this.productModel.findById(_id);
             if (!product) {
                 return {
@@ -71,9 +72,7 @@ export class ProductService {
             product.image = image ? image : product.image;
             product.productName = productName ? productName : product.productName;
             product.price = price ? price : product.price;
-            if (product.quantity - quantityOfOrder > 0){
-                product.quantity = quantity ? quantity : quantityOfOrder ? product.quantity - quantityOfOrder : product.quantity;
-            }
+            product.quantity = quantity ? quantity : product.quantity;
             product.description = description ? description : product.description;
             product.offer = offer ? offer : product.offer;
             product.brand = brand ? brand : product.brand;
