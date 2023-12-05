@@ -8,29 +8,23 @@ import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { OrderGetResponseDTO } from './dto/order_get_response';
 import { Product } from 'src/product/product.schema';
 import { GetOrderByIdUser } from './dto/order_getOrderbyIDUser_request';
+import { ProductService } from 'src/product/product.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectModel(Order.name)
     private readonly orderModel: Model<OrderDocument>,
-  ) { }
+    private readonly productService: ProductService
+  ) {}
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
-    const date = new Date();
-
-    const hour = date.getHours();
-    const minutes = date.getMinutes();
-
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
     try {
       const {
         orderCode = Math.floor(Math.random() * (999999 - 100000)) + 100000,
-        status = 1,
+        status,
         listProduct,
-        bookingDate = `${hour}: ${minutes}, ${day}/${month}/${year}`,
-        deliveryDate = `${day + 5}/${month}/${year}`,
+        bookingDate,
+        deliveryDate,
         userID,
         voucher,
         phoneReceiver,
@@ -52,11 +46,12 @@ export class OrderService {
         addressDelivery,
         payment,
         totalPrice,
-      });
+      });      
       await newOrder.save();
       return {
         status: true,
         message: 'Add order successfully',
+        order: newOrder
       };
     } catch (error) {
       console.log(error);
@@ -64,6 +59,7 @@ export class OrderService {
       return {
         status: false,
         message: 'Add order failed',
+        order: null
       };
     }
   }
@@ -84,7 +80,9 @@ export class OrderService {
       };
     }
   }
-  async getOrderbyID(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO> {
+  async getOrderbyID(
+    requestDTO: OrderGetbyIdDTO,
+  ): Promise<OrderGetResponseDTO> {
     try {
       const _id = requestDTO;
       const order = await this.orderModel.findById(_id).populate([
@@ -107,44 +105,25 @@ export class OrderService {
       console.log(error);
     }
   }
-  async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO[]> {
-    try {
-      const _id = requestDTO;
-      const order = await this.orderModel.find({ userID: _id }).populate([
-        {
-          path: 'listProduct',
-          populate: [{
-            path: 'productID',
-            model: 'Product',
-            select: ['productName', 'price']
-          },
-          { path: 'colorID', model: 'Color', select: 'name' }
-            , { path: 'sizeID', model: 'Size', select: 'name' }
-          ],
-        },
-        { path: 'userID' },
-      ]);
-      return order;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async updateStatusOrder(requestDTO: { id: string, body: any }): Promise<OrderResponseDTO> {
+  async updateStatusOrder(requestDTO: {
+    id: string;
+}): Promise<OrderResponseDTO> {
     try {
       const { id } = requestDTO;
-      const { status } = requestDTO.body
       const order = await this.orderModel.findById(id);
       if (order) {
-        order.status = status;
+        order.status = 2;
         await order.save();
         return {
           status: true,
           message: 'Update status for Order successfully',
+          order: order
         };
       } else {
         return {
           status: false,
           message: 'Update status for Order failed',
+          order: null
         };
       }
     } catch (error) {
@@ -152,13 +131,14 @@ export class OrderService {
       return {
         status: false,
         message: 'Update status for Order failed',
+        order:null
       };
     }
   }
   async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
     try {
       const _id = requestDTO;
-      const order = await this.orderModel.find({ userID: _id }).populate([
+      const order = await this.orderModel.find({userID:_id}).populate([
         {
           path: 'listProduct',
           populate: [
