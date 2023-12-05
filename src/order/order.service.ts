@@ -103,7 +103,7 @@ export class OrderService {
   }
   async updateStatusOrder(requestDTO: {
     id: string;
-  }): Promise<OrderResponseDTO> {
+}): Promise<OrderResponseDTO> {
     try {
       const { id } = requestDTO;
       const order = await this.orderModel.findById(id);
