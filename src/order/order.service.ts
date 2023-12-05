@@ -105,9 +105,29 @@ export class OrderService {
       console.log(error);
     }
   }
-  async updateStatusOrder(requestDTO: {
-    id: string;
-}): Promise<OrderResponseDTO> {
+  async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO[]> {
+    try {
+      const _id = requestDTO;
+      const order = await this.orderModel.find({ userID: _id }).populate([
+        {
+          path: 'listProduct',
+          populate: [{
+            path: 'productID',
+            model: 'Product',
+            select: ['productName', 'price']
+          },
+          { path: 'colorID', model: 'Color', select: 'name' }
+            , { path: 'sizeID', model: 'Size', select: 'name' }
+          ],
+        },
+        { path: 'userID' },
+      ]);
+      return order;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async updateStatusOrder(requestDTO: { id: string }): Promise<OrderResponseDTO> {
     try {
       const { id } = requestDTO;
       const order = await this.orderModel.findById(id);

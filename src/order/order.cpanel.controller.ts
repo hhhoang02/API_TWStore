@@ -35,10 +35,9 @@ export class OrderCpanelController {
   }
 
   @Put('updateStatusOrder/:id')
-  async updateStatusOrder(@Param() _id: any, @Body() body: any, @Res() res: Response) {
+  async updateStatusOrder(@Param() id: { id: string }, @Res() res: Response) {
     try {
-      const { id } = _id
-      const order = await this.orderService.updateStatusOrder({ id, body });
+      const order = await this.orderService.updateStatusOrder(id);
       return res.json({ result: true })
     } catch (error) {
 
