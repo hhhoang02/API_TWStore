@@ -17,7 +17,10 @@ export class OrderService {
   ) { }
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
     const date = new Date();
-    const time = date.getTime();
+
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
@@ -26,7 +29,7 @@ export class OrderService {
         orderCode = Math.floor(Math.random() * (999999 - 100000)) + 100000,
         status = 1,
         listProduct,
-        bookingDate = `${time}, ${day}/${month}/${year}`,
+        bookingDate = `${hour}: ${minutes}, ${day}/${month}/${year}`,
         deliveryDate = `${day + 5}/${month}/${year}`,
         userID,
         voucher,
