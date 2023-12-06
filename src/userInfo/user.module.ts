@@ -10,9 +10,9 @@ import { UserInfoService } from "./user.service";
 import { UserModule } from "src/user/user.module";
 
 enum MailAdmin {
-    EMAIL = "thewondershopfashion@gmail.com",
+    EMAIL = "leducminh21203@gmail.com",
     //thewondershopfashion@gmail.com
-    PASSWORD = "dgeyqrqpmimvpylr",
+    PASSWORD = "bdpmnmwjghtddbri",
     //dgeyqrqpmimvpylr
     HOST = "smtp.gmail.com"
 }

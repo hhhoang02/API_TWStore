@@ -90,14 +90,14 @@ export class UserService {
         try {
             const { _id, phone = null, avatar = null, gender = null, birthDay = null, cartItem = [] } = requestDTO;
             const user = await this.userModel.findOne({ _idUser: _id });
-            console.log(cartItem);
+            console.log(user);
 
             if (user) {
                 user.phone = phone ? phone : user.phone;
                 user.avatar = avatar ? avatar : user.avatar;
                 user.gender = gender ? gender : user.gender;
                 user.birthDay = birthDay ? birthDay : user.birthDay;
-                user.cartItem = cartItem;
+                user.cartItem = cartItem;1
                 await user.save();
                 return {
                     status: true,
