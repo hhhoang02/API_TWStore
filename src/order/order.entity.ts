@@ -4,11 +4,12 @@ import { Promotion } from "src/promotion/promotion.schema";
 import { Users } from 'src/user/user.schema';
 import { UsersInfo } from "src/userInfo/user.schema";
 
-export class Order{
-  
-    status: string;
+export class Order {
+    orderCode: string;
 
-    listProduct: listProduct[]; 
+    status: number;
+
+    listProduct: listProduct[];
 
     bookingDate: string;
 
@@ -16,11 +17,15 @@ export class Order{
 
     userID: Users;
 
-    promotionID: Promotion;
+    voucher: string;
 
     phoneReceiver: string;
 
     nameReceiver: string;
-    
+
+    addressDelivery: string;
+
     payment: PaymentDetail;
+
+    totalPrice: number;
 }

@@ -66,7 +66,7 @@
                     <span>Quản lý đơn hàng</span>
                 </a>
             </li>
-                        <!-- Nav Item - Utilities Collapse Menu -->
+            <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link " href="/promotionsCpanel/quanlymagiamgia">
                     <i class="fas fa-fw fa-shopping-cart"></i>
@@ -97,7 +97,7 @@
                             <span>Quản lý màu</span></a>
                         <a class="collapse-item" href="/sizesCpanel/quanlykichco">
                             <i class="fas fa-fw fa-table"></i>
-                            <span>Quản lý kích cở</span></a>
+                            <span>Quản lý kích cỡ</span></a>
                         <a class="collapse-item" href="/brandsCpanel/quanlythuonghieu">
                             <i class="fas fa-fw fa-table"></i>
                             <span>Quản lý thương hiệu</span></a>
@@ -352,15 +352,16 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr> 
-                                            <th>Name</th>      
-                                            <th>Phone</th>                   
+                                <table class="table table-bordered" id="dataTable">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Address</th>
                                             <th>Action</th>
                                             <th>Status</th>
                                         </tr>
@@ -368,16 +369,19 @@
                                     <tbody>
                                         {{#each orders}}
                                         <tr>
-                                            <td>{{this.nameReceiver}}</td>
-                                            <td>{{this.phoneReceiver}}</td>
+                                            <td><strong>{{this.order.nameReceiver}}</strong></td>
+                                            <td><strong>{{this.order.phoneReceiver}}</strong></td>
+                                            <td><strong>{{this.order.addressDelivery}}</strong></td>
                                             <td>
                                                 <a class="btn btn-primary"
-                                                    href="/ordersCpanel/orderDetail/{{this._id}}">Xem Chi Tiết</a>
+                                                    href="/ordersCpanel/orderDetail/{{this.order._id}}">View Details</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success">{{this.status}}</a>
+                                                {{#if this.status}}
+                                                <a class="btn btn-success" id="btnAccept"
+                                                    onclick="confirmUpdate('{{this.order._id}}')">Confirm Order</a>
+                                                {{/if}}
                                             </td>
-
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -442,14 +446,56 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+    <script>
+        const confirmUpdate = (id) => {
 
+            const fetchAPI = async (url, option) => {
+                const res = await fetch(url, option);
+                return res.json();
+            }
+            const updateStatus = async (id) => {
+                const url = `/ordersCpanel/updateStatusOrder/${id}`;
+                const option = {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        status: 2
+                    })
+                }
+
+                const res = await fetchAPI(url, option);
+                if (res.result) {
+                    swal("Thành công!", "Đã xác nhận đơn hàng thành công!", "success");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal("Thất Bại!", "Xác nhận đơn hàng thất bại!", "error");
+                }
+
+            }
+            swal({
+                title: "Xác nhận?",
+                text: "Bạn có chắc chắn muốn xác nhận đơn hàng này không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        updateStatus(id)
+                    }
+                });
+        }
+    </script>
 </body>
 
 </html>

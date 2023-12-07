@@ -15,11 +15,13 @@ export class NotificationService {
 
     async addNotification(requestDTO: NotificationInsertDTO): Promise<NotifiGetResponseDTO> {
         try {
-            const {title , content} = requestDTO;
-            const newNotifi = new this.notifiModel({ title, content });
-            await newNotifi.save();
-            this.logger.log('Notification added successfully'); 
-            return { 
+            const { title, content } = requestDTO;
+            const newNotifi = new this.notifiModel({
+                title,
+                content,
+            });
+            await newNotifi.save()
+            return {
                 status: true,
                 message: 'Notification added successfully',
             }

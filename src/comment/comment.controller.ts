@@ -22,7 +22,6 @@ export class CommentController {
     async GetCommentbyProduct(@Param() _id: CommentGetbyProducRequesttDTO, @Res() res: Response) {
         try {
             const responseDTO = await this.commentService.GetCommentbyIdProduct(_id);
-            
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
             return res.status(HttpStatus.OK).json(error);

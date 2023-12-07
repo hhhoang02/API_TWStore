@@ -13,7 +13,7 @@ export class CategoryService {
     private readonly categoryModel: Model<CategoryDocument>) { }
     async AddCategory(requestDTO: CategoryAddRequestDTO): Promise<CategoryResponseDTO> {
         try {
-            const { name } = requestDTO;
+            const { name , linkIcon} = requestDTO;
             const category = await this.categoryModel.findOne({ name });
             if (category) {
                 return {
@@ -21,7 +21,7 @@ export class CategoryService {
                     message: 'Category already exists',
                 }
             }
-            const newCategory = new this.categoryModel({ name });
+            const newCategory = new this.categoryModel({ name ,linkIcon});
             await newCategory.save();
             return {
                 status: true,

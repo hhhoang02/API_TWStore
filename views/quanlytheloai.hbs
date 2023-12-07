@@ -96,7 +96,7 @@
                             <span>Quản lý màu</span></a>
                         <a class="collapse-item" href="/sizesCpanel/quanlykichco">
                             <i class="fas fa-fw fa-table"></i>
-                            <span>Quản lý kích cở</span></a>
+                            <span>Quản lý kích cỡ</span></a>
                         <a class="collapse-item" href="/brandsCpanel/quanlythuonghieu">
                             <i class="fas fa-fw fa-table"></i>
                             <span>Quản lý thương hiệu</span></a>
@@ -358,10 +358,11 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table class="table table-bordered" id="dataTable">
+                                    <thead class="thead-dark">
                                         <tr>
                                             <th>Name</th>
+                                            <th>Image</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -370,7 +371,10 @@
                                         {{#each category}}
                                         <tr>
 
-                                            <td>{{this.name}}</td>
+                                            <td><strong>{{this.name}}</strong></td>
+                                            <td>
+                                                <img src="{{this.linkIcon}}" height="150" width="150">
+                                            </td>
                                             <td>
                                                 <a class="btn btn-danger"
                                                     onclick="confirmDelete('{{this._id}}')">Xóa</a>

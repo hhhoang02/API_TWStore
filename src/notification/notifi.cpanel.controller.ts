@@ -40,8 +40,9 @@ export class NotificationCpanelController {
   @Post('addNotification')
   async addNotification(@Body() body: any, @Res() res: Response) {
     try {
-      await this.notifiService.addNotification(body);
-      return res.redirect('/notifiCpanel/quanlythongbao');
+      
+      await this.notifiService.addNotification( body );
+      return ;
     } catch (error) {
       console.log(error);
     }

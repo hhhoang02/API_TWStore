@@ -5,6 +5,7 @@ import { Category } from "src/category/category.schema";
 import { Color } from "src/colorProduct/color.schema";
 import { Promotion } from "src/promotion/promotion.schema";
 import { Size } from "src/size/size.schema";
+import { Users } from "src/user/user.schema";
 
 export type ProductDocument = Product & Document;
 
@@ -34,12 +35,10 @@ export class Product {
 
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Size' }])
     size: Size[];
-
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
     categoryID: Category;
-
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Color' }])
     colorID: Color[];
-
+    
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);

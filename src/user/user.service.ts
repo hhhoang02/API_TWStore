@@ -29,9 +29,9 @@ export class UserService {
         try {
             const { _id, body } = requestDTO;
             const { name, email } = body;
-            const user = await this.userModel.findOne({ _idUser: _id }).populate([{ path: 'cartItem' , populate: [{path:'productID',model:'Product',select:['productName','offer']},{path:'sizeProduct' ,model:'Size'},{path:'colorProduct',model:'Color'}]}]);
+            const user = await this.userModel.findOne({ _idUser: _id }).populate([{ path: 'cartItem', populate: [{ path: 'productID', model: 'Product', select: ['productName', 'offer', 'price', 'image'] }, { path: 'sizeProduct', model: 'Size' }, { path: 'colorProduct', model: 'Color' }] }]);
             console.log("user: " + user);
-            
+
             if (user) {
                 return {
                     status: true,
@@ -58,24 +58,46 @@ export class UserService {
 
     }
 
+    async UpdateActiveUser(responseDTO: UserUpdateInfoRequestDTO | any): Promise<UserResponseDTO> {
+        try {
+            const { _id, active = null } = responseDTO;
+            const { id } = _id;
+            console.log(id, active);
+
+            const user = await this.userModel.findById(id);
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'User not found'
+                }
+            }
+            if (active == 'true') {
+                user.active = false;
+            } else {
+                user.active = true;
+            }
+            await user.save();
+            return {
+                status: true,
+                message: 'Update User successfully'
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async UpdateInfoUser(requestDTO: UserUpdateInfoRequestDTO | any): Promise<UserResponseDTO> {
         try {
-            const { _id, active = null, phone = null, avatar = null, gender = null, birthDay = null , cartItem = null} = requestDTO;
-            console.log(active);
+            const { _id, phone = null, avatar = null, gender = null, birthDay = null, cartItem = [] } = requestDTO;
+            const user = await this.userModel.findOne({ _idUser: _id });
+            console.log(cartItem);
 
-            const user = await this.userModel.findById(_id);
             if (user) {
-                if(user.active == true){
-                    user.active = false;
-                }else{
-                    user.active = true;
-                }
-                
                 user.phone = phone ? phone : user.phone;
                 user.avatar = avatar ? avatar : user.avatar;
                 user.gender = gender ? gender : user.gender;
                 user.birthDay = birthDay ? birthDay : user.birthDay;
-                user.cartItem = cartItem? cartItem : user.cartItem;
+                user.cartItem = cartItem;
                 await user.save();
                 return {
                     status: true,
@@ -95,12 +117,11 @@ export class UserService {
     }
     async UpdateAddressUser(requestDTO: UserAddressDTO): Promise<UserResponseDTO> {
         try {
-            const { _id, typeUpdate, position, city, district, ward, street = "" } = requestDTO;
-            const user = await this.userModel.findById(_id);
-            console.log(user._id);
+            const { _idUser, typeUpdate, position, city, district, ward, street = "" } = requestDTO;
+            const user = await this.userModel.findOne({ _idUser });
+            console.log(requestDTO);
             if (typeUpdate === "insert") {
                 console.log(requestDTO);
-
                 user.address.push({ position: user.address.length + 1, city, district, ward, street });
                 await user.save();
                 return {

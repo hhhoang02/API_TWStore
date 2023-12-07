@@ -35,6 +35,8 @@ export class UserController {
     @Post('updateInfoUser')
     async UpdateInfoUser(@Body() body: UserUpdateInfoRequestDTO, @Res() res: Response) {
         try {
+            console.log('updateUser');
+
             const user = await this.userService.UpdateInfoUser(body);
             return res.status(HttpStatus.OK).json(user);
         } catch (error) {
@@ -51,9 +53,4 @@ export class UserController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-
-
-
-
-
 }
