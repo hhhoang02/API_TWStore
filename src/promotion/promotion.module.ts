@@ -13,5 +13,6 @@ import { PromotionCpanelController } from "./promotion.cpanel.controller";
     ],
     controllers: [PromotionController, PromotionCpanelController],
     providers: [PromotionService],
+    exports: [PromotionService]
 })
 export class PromotionModule { }

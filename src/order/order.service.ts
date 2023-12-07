@@ -8,6 +8,8 @@ import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { OrderGetResponseDTO } from './dto/order_get_response';
 import { Product } from 'src/product/product.schema';
 import { GetOrderByIdUser } from './dto/order_getOrderbyIDUser_request';
+import { ProductService } from 'src/product/product.service';
+import { log } from 'console';
 
 @Injectable()
 export class OrderService {
@@ -37,7 +39,7 @@ export class OrderService {
         nameReceiver,
         addressDelivery,
         payment,
-        totalPrice,
+        totalPrice 
       } = requestDTO;
       const newOrder = new this.orderModel({
         orderCode,
@@ -53,6 +55,7 @@ export class OrderService {
         payment,
         totalPrice,
       });
+      
       await newOrder.save();
       return {
         status: true,
@@ -94,7 +97,7 @@ export class OrderService {
             {
               path: 'productID',
               model: 'Product',
-              select: ['productName', 'price'],
+              select: ['productName', 'price', 'offer', 'voucher'],
             },
             { path: 'colorID', model: 'Color', select: 'name' },
             { path: 'sizeID', model: 'Size', select: 'name' },

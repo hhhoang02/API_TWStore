@@ -5,9 +5,13 @@ import { Response } from 'express';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { log } from 'console';
 import Handlebars from 'handlebars';
+import { PromotionService } from 'src/promotion/promotion.service';
 @Controller('ordersCpanel')
 export class OrderCpanelController {
-  constructor(private readonly orderService: OrderService) { }
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly promotionService: PromotionService
+    ) { }
 
   @Get('quanlydonhang')
   @Render('quanlydonhang')
@@ -25,7 +29,11 @@ export class OrderCpanelController {
   async orderDetail(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
     try {
       const orders = await this.orderService.getOrderbyID(_id);
-      return { orders, listProduct: orders.listProduct };
+
+      const voucher = await this.promotionService.getAllPromotion();
+      const yourVoucher = voucher.filter((voucher: any) => voucher.discountCode == orders.voucher)
+      const discountLevel = yourVoucher.map((voucher: any) => voucher.discountLevel)
+      return { orders, listProduct: orders.listProduct, discountLevel};
     } catch (error) { }
   }
 
