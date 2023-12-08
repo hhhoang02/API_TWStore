@@ -29,7 +29,6 @@ export class OrderCpanelController {
   async orderDetail(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
     try {
       const orders = await this.orderService.getOrderbyID(_id);
-
       const voucher = await this.promotionService.getAllPromotion();
       const yourVoucher = voucher.filter((voucher: any) => voucher.discountCode == orders.voucher)
       const discountLevel = yourVoucher.map((voucher: any) => voucher.discountLevel)

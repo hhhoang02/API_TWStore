@@ -16,7 +16,6 @@ export class BrandController {
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
-
         }
     }
 }
