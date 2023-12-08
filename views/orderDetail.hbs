@@ -146,6 +146,7 @@
                         <th>Name</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Offer</th>
                         <th>Color</th>
                         <th>Size</th>
                         <td class="product-sum">Sum</td>
@@ -155,8 +156,9 @@
                     {{#each listProduct}}
                     <tr>
                         <td>{{this.productID.productName}}</td>
-                        <td>{{{this.quantityProduct}}}</td>
-                        <td>{{{this.productID.price}}}</td>
+                        <td>{{this.quantityProduct}}</td>
+                        <td>{{this.productID.price}}</td>
+                        <td>{{this.productID.offer}}%</p>
                         <td>{{this.colorID.name}}</td>
                         <td>{{this.sizeID.name}}</td>
                         <td class="product-sum">$0.00</td>
@@ -164,9 +166,13 @@
                     {{/each}}
                 </tbody>
                 <tfoot>
+                     <tr class="table-secondary">
+                        <th colspan="6">Voucher</th>
+                        <td>{{discountLevel}}%</td>
+                    </tr>
                     <tr class="table-secondary">
-                        <th colspan="5">Total Price</th>
-                        <td id="totalPrice">$0.00</td>
+                        <th colspan="6">Total Price</th>
+                        <td>{{orders.totalPrice}}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -197,10 +203,17 @@
             $('tbody tr').each(function () {
                 var quantity = parseFloat($(this).find('td:eq(1)').text().trim());
                 var price = parseFloat($(this).find('td:eq(2)').text().replace('$', '').trim()); // Remove '$' and convert to float
+                var offer = parseFloat($(this).find('td:eq(3)').text().trim());
 
                 // Check if quantity and price are valid numbers
+
                 if (!isNaN(quantity) && !isNaN(price)) {
-                    var productSum = quantity * price;
+                    if(offer == 0){
+                        var productSum = quantity * price
+                    }else{
+                        var productSum = quantity * (price - price * (offer/100))
+
+                    }
                     $(this).find('.product-sum').text('$' + productSum.toFixed(2));
                 } else {
                     $(this).find('.product-sum').text('$0.00');
@@ -217,9 +230,6 @@
                     totalPrice += productSum;
                 }
             });
-
-            // Update the total price in the footer
-            $('#totalPrice').text('$' + totalPrice.toFixed(2));
         });
     </script>
 
