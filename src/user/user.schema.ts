@@ -24,6 +24,8 @@ export class Address {
     street: string;
 }
 export class ListProduct {
+    @Prop()
+    key: string;
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
     productID: Product;
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Size' })

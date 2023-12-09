@@ -27,8 +27,10 @@ export class OrderController {
         }
     }
     @Get('getOrderByID/:_id')
-    async GetOrderByID(@Param() _id: OrderGetbyIdDTO ,@Res() res: Response) {
+    async GetOrderByID(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
+
         try {
+
             const responseDTO = await this.orderService.getOrderbyID(_id);
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
@@ -36,9 +38,10 @@ export class OrderController {
         }
     }
     @Get('getOrderByIdUser/:_id')
-    async GetOrderByIdUser(@Param() _id: GetOrderByIdUser ,@Res() res: Response) {
+    async GetOrderByIdUser(@Param() _id: GetOrderByIdUser, @Res() res: Response) {
         try {
             const responseDTO = await this.orderService.getOrderByIdUser(_id);
+            console.log(responseDTO);
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
