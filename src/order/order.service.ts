@@ -39,7 +39,7 @@ export class OrderService {
         nameReceiver,
         addressDelivery,
         payment,
-        totalPrice 
+        totalPrice
       } = requestDTO;
       const newOrder = new this.orderModel({
         orderCode,
@@ -55,7 +55,7 @@ export class OrderService {
         payment,
         totalPrice,
       });
-      
+
       await newOrder.save();
       return {
         status: true,
