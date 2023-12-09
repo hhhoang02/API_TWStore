@@ -12,7 +12,7 @@ import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UserChangeUserNameRequestDTO } from './dto/user_changeUserName_request';
 import { UserInfoRegisterResponseDTO } from './dto/user_register_response';
-import { UserGetAllResponseDTO } from '../user/dto/user_getAll_response';
+
 
 
 
@@ -134,6 +134,7 @@ export class UserInfoService {
     async ChangePassword(requestDTO: any): Promise<UserInfoResponseDTO> {
         try {
             const { email, oldPassword, newPassword } = requestDTO;
+            console.log(newPassword);
             const user = await this.userModel.findOne({ email });
             let comparePassword = bcrypt.compareSync(oldPassword, (await user).password);
             if (comparePassword) {
@@ -162,6 +163,9 @@ export class UserInfoService {
             const { email } = requestDTO;
             console.log(requestDTO)
             const random = Math.floor((Math.random() * (999999 - 100000)) + 100000);
+            const responseDTO = await this.userModel.find();
+            const compareEmail = responseDTO.map(item => item.email === email).indexOf(true);
+
             const sendMail = this.mailerService.sendMail({
                 to: email, // list of receivers
                 from: Email.FORM, // sender address
@@ -173,9 +177,9 @@ export class UserInfoService {
                             <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">The Wonder Store</a>
                             </div>
                             <p style="font-size:1.1em">Hi,</p>
-                            <p>Thank you for choosing Your Brand. Use the following OTP to complete your Sign Up procedures. OTP is valid for 5 minutes</p>
+                            <p>Thank you for choosing The Wonder Store. Use the following OTP to complete your Sign Up procedures. OTP is valid for 5 minutes</p>
                             <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${random}</h2>
-                            <p style="font-size:0.9em;">Regards,<br />Your Brand</p>
+                            <p style="font-size:0.9em;">Regards,<br />The Wonder Store</p>
                             <hr style="border:none;border-top:1px solid #eee" />
                             <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
                             <p>Your Brand Inc</p>
@@ -186,18 +190,20 @@ export class UserInfoService {
                 </div>
                 `, // HTML body content
             })
-            if (sendMail) {
+            if (compareEmail >= 0) {
                 return {
                     status: true,
                     message: 'SendMail successfully',
-                    random
+                    random, 
+                    sendMail
                 }
             } else {
                 return {
                     status: false,
-                    message: 'SendMail Failed',
+                    message: 'Email not found',
                 }
             }
+
         } catch (error) {
             return {
                 status: false,

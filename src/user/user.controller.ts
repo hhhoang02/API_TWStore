@@ -23,6 +23,7 @@ export class UserController {
 
         }
     }
+    
     @Post('getUser/:id')
     async getUserByID(@Param('id') _id: UserGetByIDRequestDTO, @Body() body: { name: string, email: string }, @Res() res: Response) {
         try {

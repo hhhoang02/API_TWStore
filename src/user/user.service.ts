@@ -13,6 +13,7 @@ import { UserUpdateInfoRequestDTO } from './dto/user_updateInfo_request';
 import { UserGetByIDRequestDTO } from './dto/user_getByID_request';
 import { UserAddIdRequestDTO } from './dto/user_addId_request';
 import { UserGetAllResponseDTO } from './dto/user_getAll_response';
+import { log } from 'console';
 
 
 
@@ -88,16 +89,18 @@ export class UserService {
 
     async UpdateInfoUser(requestDTO: UserUpdateInfoRequestDTO | any): Promise<UserResponseDTO> {
         try {
-            const { _id, phone = null, avatar = null, gender = null, birthDay = null, cartItem = [] } = requestDTO;
+            const { _id, name = null, phone = null, avatar = null, gender = null, birthDay = null, cartItem = [] } = requestDTO;
             const user = await this.userModel.findOne({ _idUser: _id });
             console.log(user);
 
             if (user) {
+                user.name = name ? name : user.name;
                 user.phone = phone ? phone : user.phone;
                 user.avatar = avatar ? avatar : user.avatar;
                 user.gender = gender ? gender : user.gender;
                 user.birthDay = birthDay ? birthDay : user.birthDay;
-                user.cartItem = cartItem;1
+                user.cartItem = cartItem;
+                console.log(name)
                 await user.save();
                 return {
                     status: true,

@@ -5,6 +5,7 @@ import { UserInfoForGotRequestDTO } from './dto/user_forgot_request';
 import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { UserInfoService } from './user.service';
 import { Response } from "express";
+
 //Url: http://localhost:3000/users
 @Controller('usersInfo')
 export class UserInfoController {
@@ -20,8 +21,8 @@ export class UserInfoController {
         } catch (error: any) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
-
     }
+    
     //Url: http://localhost:3000/users/LoginUser
     @Post('LoginUser')
     async LoginUser(@Body() body: UserInfoLoginRequestDTO, @Res() res: any) {
