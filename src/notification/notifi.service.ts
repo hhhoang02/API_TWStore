@@ -1,7 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable , Logger  } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import uploadImage from 'src/upload/upload';
+import { Model } from "mongoose";
 import { NotifiGetResponseDTO } from "./dto/notifi_get_response";
 import { Notification, NotificationDocument } from "./notifi.schema";
 import { NotificationInsertDTO } from "./dto/notifi_insert_request";
@@ -9,11 +8,12 @@ import { NotificationInsertDTO } from "./dto/notifi_insert_request";
 
 @Injectable()
 export class NotificationService {
-    constructor(@InjectModel(Notification.name)
-    private readonly notifiModel: Model<NotificationDocument>,
-    ) { }
-    async addNotification(requestDTO: NotificationInsertDTO): Promise<NotifiGetResponseDTO> {
+    private readonly logger = new Logger(NotificationService.name);
 
+    constructor(@InjectModel(Notification.name)
+    private readonly notifiModel: Model<NotificationDocument>,) { }
+
+    async addNotification(requestDTO: NotificationInsertDTO): Promise<NotifiGetResponseDTO> {
         try {
             const { title, content } = requestDTO;
             const newNotifi = new this.notifiModel({
@@ -36,8 +36,10 @@ export class NotificationService {
     async getAllNotification(): Promise<NotifiGetResponseDTO | any> {
         try {
             const notifi = await this.notifiModel.find();
+            this.logger.log('Get all notifications successfully');
             return notifi;
         } catch (error) {
+            this.logger.error(`Failed to get all notifications: ${error.message}`);
             return
         }
 
