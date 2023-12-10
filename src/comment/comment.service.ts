@@ -14,9 +14,15 @@ export class CommentService {
     private readonly commentModel: Model<CommentDocument>) { }
     async AddComment(requestDTO: CommentAddRequestDTO): Promise<CommentResponseDTO> {
         try {
-            const { userID, productID, createAt, content, star } = requestDTO;
+            const date = new Date();
+            const hour = date.getHours();
+            const minutes = date.getMinutes();
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            
+            const { userID, productID, createAt =  `${hour}:${minutes}, ${day}/${month}/${year}`, content, image, star } = requestDTO;
             const comment = await this.commentModel.findOne({ userID});
-            console.log();
             
             if (comment) {
                 return {
@@ -24,7 +30,7 @@ export class CommentService {
                     message: 'Comment already exists',
                 }
             }
-            const newComment = new this.commentModel({ userID, productID, createAt, content, star });
+            const newComment = new this.commentModel({ userID, productID, createAt, content, image, star });
             await newComment.save();
             return {
                 status: true,
@@ -39,18 +45,21 @@ export class CommentService {
             }
         }
     }
-    async GetCommentbyIdProduct(requestDTO: CommentGetbyProducRequesttDTO): Promise<CommentGetbyProductResponseDTO> {
+    async GetCommentbyIdProduct(requestDTO: CommentGetbyProducRequesttDTO): Promise<CommentGetbyProducRequesttDTO[] | null> {
         try {
             const _id = requestDTO;
-
-            const responseDTO = await this.commentModel.findOne({productID:_id}).populate('userID');
-            console.log(responseDTO);
-            
+            const responseDTO = await this.commentModel.find({ productID: _id })
+                .populate([
+                    { path: 'userID', select: 'name username avatar' },
+                    { path: 'productID', select: 'createAt content image star' }
+                ]);
+    
             return responseDTO;
         } catch (error) {
-            return error;
+            return null;
         }
     }
+    
     async DeleteComment(requestDTO: CommentDeleteRequestDTO): Promise<CommentResponseDTO> {
         try {
             const { _id } = requestDTO;

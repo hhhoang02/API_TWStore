@@ -117,12 +117,11 @@ export class UserService {
     }
     async UpdateAddressUser(requestDTO: UserAddressDTO): Promise<UserResponseDTO> {
         try {
-            const { _id, typeUpdate, position, city, district, ward, street = "" } = requestDTO;
-            const user = await this.userModel.findById(_id);
-            console.log(user._id);
+            const { _idUser, typeUpdate, position, city, district, ward, street = "" } = requestDTO;
+            const user = await this.userModel.findOne({ _idUser });
+            console.log(requestDTO);
             if (typeUpdate === "insert") {
                 console.log(requestDTO);
-
                 user.address.push({ position: user.address.length + 1, city, district, ward, street });
                 await user.save();
                 return {

@@ -82,7 +82,6 @@ export class UserInfoService {
                     message: 'User not found',
                 }
             }
-
             let comparePassword = bcrypt.compareSync(password, (await user).password);
             console.log('Compare Password : ', comparePassword);
             if (!comparePassword) {

@@ -7,6 +7,9 @@ import { OrderResponseDTO } from './dto/order_response';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { OrderGetResponseDTO } from './dto/order_get_response';
 import { Product } from 'src/product/product.schema';
+import { GetOrderByIdUser } from './dto/order_getOrderbyIDUser_request';
+import { ProductService } from 'src/product/product.service';
+import { log } from 'console';
 
 @Injectable()
 export class OrderService {
@@ -15,13 +18,21 @@ export class OrderService {
     private readonly orderModel: Model<OrderDocument>,
   ) { }
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
+    const date = new Date();
+
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
     try {
       const {
         orderCode = Math.floor(Math.random() * (999999 - 100000)) + 100000,
-        status,
+        status = 1,
         listProduct,
-        bookingDate,
-        deliveryDate,
+        bookingDate = `${hour}: ${minutes}, ${day}/${month}/${year}`,
+        deliveryDate = `${day + 5}/${month}/${year}`,
         userID,
         voucher,
         phoneReceiver,
@@ -42,8 +53,9 @@ export class OrderService {
         nameReceiver,
         addressDelivery,
         payment,
-        totalPrice
+        totalPrice,
       });
+
       await newOrder.save();
       return {
         status: true,
@@ -75,12 +87,34 @@ export class OrderService {
       };
     }
   }
-  async getOrderbyID(
-    requestDTO: OrderGetbyIdDTO,
-  ): Promise<OrderGetResponseDTO> {
+  async getOrderbyID(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO> {
     try {
       const _id = requestDTO;
       const order = await this.orderModel.findById(_id).populate([
+        {
+          path: 'listProduct',
+          populate: [
+            {
+              path: 'productID',
+              model: 'Product',
+              select: ['productName', 'price', 'offer', 'voucher'],
+            },
+            { path: 'colorID', model: 'Color', select: 'name' },
+            { path: 'sizeID', model: 'Size', select: 'name' },
+          ],
+        },
+      ]);
+      return order;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO[]> {
+    try {
+      const _id = requestDTO;
+      console.log(requestDTO);
+
+      const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
           populate: [{
@@ -88,8 +122,6 @@ export class OrderService {
             model: 'Product',
             select: ['productName', 'price']
           },
-          { path: 'colorID', model: 'Color', select: 'name' }
-            , { path: 'sizeID', model: 'Size', select: 'name' }
           ],
         },
         { path: 'userID' },
@@ -99,29 +131,52 @@ export class OrderService {
       console.log(error);
     }
   }
-  async updateStatusOrder(requestDTO: { id: string }): Promise<OrderResponseDTO> {
+  async updateStatusOrder(requestDTO: { id: string, body: any }): Promise<OrderResponseDTO> {
     try {
       const { id } = requestDTO;
+      const { status } = requestDTO.body
       const order = await this.orderModel.findById(id);
       if (order) {
-        order.status = 2;
+        order.status = status;
         await order.save();
         return {
           status: true,
-          message: "Update status for Order successfully"
-        }
+          message: 'Update status for Order successfully',
+        };
       } else {
         return {
           status: false,
-          message: "Update status for Order failed"
-        }
+          message: 'Update status for Order failed',
+        };
       }
     } catch (error) {
       console.log(error);
       return {
         status: false,
-        message: "Update status for Order failed"
-      }
+        message: 'Update status for Order failed',
+      };
+    }
+  }
+  async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
+    try {
+      const { _id } = requestDTO;
+      const order = await this.orderModel.find({ userID: _id }).populate([
+        {
+          path: 'listProduct',
+          populate: [
+            {
+              path: 'productID',
+              model: 'Product',
+              select: ['productName', 'price'],
+            },
+            { path: 'colorID', model: 'Color', select: 'name' },
+            { path: 'sizeID', model: 'Size', select: 'name' },
+          ],
+        },
+      ]);
+      return order;
+    } catch (error) {
+      return;
     }
   }
 }

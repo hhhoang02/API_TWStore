@@ -359,8 +359,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table class="table table-bordered" id="dataTable">
+                                    <thead class="thead-dark"> 
                                         <tr>
                                             <th>Title</th>
                                             <th>Image</th>
@@ -371,7 +371,7 @@
                                     <tbody>
                                         {{#each banner}}
                                         <tr>
-                                            <td>{{this.title}}</td>
+                                            <td><strong>{{this.title}}</strong></td>
                                             <td>
                                                 <img src="{{this.image}}" height="200" width="300">
                                             </td>

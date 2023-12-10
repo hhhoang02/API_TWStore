@@ -7,16 +7,14 @@ export class Comment {
     //Các thuộc tính của product
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userID: Types.ObjectId;
-
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
     productID: Types.ObjectId;
-
     @Prop()
     createAt: string;
-
     @Prop()
     content: string;
-
+    @Prop()
+    image: Array<string>;
     @Prop()
     star: number;
 }

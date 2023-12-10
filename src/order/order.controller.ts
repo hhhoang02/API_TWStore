@@ -3,6 +3,7 @@ import { OrderService } from "./order.service";
 import { OrderInsertDTO } from "./dto/order_insert_request";
 import { Response } from "express";
 import { OrderGetbyIdDTO } from "./dto/order_getOrderbyID_request";
+import { GetOrderByIdUser } from "./dto/order_getOrderbyIDUser_request";
 @Controller('order')
 
 export class OrderController {
@@ -26,9 +27,21 @@ export class OrderController {
         }
     }
     @Get('getOrderByID/:_id')
-    async GetOrderByID(@Param() _id: OrderGetbyIdDTO ,@Res() res: Response) {
+    async GetOrderByID(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
+
         try {
+
             const responseDTO = await this.orderService.getOrderbyID(_id);
+            return res.status(HttpStatus.OK).json(responseDTO);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }
+    }
+    @Get('getOrderByIdUser/:_id')
+    async GetOrderByIdUser(@Param() _id: GetOrderByIdUser, @Res() res: Response) {
+        try {
+            const responseDTO = await this.orderService.getOrderByIdUser(_id);
+            console.log(responseDTO);
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);

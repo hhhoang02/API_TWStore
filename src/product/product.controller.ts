@@ -6,6 +6,7 @@ import { Response } from "express";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
 import { ProductGetByIdCategoryRequestDTO } from "./dto/product_getProductbyIdCategory_request";
 import { ProductGetByIdPromotionRequestDTO } from "./dto/product_getProductbyIdPromotion_request";
+import { Product } from "./product.schema";
 
 @Controller('product')
 
@@ -42,10 +43,19 @@ export class ProductController {
         }
     }
 
-    @Get('getProductByIdBranch/:_id')
-    async GetProductByIdBranch(@Param() _id: ProductGetByIdCategoryRequestDTO, @Res() res: Response) {
+    @Get('getProductByIdBrand/:_id')
+    async GetProductByIdBrand(@Param() params: any, @Res() res: Response) {
         try {
-            const product = await this.productService.getProductbyIdBranch(_id);
+            const product = await this.productService.getProductbyIdBrand(params);
+            return res.status(HttpStatus.OK).json(product);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }
+    }
+    @Get('getRecommendProduct')
+    async getRecommendProduct(@Res() res: Response) {
+        try {
+            const product = await this.productService.getRecommendProduct();
             return res.status(HttpStatus.OK).json(product);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);

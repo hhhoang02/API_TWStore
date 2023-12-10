@@ -10,6 +10,59 @@
         integrity="..." crossorigin="anonymous">
 
     <style>
+        .container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Add additional styling for checkboxes if needed */
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Style for the file input */
+input[type="file"] {
+    display: none; /* Hide the default file input */
+}
+
+img {
+    margin-right: 10px;
+}
+
+/* Custom styling for checkboxes and color inputs */
+input[type="checkbox"] + input[type="color"] {
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* Optional: Add some space between the size checkboxes */
+input[type="checkbox"][name="size"] {
+    margin-right: 10px;
+}
+
+/* Optional: Adjust the style for the select dropdown */
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
         /* Tùy chỉnh màu chủ đạo thành xanh dương */
         :root {
             --primary-color: #007BFF;

@@ -8,7 +8,7 @@ import { ProductResponseDTO } from "./dto/product_response";
 import { ProductUpdateDTO } from "./dto/product_update_request";
 import { ProductGetResponseDTO } from "./dto/product_get_response";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
-import { ProductGetByIdBranchRequestDTO } from './dto/product_getProductbyIdBranch_request';
+import { ProductGetByIdBrandRequestDTO } from './dto/product_getProductbyIdBranch_request';
 import uploadImage from 'src/upload/upload';
 
 @Injectable()
@@ -123,7 +123,15 @@ export class ProductService {
         } catch (error) {
             return
         }
-
+    }
+    async getRecommendProduct(): Promise<ProductGetResponseDTO[]> {
+        try {
+            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'code' }]);;
+            return product
+            //return product.filter(item => item.price < 200);
+        } catch (error) {
+            return
+        }
     }
     async getProductById(requestDTO: ProductGetbyIdDTO): Promise<ProductGetResponseDTO> {
         try {
@@ -143,17 +151,18 @@ export class ProductService {
         try {
             const { _id } = requestDTO;
             const product = await this.productModel.find({ categoryID: _id }).populate([{ path: "brand", select: 'name' }, { path: "size", select: 'name' }, { path: "colorID" },]);
-            return product
+            return product;
         } catch (error) {
             return
         }
     }
 
-    async getProductbyIdBranch(requestDTO: ProductGetByIdBranchRequestDTO): Promise<any> {
+    async getProductbyIdBrand(requestDTO: ProductGetByIdBrandRequestDTO): Promise<any> {
         try {
-            const _id = requestDTO;
-            const product = await this.productModel.findOne({ branch: _id });
-            return product
+            const { _id } = requestDTO;
+            console.log(requestDTO);
+            const product = await this.productModel.find({ brand: _id });
+            return product.slice(0, 5)
         } catch (error) {
             return
         }
