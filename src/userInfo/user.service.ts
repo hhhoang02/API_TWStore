@@ -82,14 +82,6 @@ export class UserInfoService {
                     message: 'User not found',
                 }
             }
-            console.log(user.role);
-            
-            if(user.role === "user"){
-                return {
-                    status: false,
-                    message: 'Need role to login',
-                }
-            }
             let comparePassword = bcrypt.compareSync(password, (await user).password);
             console.log('Compare Password : ', comparePassword);
             if (!comparePassword) {

@@ -122,8 +122,6 @@ export class OrderService {
             model: 'Product',
             select: ['productName', 'price']
           },
-          { path: 'colorID', model: 'Color', select: 'name' }
-            , { path: 'sizeID', model: 'Size', select: 'name' }
           ],
         },
         { path: 'userID' },
@@ -161,7 +159,7 @@ export class OrderService {
   }
   async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
     try {
-      const {_id} = requestDTO;
+      const { _id } = requestDTO;
       const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
