@@ -14,8 +14,6 @@ import { UserChangeUserNameRequestDTO } from './dto/user_changeUserName_request'
 import { UserInfoRegisterResponseDTO } from './dto/user_register_response';
 
 
-
-
 enum saltOrRounds {
     SALT = 10
 }
@@ -70,6 +68,7 @@ export class UserInfoService {
         }
     }
 
+
     async LoginUser(requestDTO: UserInfoLoginRequestDTO): Promise<any | UserInfoResponseDTO> {
         try {
             const { email, password } = requestDTO;
@@ -106,8 +105,6 @@ export class UserInfoService {
             console.log(requestDTO);
             const { email, newPassword } = requestDTO;
             const user = await this.userModel.findOne({ email });
-            console.log(user._id);
-
             const hashPassword = await bcrypt.hash(newPassword, saltOrRounds.SALT);
             if (user) {
                 (await user).password = hashPassword;
@@ -134,7 +131,6 @@ export class UserInfoService {
     async ChangePassword(requestDTO: any): Promise<UserInfoResponseDTO> {
         try {
             const { email, oldPassword, newPassword } = requestDTO;
-            console.log(newPassword);
             const user = await this.userModel.findOne({ email });
             let comparePassword = bcrypt.compareSync(oldPassword, (await user).password);
             if (comparePassword) {
@@ -161,11 +157,7 @@ export class UserInfoService {
     async VerifyUser(requestDTO: UserInfoSendMailRequestDTO): Promise<UserInfoResponseDTO | any> {
         try {
             const { email } = requestDTO;
-            console.log(requestDTO)
             const random = Math.floor((Math.random() * (999999 - 100000)) + 100000);
-            const responseDTO = await this.userModel.find();
-            const compareEmail = responseDTO.map(item => item.email === email).indexOf(true);
-
             const sendMail = this.mailerService.sendMail({
                 to: email, // list of receivers
                 from: Email.FORM, // sender address
@@ -190,20 +182,18 @@ export class UserInfoService {
                 </div>
                 `, // HTML body content
             })
-            if (compareEmail >= 0) {
+            if (sendMail) {
                 return {
                     status: true,
                     message: 'SendMail successfully',
-                    random, 
-                    sendMail
+                    random,
                 }
             } else {
                 return {
                     status: false,
-                    message: 'Email not found',
+                    message: 'SendMail Failed',
                 }
             }
-
         } catch (error) {
             return {
                 status: false,
@@ -227,6 +217,43 @@ export class UserInfoService {
                 status: false,
                 message: 'Change username error',
             }
+        }
+    }
+
+    
+    async UpdateInfoUser(requestDTO: UserInsertRequestDTO | any): Promise<UserInfoResponseDTO> {
+        try {
+            const { _id, email = null ,username = null } = requestDTO;
+            const user = await this.userModel.findOne({ _id: _id });
+            console.log(user);
+
+            if (user) {
+                user.email = email ? email : user.email;
+                user.username = username ? username : user.username;
+                await user.save();
+                return {
+                    status: true,
+                    message: 'Update User successfully'
+                }
+            }
+            return {
+                status: false,
+                message: 'Update User failed'
+            }
+        } catch (error) {
+            return {
+                status: false,
+                message: 'Update favoUserrite error'
+            }
+        }
+    }
+
+    async GetEmailAllUsersInfor(): Promise<UserInsertRequestDTO[]> {
+        try {
+            const listEmail : any = await this.userModel.find();
+            return listEmail.map(user => user.email);
+        } catch (error) {
+            return error;
         }
     }
 }

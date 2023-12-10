@@ -68,4 +68,25 @@ export class UserInfoController {
         }
     }
 
+    @Post('updateInfoUser')
+    async UpdateInfoUser(@Body() body: UserInsertRequestDTO, @Res() res: Response) {
+        try {
+            const user = await this.userService.UpdateInfoUser(body);
+            return res.status(HttpStatus.OK).json(user);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }  
+    }
+
+    @Get('getEmailAllUsersInfor')
+    async GetEmailAllUsersInfor(@Res() res: Response) {
+        try {
+            const responseDTO = await this.userService.GetEmailAllUsersInfor();
+            return res.status(HttpStatus.OK).json(responseDTO);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }
+    }
+
+
 }

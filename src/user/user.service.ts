@@ -89,7 +89,7 @@ export class UserService {
 
     async UpdateInfoUser(requestDTO: UserUpdateInfoRequestDTO | any): Promise<UserResponseDTO> {
         try {
-            const { _id, name = null, phone = null, avatar = null, gender = null, birthDay = null, cartItem = [] } = requestDTO;
+            const { _id, name = null, phone = null, avatar = null, gender = null, birthDay = null,email = null, cartItem = [] } = requestDTO;
             const user = await this.userModel.findOne({ _idUser: _id });
             console.log(user);
 
@@ -99,6 +99,7 @@ export class UserService {
                 user.avatar = avatar ? avatar : user.avatar;
                 user.gender = gender ? gender : user.gender;
                 user.birthDay = birthDay ? birthDay : user.birthDay;
+                user.email = email ? email : user.email;
                 user.cartItem = cartItem;
                 console.log(name)
                 await user.save();
@@ -118,6 +119,7 @@ export class UserService {
             }
         }
     }
+    
     async UpdateAddressUser(requestDTO: UserAddressDTO): Promise<UserResponseDTO> {
         try {
             const { _id, typeUpdate, position, city, district, ward, street = "" } = requestDTO;
@@ -158,5 +160,4 @@ export class UserService {
             return error;
         }
     }
-
 }
