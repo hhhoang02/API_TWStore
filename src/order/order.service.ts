@@ -31,7 +31,7 @@ export class OrderService {
         orderCode = Math.floor(Math.random() * (999999 - 100000)) + 100000,
         status = 1,
         listProduct,
-        bookingDate = `${hour}: ${minutes}, ${day}/${month}/${year}`,
+        bookingDate = date,
         deliveryDate = `${day + 5}/${month}/${year}`,
         userID,
         voucher,
@@ -178,5 +178,36 @@ export class OrderService {
     } catch (error) {
       return;
     }
+  }
+  async getMonthlyRevenue(year: number, month: number): Promise<number> {
+    const startOfMonth = new Date(year, month - 1, 1);
+    const endOfMonth = new Date(year, month, 0, 23, 59, 59, 999);
+    const result = await this.orderModel.aggregate([
+      {
+        $match: {
+          bookingDate: {
+            $gte: startOfMonth,
+            $lte: endOfMonth,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: '$totalPrice' },
+        },
+      },
+    ]);
+
+    return result.length > 0 ? result[0].totalRevenue : 0;
+  }
+  async getAnnualRevenue(year: number): Promise<number[]> {
+    const monthlyRevenues = [];
+
+    for (let month = 1; month <= 12; month++) {
+      const totalRevenue = await this.getMonthlyRevenue(year, month);
+      monthlyRevenues.push(totalRevenue);
+    }
+    return monthlyRevenues;
   }
 }

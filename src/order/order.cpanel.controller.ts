@@ -11,7 +11,7 @@ export class OrderCpanelController {
   constructor(
     private readonly orderService: OrderService,
     private readonly promotionService: PromotionService
-    ) { }
+  ) { }
 
   @Get('quanlydonhang')
   @Render('quanlydonhang')
@@ -33,7 +33,7 @@ export class OrderCpanelController {
       const voucher = await this.promotionService.getAllPromotion();
       const yourVoucher = voucher.filter((voucher: any) => voucher.discountCode == orders.voucher)
       const discountLevel = yourVoucher.map((voucher: any) => voucher.discountLevel)
-      return { orders, listProduct: orders.listProduct, discountLevel};
+      return { orders, listProduct: orders.listProduct, discountLevel };
     } catch (error) { }
   }
 
@@ -41,11 +41,19 @@ export class OrderCpanelController {
   async updateStatusOrder(@Param() _id: any, @Body() body: any, @Res() res: Response) {
     try {
       const { id } = _id
-      const order = await this.orderService.updateStatusOrder({ id, body });
+      await this.orderService.updateStatusOrder({ id, body });
       return res.json({ result: true })
     } catch (error) {
 
     }
   }
-
+  @Get('/RevenueByYear/:year')
+  async getYearRevenue(@Param('year') year: number): Promise<number[]> {
+    return await this.orderService.getAnnualRevenue(year);
+  }
+  @Get('/RevenueByMonth')
+  async getMonthlyRevenue(): Promise<number> {
+    const date = new Date();
+    return await this.orderService.getMonthlyRevenue(date.getFullYear(), date.getMonth());
+  }
 }

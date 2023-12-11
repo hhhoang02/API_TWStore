@@ -43,7 +43,7 @@ export class Order {
     listProduct: listProduct[];
 
     @Prop()
-    bookingDate: string;
+    bookingDate: Date;
 
     @Prop()
     deliveryDate: string;
