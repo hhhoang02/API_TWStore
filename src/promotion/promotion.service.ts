@@ -11,26 +11,26 @@ function randomPromotion(): string {
     const length = 6;
     const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let result = "";
-  
+
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-  
+
     return result;
-  }
+}
 @Injectable()
 
 export class PromotionService {
     constructor(
-        @InjectModel(Promotion.name) 
+        @InjectModel(Promotion.name)
         private readonly promotionModel: Model<PromotionDocument>,
     ) { }
-    
+
     async addPromotion(requestDTO: PromotionInsertDTO): Promise<PromotionResponseDTO> {
         try {
             const promotionCode = randomPromotion();
 
-            const {discountLevel,startDay,endDay} = requestDTO;
+            const { discountLevel, startDay, endDay } = requestDTO;
             console.log(requestDTO);
 
             const newPromotion = new this.promotionModel({
@@ -56,8 +56,18 @@ export class PromotionService {
 
     async getAllPromotion(): Promise<PromotionGetResponseDTO[]> {
         try {
-            const product = await this.promotionModel.find();
-            return product
+            const response = await this.promotionModel.find();
+            console.log(response);
+
+            return response;
+        } catch (error) {
+            return
+        }
+    }
+    async getPromotionHighest(): Promise<PromotionGetResponseDTO> {
+        try {
+            const response = await this.promotionModel.find().sort([['discountLevel', 'desc']]).exec();
+            return response[0];
         } catch (error) {
             return
         }

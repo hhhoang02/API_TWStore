@@ -1,4 +1,4 @@
-import { Body, Controller,Get,HttpStatus, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Res } from "@nestjs/common";
 import { PromotionInsertDTO } from "./dto/promotion_insert_request";
 import { PromotionService } from "./promotion.service";
 import { Response } from "express";
@@ -11,8 +11,8 @@ export class PromotionController {
     @Post('addPromotion')
     async AddPromotion(@Body() body: PromotionInsertDTO, @Res() res: Response) {
         try {
-            const product = await this.promotionService.addPromotion(body);
-            return res.status(HttpStatus.OK).json(product);
+            const response = await this.promotionService.addPromotion(body);
+            return res.status(HttpStatus.OK).json(response);
         } catch (error) {
             res.status(HttpStatus.BAD_REQUEST).json(error);
         }
@@ -21,8 +21,8 @@ export class PromotionController {
     @Get('getAllPromotion')
     async GetAllPromotion(@Res() res: Response) {
         try {
-            const product = await this.promotionService.getAllPromotion();
-            return res.status(HttpStatus.OK).json(product);
+            const response = await this.promotionService.getAllPromotion();
+            return res.status(HttpStatus.OK).json(response);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
@@ -32,6 +32,15 @@ export class PromotionController {
         try {
             const responseDTO = await this.promotionService.DeletePromotion(body);
             return res.status(HttpStatus.OK).json(responseDTO);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json(error);
+        }
+    }
+    @Get('getCouponHighest')
+    async GetCouponHighest(@Res() res: Response) {
+        try {
+            const response = await this.promotionService.getPromotionHighest();
+            return res.status(HttpStatus.OK).json(response);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
