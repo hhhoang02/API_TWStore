@@ -21,7 +21,8 @@
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
-        body{
+
+        body {
             font-family: 'Poppins', sans-serif;
             font-weight: 300;
             line-height: 1.7;
@@ -31,6 +32,7 @@
             height: 100vh;
             background: radial-gradient(ellipse at bottom, #476c97 0%, #12141d 100%);
         }
+
         #stars {
             width: 1px;
             height: 1px;
@@ -122,7 +124,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user" action="/usersCpanel/login" method="post">
+                                    <form class="user" action="/auth/loginWeb" method="post">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" name="email"
                                                 id="email" aria-describedby="emailHelp"
@@ -139,7 +141,7 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <button type="button" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
                                     </form>
@@ -163,7 +165,36 @@
 
 
     <script src="/js/sb-admin-2.min.js"></script>
+    <script>
+        async function login() {
+            const username = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Invalid credentials');
+                }
+
+                const data = await response.json();
+
+                // Set the token in the header for subsequent requests
+                const token = data.token;
+                document.getElementById('loginForm').reset();
+                alert('Login successful! Token: ' + token);
+                // Now you can use the token for further requests
+            } catch (error) {
+                console.error('Login failed:', error.message);
+            }
+        }
+    </script>
 </body>
 
 </html>

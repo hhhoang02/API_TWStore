@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res, UseGuards } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ProductInsertDTO } from "./dto/product_insert_request";
 import { ProductUpdateDTO } from "./dto/product_update_request";
@@ -7,13 +7,14 @@ import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
 import { ProductGetByIdCategoryRequestDTO } from "./dto/product_getProductbyIdCategory_request";
 import { ProductGetByIdPromotionRequestDTO } from "./dto/product_getProductbyIdPromotion_request";
 import { Product } from "./product.schema";
+import { AuthGuard } from "src/auth/auth.guard";
 
 @Controller('product')
 
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
-
+    @UseGuards(AuthGuard)
     @Get('getAllProduct')
     async GetAllProduct(@Res() res: Response) {
         try {
@@ -52,6 +53,7 @@ export class ProductController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
+    @UseGuards(AuthGuard)
     @Get('getRecommendProduct')
     async getRecommendProduct(@Res() res: Response) {
         try {

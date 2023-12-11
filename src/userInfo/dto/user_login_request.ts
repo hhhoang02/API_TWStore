@@ -1,4 +1,3 @@
-export class UserInfoLoginRequestDTO{
+export class UserInfoLoginRequestDTO {
     email: string;
-    password: string;
 }

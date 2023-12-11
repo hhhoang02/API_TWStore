@@ -18,27 +18,9 @@ export class UserCpanelController {
 
   //Url: http://localhost:3000/usersCpanel/login
   //Url: http://localhost:3000/usersCpanel/login
-  @Get('login')
-  @Render('login')
-  async home(@Res() res: Response) {
-    console.log(process.env.CONNECT);
-    return {
-      message: 'Hello',
-    };
-  }
 
-  @Post('login')
-  async Login(@Body() body: UserInfoLoginRequestDTO, @Res() res: Response) {
-    try {
-      const responseDTO: UserInfoResponseDTO | any = await this.userInfoService.LoginUser(
-        body,
-      );
-      console.log('Login:', responseDTO);
-      return responseDTO.user.role === 'admin'
-        ? res.redirect('/usersCpanel/index')
-        : res.redirect('login');
-    } catch (error) { }
-  }
+
+
 
   @Get('quanlytaikhoan')
   @Render('quanlytaikhoan')

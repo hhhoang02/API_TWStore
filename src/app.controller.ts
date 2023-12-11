@@ -11,6 +11,6 @@ export class AppController {
   
   @Get('')
   async table(@Res() res: Response) {
-    return res.redirect('/usersCpanel/login')
+    return res.redirect('/auth/loginWeb')
   }
 }

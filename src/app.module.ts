@@ -16,15 +16,16 @@ import { BannerModule } from './banner/banner.module';
 import { EventModule } from './event/event.module';
 import { PaymentModule } from './paymentMethod/payment.module';
 import { NotificationModule } from './notification/notifi.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
 
     MongooseModule.forRoot('mongodb+srv://admin:haunho@cluster0.3oqlz8r.mongodb.net/TWStore?retryWrites=true&w=majority'),
     UserModule, UserInfoModule, CommentModule, BrandModule, CategoryModule, ProductModule, PromotionModule,
-    OrderModule, ColorModule, SizeModule, BannerModule, EventModule, PaymentModule,NotificationModule
+    OrderModule, ColorModule, SizeModule, BannerModule, EventModule, PaymentModule, NotificationModule, AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
