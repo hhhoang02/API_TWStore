@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
     constructor(
         private userInfoService: UserInfoService,
-        private jwtService: JwtService
+        
     ) { }
     async signIn(request: any) {
         const { email, password } = request;
@@ -19,9 +19,7 @@ export class AuthService {
                 message: 'Wrong password',
             }
         }
-        const payload = { sub: user._id, email: user.email };
         return {
-            access_token: await this.jwtService.signAsync(payload),
             user
         };
     }

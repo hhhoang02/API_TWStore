@@ -14,6 +14,7 @@ import { UserGetByIDRequestDTO } from './dto/user_getByID_request';
 import { UserAddIdRequestDTO } from './dto/user_addId_request';
 import { UserGetAllResponseDTO } from './dto/user_getAll_response';
 import { log } from 'console';
+import { JwtService } from '@nestjs/jwt';
 
 
 
@@ -23,6 +24,7 @@ import { log } from 'console';
 export class UserService {
     constructor(@InjectModel(Users.name)
     private readonly userModel: Model<UserDocument>,
+        private jwtService: JwtService
     ) { }
 
     //Hàm insert vào database
@@ -32,12 +34,13 @@ export class UserService {
             const { name, email } = body;
             const user = await this.userModel.findOne({ _idUser: _id }).populate([{ path: 'cartItem', populate: [{ path: 'productID', model: 'Product', select: ['productName', 'offer', 'price', 'image'] }, { path: 'sizeProduct', model: 'Size' }, { path: 'colorProduct', model: 'Color' }] }]);
             console.log("user: " + user);
-
+            const payload = { sub: user._id, name: user.name };
             if (user) {
                 return {
                     status: true,
                     message: 'Get User successfully',
                     data: user,
+                    access_token: await this.jwtService.signAsync(payload),
                 }
             }
             let newUser = new this.userModel({ _idUser: _id, name, email, phone: null, active: true, avatar: null, cartItem: [], gender: null, birthDay: null, address: [] });
@@ -46,6 +49,7 @@ export class UserService {
                 status: true,
                 message: 'New User',
                 data: newUser,
+                access_token: await this.jwtService.signAsync(payload),
             }
         } catch (error) {
             console.log(error);
@@ -89,7 +93,7 @@ export class UserService {
 
     async UpdateInfoUser(requestDTO: UserUpdateInfoRequestDTO | any): Promise<UserResponseDTO> {
         try {
-            const { _id, name = null, phone = null, avatar = null, gender = null, birthDay = null,email = null, cartItem = [] } = requestDTO;
+            const { _id, name = null, phone = null, avatar = null, gender = null, birthDay = null, email = null, cartItem = [] } = requestDTO;
             const user = await this.userModel.findOne({ _idUser: _id });
             console.log(user);
 
@@ -119,7 +123,7 @@ export class UserService {
             }
         }
     }
-    
+
     async UpdateAddressUser(requestDTO: UserAddressDTO): Promise<UserResponseDTO> {
         try {
             const { _idUser, typeUpdate, position, city, district, ward, street = "" } = requestDTO;
