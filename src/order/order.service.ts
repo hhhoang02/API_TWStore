@@ -139,11 +139,8 @@ export class OrderService {
       if (!order) {
         throw new NotFoundException('Order not found');
       }
-
       order.status = status;
       await order.save();
-      
-
         return {
           status: true,
           message: 'Update status for Order successfully',
