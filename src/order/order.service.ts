@@ -6,7 +6,6 @@ import { OrderInsertDTO } from './dto/order_insert_request';
 import { OrderResponseDTO } from './dto/order_response';
 import { OrderGetResponseDTO } from './dto/order_get_response';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
-import { GetOrderByIdUser } from './dto/order_getOrderbyIDUser_request';
 
 @Injectable()
 export class OrderService {
@@ -154,7 +153,7 @@ export class OrderService {
       };
     }
   }
-  async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
+  async getOrderByIdUser(requestDTO: any): Promise<OrderGetResponseDTO[]> {
     try {
       const { _id } = requestDTO;
       const order = await this.orderModel.find({ userID: _id }).populate([
