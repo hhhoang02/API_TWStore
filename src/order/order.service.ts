@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Order, OrderDocument, listProduct } from './order.schema';
 import { Model, Types } from 'mongoose';
@@ -132,19 +132,15 @@ export class OrderService {
       const { id } = requestDTO;
       const { status } = requestDTO.body
       const order = await this.orderModel.findById(id);
-      if (order) {
-        order.status = status;
-        await order.save();
+      if (!order) {
+        throw new NotFoundException('Order not found');
+      }
+      order.status = status;
+      await order.save();
         return {
           status: true,
           message: 'Update status for Order successfully',
         };
-      } else {
-        return {
-          status: false,
-          message: 'Update status for Order failed',
-        };
-      }
     } catch (error) {
       console.log(error);
       return {
