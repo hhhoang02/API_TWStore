@@ -5,9 +5,6 @@ import { Model, Types } from 'mongoose';
 import { OrderInsertDTO } from './dto/order_insert_request';
 import { OrderResponseDTO } from './dto/order_response';
 import { OrderGetResponseDTO } from './dto/order_get_response';
-import { Product } from 'src/product/product.schema';
-import { ProductService } from 'src/product/product.service';
-import { log } from 'console';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { GetOrderByIdUser } from './dto/order_getOrderbyIDUser_request';
 
@@ -109,7 +106,7 @@ export class OrderService {
       console.log(error);
     }
   }
-  async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO[]> {
+  async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO): Promise<OrderGetResponseDTO[]> {
     try {
       const _id = requestDTO;
       console.log(requestDTO);
