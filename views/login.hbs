@@ -141,7 +141,7 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
                                     </form>
@@ -166,34 +166,6 @@
 
     <script src="/js/sb-admin-2.min.js"></script>
     <script>
-        async function login() {
-            const username = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const response = await fetch('http://localhost:3000/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, password }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Invalid credentials');
-                }
-
-                const data = await response.json();
-
-                // Set the token in the header for subsequent requests
-                const token = data.token;
-                document.getElementById('loginForm').reset();
-                alert('Login successful! Token: ' + token);
-                // Now you can use the token for further requests
-            } catch (error) {
-                console.error('Login failed:', error.message);
-            }
-        }
     </script>
 </body>
 

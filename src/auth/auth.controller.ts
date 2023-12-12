@@ -4,6 +4,7 @@ import { AuthGuard } from "./auth.guard";
 import { UserInfoLoginRequestDTO } from "src/userInfo/dto/user_login_request";
 import { UserInfoResponseDTO } from "src/userInfo/dto/user_response";
 import { Response, Request } from "express";
+import { LoginGuard } from "./login.guard";
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
@@ -22,20 +23,11 @@ export class AuthController {
             message: 'Hello',
         };
     }
+
+    @UseGuards(LoginGuard)
     @Post('loginWeb')
     async Login(@Req() req: Request, @Body() body: UserInfoLoginRequestDTO, @Res() res: Response) {
-        try {
-            const responseDTO: UserInfoResponseDTO | any = await this.authService.signIn(body);
-            responseDTO && res.setHeader('Authorization', `Bearer ${responseDTO.access_token}`);
-            if (responseDTO.user.role === 'admin') {
-                return res.redirect('/usersCpanel/index');
-            }
-            return res.redirect('login');
-        } catch (error) { }
+        res.redirect('/usersCpanel/index');
     }
-    // @UseGuards(AuthGuard)
-    // @Get('profile')
-    // getProfile(@Request() req) {
-    //     return req.user;
-    // }
+
 }

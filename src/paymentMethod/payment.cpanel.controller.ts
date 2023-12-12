@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Render, Res, UploadedFile, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Render, Res, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { Response } from "express";
 import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
 import { Types } from "mongoose";
 import { PaymentService } from "./payment.service";
+import { AuthenticatedGuard } from "src/auth/authWeb.guard";
 
 @Controller('paymentCpanel')
 export class PaymentCpanelController {
     constructor(private readonly paymentService: PaymentService) { }
-
+    @UseGuards(AuthenticatedGuard)
     @Get('quanlythanhtoan')
     @Render('quanlythanhtoan')
     async quanlyPaymentMethod(@Res() res: Response) {
@@ -18,7 +19,7 @@ export class PaymentCpanelController {
         } catch (error) {
         }
     }
-
+    @UseGuards(AuthenticatedGuard)
     @Get('addPaymentMethod')
     @Render('addPaymentMethod')
     async AddPaymentRender(@Res() res: Response) {

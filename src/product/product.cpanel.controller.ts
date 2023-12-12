@@ -27,6 +27,7 @@ import { ProductGetbyIdDTO } from './dto/product_getProductbyID_request';
 import { AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { ProductUpdateDTO } from './dto/product_update_request';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthenticatedGuard } from 'src/auth/authWeb.guard';
 
 @Controller('productsCpanel')
 export class ProductsCpanelController {
@@ -37,7 +38,7 @@ export class ProductsCpanelController {
     private readonly sizeService: SizeService,
     private readonly brandService: BrandService
   ) { }
-
+  @UseGuards(AuthenticatedGuard)
   @Get('addProduct')
   @Render('addProduct')
   async addProductCpanel(@Res() res: Response) {
@@ -67,7 +68,7 @@ export class ProductsCpanelController {
     }
   }
 
-
+  @UseGuards(AuthenticatedGuard)
   @Get('productDetail/:_id/edit')
   @Render('productDetail')
   async productDetail(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {
@@ -139,7 +140,7 @@ export class ProductsCpanelController {
     }
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('quanlysanpham')
   @Render('quanlysanpham')
   async quanlysanpham(@Req() request: Request, @Res() res: Response) {

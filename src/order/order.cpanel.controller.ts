@@ -1,18 +1,19 @@
 import { listProduct } from './order.schema';
-import { Body, Controller, Get, Param, Put, Render, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, Render, Res, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { Response } from 'express';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { log } from 'console';
 import Handlebars from 'handlebars';
 import { PromotionService } from 'src/promotion/promotion.service';
+import { AuthenticatedGuard } from 'src/auth/authWeb.guard';
 @Controller('ordersCpanel')
 export class OrderCpanelController {
   constructor(
     private readonly orderService: OrderService,
     private readonly promotionService: PromotionService
   ) { }
-
+  @UseGuards(AuthenticatedGuard)
   @Get('quanlydonhang')
   @Render('quanlydonhang')
   async quanlydonhang(@Res() res: Response) {
@@ -23,7 +24,7 @@ export class OrderCpanelController {
       return { orders };
     } catch (error) { }
   }
-
+  @UseGuards(AuthenticatedGuard)
   @Get('orderDetail/:_id')
   @Render('orderDetail')
   async orderDetail(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
