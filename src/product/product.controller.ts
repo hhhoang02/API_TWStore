@@ -14,7 +14,6 @@ import { AuthGuard } from "src/auth/auth.guard";
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
-    @UseGuards(AuthGuard)
     @Get('getAllProduct')
     async GetAllProduct(@Res() res: Response) {
         try {
