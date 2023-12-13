@@ -16,7 +16,6 @@ export class OrderCpanelController {
   async quanlydonhang(@Res() res: Response) {
     try {
       const orders = await this.orderService.getAllOrder();
-      console.log(orders);
       return { orders };
     } catch (error) { }
   }
@@ -37,8 +36,8 @@ export class OrderCpanelController {
   @Put('updateStatusOrder/:id')
   async updateStatusOrder(@Param('id') id: string, @Body() body: any, @Res() res: Response) {
     try {
-      await this.orderService.updateStatusOrder({ id, body });
-      return res.json({ result: true });
+      const order =  await this.orderService.updateStatusOrder({ id, body });
+      return res.json({ result: true , userID : order.userID  , statusOrder : order.statusOrder});
     } catch (error) {
     }
   }

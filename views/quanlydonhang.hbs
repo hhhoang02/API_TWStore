@@ -216,7 +216,7 @@
                                                     href="/ordersCpanel/orderDetail/{{this._id}}">View Details</a>
                                                 <a class="btn btn-success" id="btnAccept"
                                                     onclick="confirmUpdate('{{this._id}}', '{{this.status}}')">Confirm
-                                                    Order{{this.status}}</a>
+                                                    Order</a>
 
                                             </td>
                                             <td>
@@ -300,6 +300,44 @@
     <script>
         const confirmUpdate = (id, status) => {
 
+            const ContentStatus = [
+                {
+                    key: 1, value: "Đặt hàng thành công",
+                },
+                {
+                    key: 2, value: "Đã xác nhận đơn hàng"
+                },
+                {
+                    key: 3, value: "Đã đóng gói đơn hàng"
+                },
+                {
+                    key: 4, value: "Đã giao cho bên vận chuyển"
+                },
+                {
+                    key: 5, value: "Giao hàng thành công"
+                },
+                {
+                    key: 6, value: "Đơn hàng bị hủy"
+                },
+            ]
+
+            const notification = async (id, status) => {
+                let content = ContentStatus.filter((item) => item.key == status);
+                const url = `/notifiCpanel/addNotification`;
+                const option = {
+                    method: 'Post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        _idUser: id,
+                        title: `Thông tin đơn hàng`,
+                        content: `Cập nhật đơn hàng : ${content[0].value}`,
+                    })
+                }
+
+                const res = await fetchAPI(url, option);
+
+            }
+
 
             const fetchAPI = async (url, option) => {
                 const res = await fetch(url, option);
@@ -325,6 +363,7 @@
 
                 const res = await fetchAPI(url, option);
                 if (res.result) {
+                    notification(res.userID, res.statusOrder);
                     swal("Thành công!", ``, "success");
                     setTimeout(() => {
                         window.location.reload();
@@ -355,8 +394,15 @@
                     updateStatus(id, mappedStatus);
                 }
             });
+
+
         }
+
+
+
     </script>
+
+
 
 
 </body>

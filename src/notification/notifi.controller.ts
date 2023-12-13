@@ -19,10 +19,10 @@ export class NotificationController {
 
   ) {}
 
-  @Get('getAllNotification')
-  async getAllNotification(@Res() res: Response) {
+  @Get('getAllNotification/:id')
+  async getAllNotification(@Param('id') _idUser : any ,@Res() res: Response) {
     try {
-      const notifi = await this.NotificationService.getAllNotification();
+      const notifi = await this.NotificationService.getAllNotification(_idUser);
       return res.status(HttpStatus.OK).json(notifi);
     } catch (error) {
       return res.status(HttpStatus.BAD_REQUEST).json(error);

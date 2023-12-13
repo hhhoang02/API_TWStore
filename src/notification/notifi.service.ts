@@ -15,15 +15,19 @@ export class NotificationService {
 
     async addNotification(requestDTO: NotificationInsertDTO): Promise<NotifiGetResponseDTO> {
         try {
-            const { title, content } = requestDTO;
+            const {_idUser , title, content } = requestDTO;
             const newNotifi = new this.notifiModel({
+                _idUser,
                 title,
                 content,
             });
+            
             await newNotifi.save()
+            
             return {
                 status: true,
                 message: 'Notification added successfully',
+
             }
         } catch (error) {
             return {
@@ -33,9 +37,9 @@ export class NotificationService {
         }
     }
 
-    async getAllNotification(): Promise<NotifiGetResponseDTO | any> {
+    async getAllNotification(_idUser): Promise<NotifiGetResponseDTO | any> {
         try {
-            const notifi = await this.notifiModel.find();
+            const notifi = await this.notifiModel.find({_idUser});
             this.logger.log('Get all notifications successfully');
             return notifi;
         } catch (error) {

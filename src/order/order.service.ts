@@ -108,8 +108,6 @@ export class OrderService {
   async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO): Promise<OrderGetResponseDTO[]> {
     try {
       const _id = requestDTO;
-      console.log(requestDTO);
-
       const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
@@ -127,7 +125,7 @@ export class OrderService {
       console.log(error);
     }
   }
-  async updateStatusOrder(requestDTO: { id: string, body: any }): Promise<OrderResponseDTO> {
+  async updateStatusOrder(requestDTO: { id: string, body: any }): Promise<OrderResponseDTO | any> {
     try {
       const { id } = requestDTO;
       const { status } = requestDTO.body
@@ -136,10 +134,15 @@ export class OrderService {
         throw new NotFoundException('Order not found');
       }
       order.status = status;
+
+      console.log(order);
+      
       await order.save();
         return {
           status: true,
           message: 'Update status for Order successfully',
+          userID  : order.userID,
+          statusOrder : order.status,
         };
     } catch (error) {
       console.log(error);

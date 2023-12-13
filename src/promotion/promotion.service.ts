@@ -30,15 +30,17 @@ export class PromotionService {
         try {
             const promotionCode = randomPromotion();
 
-            const { discountLevel, startDay, endDay } = requestDTO;
-            console.log(requestDTO);
-
+            const { titleVoucher, contentVoucher, discountLevel, startDay, endDay } = requestDTO;
             const newPromotion = new this.promotionModel({
+                titleVoucher,
+                contentVoucher,
                 discountCode: promotionCode,
                 discountLevel,
                 startDay,
                 endDay
             });
+            console.log(newPromotion);
+            
             await newPromotion.save();
             return {
                 status: true,
