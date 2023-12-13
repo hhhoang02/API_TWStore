@@ -686,7 +686,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/auth/loginWeb" >Logout</a>
+                    <a class="btn btn-primary" href="/auth/loginWeb">Logout</a>
                 </div>
             </div>
         </div>
@@ -714,38 +714,39 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
+        const baseURL = 'http://localhost:3000/'
         const fetchAPI = async (url, option) => {
             const res = await fetch(url, option);
             return res.json();
         }
         const getOrderWaiting = async () => {
-            const url = `http://localhost:3000/order/getAllOrder`;
+            const url = `order/getAllOrder`;
             const option = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }
-            const res = await fetchAPI(url, option);
+            const res = await fetchAPI(baseURL + url, option);
             return res;
         }
         const getRevenueByMonth = async () => {
-            const url = `http://localhost:3000/ordersCpanel/RevenueByMonth`;
+            const url = `ordersCpanel/RevenueByMonth`;
             const option = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }
-            const res = await fetchAPI(url, option);
+            const res = await fetchAPI(baseURL + url, option);
             return res;
         }
         const getRevenue = async () => {
             const date = new Date();
             const year = date.getFullYear();
             console.log(year);
-            const url = `http://localhost:3000/ordersCpanel/RevenueByYear/${year}`;
+            const url = `ordersCpanel/RevenueByYear/${year}`;
             const option = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }
-            const res = await fetchAPI(url, option);
+            const res = await fetchAPI(baseURL + url, option);
             return res;
         }
         getOrderWaiting().then((val) => {
