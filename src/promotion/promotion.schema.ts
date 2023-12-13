@@ -9,6 +9,12 @@ export type PromotionDocument = Promotion & Document;
 export class Promotion {
 
     @Prop()
+    titleVoucher : string;
+
+    @Prop()
+    contentVoucher : string;
+
+    @Prop()
     discountCode : string;
 
     @Prop()
