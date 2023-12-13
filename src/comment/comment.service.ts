@@ -45,15 +45,21 @@ export class CommentService {
             }
         }
     }
-    async GetCommentbyIdProduct(requestDTO: CommentGetbyProducRequesttDTO): Promise<CommentGetbyProductResponseDTO> {
+    async GetCommentbyIdProduct(requestDTO: CommentGetbyProducRequesttDTO): Promise<CommentGetbyProducRequesttDTO[] | null> {
         try {
             const _id = requestDTO;
-            const responseDTO = await this.commentModel.findOne({productID:_id}).populate([{path:'userID'},{path:'productID'}]);
+            const responseDTO = await this.commentModel.find({ productID: _id })
+                .populate([
+                    { path: 'userID', select: 'name username avatar' },
+                    { path: 'productID', select: 'createAt content image star' }
+                ]);
+    
             return responseDTO;
         } catch (error) {
-            return error;
+            return null;
         }
     }
+    
     async DeleteComment(requestDTO: CommentDeleteRequestDTO): Promise<CommentResponseDTO> {
         try {
             const { _id } = requestDTO;

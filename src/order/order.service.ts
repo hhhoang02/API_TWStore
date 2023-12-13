@@ -39,7 +39,7 @@ export class OrderService {
         nameReceiver,
         addressDelivery,
         payment,
-        totalPrice 
+        totalPrice
       } = requestDTO;
       const newOrder = new this.orderModel({
         orderCode,
@@ -55,7 +55,7 @@ export class OrderService {
         payment,
         totalPrice,
       });
-      
+
       await newOrder.save();
       return {
         status: true,
@@ -103,7 +103,6 @@ export class OrderService {
             { path: 'sizeID', model: 'Size', select: 'name' },
           ],
         },
-        { path: 'userID' },
       ]);
       return order;
     } catch (error) {
@@ -113,6 +112,8 @@ export class OrderService {
   async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO[]> {
     try {
       const _id = requestDTO;
+      console.log(requestDTO);
+
       const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
@@ -121,8 +122,6 @@ export class OrderService {
             model: 'Product',
             select: ['productName', 'price']
           },
-          { path: 'colorID', model: 'Color', select: 'name' }
-            , { path: 'sizeID', model: 'Size', select: 'name' }
           ],
         },
         { path: 'userID' },
@@ -160,7 +159,7 @@ export class OrderService {
   }
   async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
     try {
-      const _id = requestDTO;
+      const { _id } = requestDTO;
       const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
@@ -174,7 +173,6 @@ export class OrderService {
             { path: 'sizeID', model: 'Size', select: 'name' },
           ],
         },
-        { path: 'userID' },
       ]);
       return order;
     } catch (error) {
