@@ -11,11 +11,6 @@ import { SessionSerializer } from "./session";
 @Module({
     imports: [
         UserInfoModule,
-        JwtModule.register({
-            global: true,
-            secret: jwtConstants.secret,
-            signOptions: { expiresIn: '1d' },
-        }),
         PassportModule
     ],
     providers: [AuthService,LocalStrategy, SessionSerializer],
