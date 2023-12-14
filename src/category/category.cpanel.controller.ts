@@ -1,15 +1,16 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Render, Res, UploadedFile, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Render, Res, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { Response } from "express";
 import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
 import { Types } from "mongoose";
 import { CategoryService } from "./category.service";
 import { CategoryAddRequestDTO } from "./dto/category_add_request";
+import { AuthenticatedGuard } from "src/auth/authWeb.guard";
 
 @Controller('categoriesCpanel')
 export class CategoryCpanelController {
     constructor(private readonly categoryService: CategoryService) { }
 
-
+    @UseGuards(AuthenticatedGuard)
     @Get('quanlytheloai')
     @Render('quanlytheloai')
     async quanlysanpham(@Res() res: Response) {
@@ -19,7 +20,7 @@ export class CategoryCpanelController {
         } catch (error) {
         }
     }
-
+    @UseGuards(AuthenticatedGuard)
     @Get('addCategory')
     @Render('addCategory')
     async AddCategory(@Res() res: Response) {

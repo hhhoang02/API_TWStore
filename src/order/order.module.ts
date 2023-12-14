@@ -6,10 +6,6 @@ import { OrderController } from "./order.controller";
 import { OrderCpanelController } from "./order.cpanel.controller";
 import { PromotionModule } from "src/promotion/promotion.module";
 
-
-
-
-
 @Module({
     imports: [
         MongooseModule.forFeature([

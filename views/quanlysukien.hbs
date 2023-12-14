@@ -451,7 +451,7 @@
             const deleteEvent = async (id) => {
                 const url = `/eventsCpanel/deleteEvent/${id}`;
                 const option = {
-                    method: 'GET',
+                    method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }
                 }
                 const res = await fetchAPI(url, option);

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Param,
   Post,
   Render,
@@ -17,35 +18,13 @@ import { NotificationService } from './notifi.service';
 
 @Controller('notifiCpanel')
 export class NotificationCpanelController {
-  constructor(
-    private readonly notifiService: NotificationService,
-  ) {}
-
-  @Get('quanlythongbao')
-  @Render('quanlythongbao')
-  async quanlythongbao(@Res() res: Response) {
-    try {
-      const notifi = await this.notifiService.getAllNotification();
-      return { notifi };
-    } catch (error) {}
-  }
-
-  @Get('addNotification')
-  @Render('addNotification')
-  async addNotifiCpanel(@Res() res: Response) {
-    try {
-      const notifi = await this.notifiService.getAllNotification();
-      return { notifi };
-    } catch (error) {}
-  }
-
+  constructor(private readonly notifiService: NotificationService) {}
 
   @Post('addNotification')
   async addNotification(@Body() body: any, @Res() res: Response) {
     try {
-      
-      await this.notifiService.addNotification( body );
-      return ;
+      const notification = await this.notifiService.addNotification( body );
+      return res.status(HttpStatus.OK).json(notification);
     } catch (error) {
       console.log(error);
     }

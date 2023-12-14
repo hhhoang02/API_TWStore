@@ -12,8 +12,6 @@ import { UserInfoSendMailRequestDTO } from './dto/user_sendmail_request';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UserChangeUserNameRequestDTO } from './dto/user_changeUserName_request';
 import { UserInfoRegisterResponseDTO } from './dto/user_register_response';
-import { UserGetAllResponseDTO } from '../user/dto/user_getAll_response';
-
 
 
 enum saltOrRounds {
@@ -22,7 +20,6 @@ enum saltOrRounds {
 enum Email {
     FORM = "The Wonder Store",
     SUBJECT = "Testing Nest MailerModule ✔",
-    HTML = "<b>NestJS Mail Testing</b>"
 }
 
 
@@ -71,10 +68,10 @@ export class UserInfoService {
         }
     }
 
+
     async LoginUser(requestDTO: UserInfoLoginRequestDTO): Promise<any | UserInfoResponseDTO> {
         try {
-            const { email, password } = requestDTO;
-
+            const { email } = requestDTO;
             const user = await this.userModel.findOne({ email });
             if (!user) {
                 return {
@@ -82,29 +79,8 @@ export class UserInfoService {
                     message: 'User not found',
                 }
             }
-            console.log(user.role);
-            
-            if(user.role === "user"){
-                return {
-                    status: false,
-                    message: 'Need role to login',
-                }
-            }
-            let comparePassword = bcrypt.compareSync(password, (await user).password);
-            console.log('Compare Password : ', comparePassword);
-            if (!comparePassword) {
-                return {
-                    status: false,
-                    message: 'Wrong password',
-                }
-            }
-            return {
-                status: true,
-                message: 'Login successfully',
-                user: (await user)
-            }
+            return user;
         } catch (error: any) {
-
         }
     }
 
@@ -113,8 +89,6 @@ export class UserInfoService {
             console.log(requestDTO);
             const { email, newPassword } = requestDTO;
             const user = await this.userModel.findOne({ email });
-            console.log(user._id);
-
             const hashPassword = await bcrypt.hash(newPassword, saltOrRounds.SALT);
             if (user) {
                 (await user).password = hashPassword;
@@ -164,19 +138,39 @@ export class UserInfoService {
             }
         }
     }
-    async VerifyUser(requestDTO: UserInfoSendMailRequestDTO): Promise<UserInfoResponseDTO> {
+    async VerifyUser(requestDTO: UserInfoSendMailRequestDTO): Promise<UserInfoResponseDTO | any> {
         try {
             const { email } = requestDTO;
+            const random = Math.floor((Math.random() * (999999 - 100000)) + 100000);
             const sendMail = this.mailerService.sendMail({
                 to: email, // list of receivers
                 from: Email.FORM, // sender address
                 subject: Email.SUBJECT, // Subject line
-                html: Email.HTML, // HTML body content
+                html: `
+                    <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+                        <div style="margin:50px auto;width:70%;padding:20px 0">
+                            <div style="border-bottom:1px solid #eee">
+                            <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">The Wonder Store</a>
+                            </div>
+                            <p style="font-size:1.1em">Hi,</p>
+                            <p>Thank you for choosing The Wonder Store. Use the following OTP to complete your Sign Up procedures. OTP is valid for 5 minutes</p>
+                            <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${random}</h2>
+                            <p style="font-size:0.9em;">Regards,<br />The Wonder Store</p>
+                            <hr style="border:none;border-top:1px solid #eee" />
+                            <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+                            <p>Your Brand Inc</p>
+                            <p>1600 Amphitheatre Parkway</p>
+                            <p>California</p>
+                            </div>
+                        </div>
+                </div>
+                `, // HTML body content
             })
             if (sendMail) {
                 return {
                     status: true,
                     message: 'SendMail successfully',
+                    random,
                 }
             } else {
                 return {
@@ -207,6 +201,43 @@ export class UserInfoService {
                 status: false,
                 message: 'Change username error',
             }
+        }
+    }
+
+
+    async UpdateInfoUser(requestDTO: UserInsertRequestDTO | any): Promise<UserInfoResponseDTO> {
+        try {
+            const { _id, email = null, username = null } = requestDTO;
+            const user = await this.userModel.findOne({ _id: _id });
+            console.log(user);
+
+            if (user) {
+                user.email = email ? email : user.email;
+                user.username = username ? username : user.username;
+                await user.save();
+                return {
+                    status: true,
+                    message: 'Update User successfully'
+                }
+            }
+            return {
+                status: false,
+                message: 'Update User failed'
+            }
+        } catch (error) {
+            return {
+                status: false,
+                message: 'Update favoUserrite error'
+            }
+        }
+    }
+
+    async GetEmailAllUsersInfor(): Promise<UserInsertRequestDTO[]> {
+        try {
+            const listEmail: any = await this.userModel.find();
+            return listEmail.map(user => user.email);
+        } catch (error) {
+            return error;
         }
     }
 }

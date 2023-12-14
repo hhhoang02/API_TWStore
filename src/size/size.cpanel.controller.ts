@@ -1,14 +1,15 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Render, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Render, Res, UseGuards } from "@nestjs/common";
 import { SizeService } from "./size.service";
 import { Response } from 'express';
 import { SizeDeleteRequestDTO } from "./dto/size_delete_request";
 import { SizeAddRequestDTO } from "./dto/size_add_request";
+import { AuthenticatedGuard } from "src/auth/authWeb.guard";
 @Controller('sizesCpanel')
 export class SizesCpanelController {
   constructor(
     private readonly sizeService: SizeService
   ) { }
-
+  @UseGuards(AuthenticatedGuard)
   @Get('quanlykichco')
   @Render('quanlykichco')
   async quanlykichco(@Res() res: Response) {
@@ -19,6 +20,7 @@ export class SizesCpanelController {
 
     }
   }
+  @UseGuards(AuthenticatedGuard)
   @Get('addSize')
   @Render('addSize')
   async AddSizeRender(@Res() res: Response) {
