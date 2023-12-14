@@ -215,7 +215,7 @@
                                                 <a class="btn btn-primary"
                                                     href="/ordersCpanel/orderDetail/{{this._id}}">View Details</a>
                                                 <a class="btn btn-success" id="btnAccept"
-                                                    onclick="confirmUpdate('{{this._id}}', '{{this.status}}')">Confirm
+                                                    onclick="confirmUpdate('{{this._id}}', '{{this.status}}', '{{this.orderCode}}')">Confirm
                                                     Order</a>
 
                                             </td>
@@ -298,7 +298,8 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
-        const confirmUpdate = (id, status) => {
+        const confirmUpdate = (id, status, orderCode) => {
+
 
             const ContentStatus = [
                 {
@@ -321,7 +322,10 @@
                 },
             ]
 
-            const notification = async (id, status) => {
+            const notification = async (id, status , orderCode) => {
+                console.log(id, "id");
+                console.log(status, "status");
+                console.log(orderCode, "orderCode");
                 let content = ContentStatus.filter((item) => item.key == status);
                 const url = `/notifiCpanel/addNotification`;
                 const option = {
@@ -329,7 +333,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         _idUser: id,
-                        title: `Thông tin đơn hàng`,
+                        title: `Cập nhật thông tin đơn hàng ${orderCode}`,
                         content: `Cập nhật đơn hàng : ${content[0].value}`,
                     })
                 }
@@ -351,7 +355,8 @@
                 failure: 6,
             };
 
-            const updateStatus = async (id, newStatus) => {
+            const updateStatus = async (id, newStatus, orderCode) => {
+
                 const url = `/ordersCpanel/updateStatusOrder/${id}`;
                 const option = {
                     method: 'PUT',
@@ -394,8 +399,6 @@
                     updateStatus(id, mappedStatus);
                 }
             });
-
-
         }
 
 
