@@ -28,9 +28,7 @@ export class OrderController {
     }
     @Get('getOrderByID/:_id')
     async GetOrderByID(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
-
         try {
-
             const responseDTO = await this.orderService.getOrderbyID(_id);
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
