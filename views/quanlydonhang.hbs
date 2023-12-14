@@ -299,11 +299,9 @@
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
         const confirmUpdate = (id, status, orderCode, orderStatus) => {
+            const notification = async () => {
+                console.log(orderCode, "orderCode");
 
-
-
-
-            const notification = async (id, status, orderCode, orderStatus) => {
                 const url = `/notifiCpanel/addNotification`;
                 const option = {
                     method: 'Post',
