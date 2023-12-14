@@ -15,10 +15,6 @@ export class OrderService {
   ) { }
   async addOrder(requestDTO: OrderInsertDTO): Promise<OrderResponseDTO> {
     const date = new Date();
-
-    const hour = date.getHours();
-    const minutes = date.getMinutes();
-
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
@@ -73,7 +69,7 @@ export class OrderService {
         .populate([
           { path: 'listProduct', populate: { path: 'productID' } },
           { path: 'userID' },
-        ]);
+        ]).sort([['orderCode', 'desc']]);
       return order;
     } catch (error) {
       console.log(error);
@@ -136,14 +132,14 @@ export class OrderService {
       order.status = status;
 
       console.log(order);
-      
+
       await order.save();
-        return {
-          status: true,
-          message: 'Update status for Order successfully',
-          userID  : order.userID,
-          statusOrder : order.status,
-        };
+      return {
+        status: true,
+        message: 'Update status for Order successfully',
+        userID: order.userID,
+        statusOrder: order.status,
+      };
     } catch (error) {
       console.log(error);
       return {

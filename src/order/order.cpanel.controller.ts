@@ -15,7 +15,33 @@ export class OrderCpanelController {
   @Render('quanlydonhang')
   async quanlydonhang(@Res() res: Response) {
     try {
-      const orders = await this.orderService.getAllOrder();
+      const ContentStatus = [
+        {
+          key: 1, value: "Đặt hàng thành công",
+        },
+        {
+          key: 2, value: "Đã xác nhận đơn hàng"
+        },
+        {
+          key: 3, value: "Đã đóng gói đơn hàng"
+        },
+        {
+          key: 4, value: "Đã giao cho bên vận chuyển"
+        },
+        {
+          key: 5, value: "Giao hàng thành công"
+        },
+        {
+          key: 6, value: "Đơn hàng bị hủy"
+        },
+      ]
+      const response = await this.orderService.getAllOrder();
+      const orders = response.map((item: any) => {
+        return {
+          order: item,
+          statusOrder: ContentStatus.find((status: any) => status.key == item.status)
+        }
+      })
       return { orders };
     } catch (error) { }
   }
@@ -25,22 +51,20 @@ export class OrderCpanelController {
   async orderDetail(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
     try {
       const orders = await this.orderService.getOrderbyID(_id);
-      const voucher = await this.promotionService.getAllPromotion();
-      const yourVoucher = voucher.filter((voucher: any) => voucher.discountCode == orders.voucher)
-      const discountLevel = yourVoucher.map((voucher: any) => voucher.discountLevel)
-      return { orders, listProduct: orders.listProduct, discountLevel };
+      
+      return { orders, listProduct: orders.listProduct, discountLevel: orders.voucher };
     } catch (error) { }
   }
 
   @Put('updateStatusOrder/:id')
   async updateStatusOrder(@Param('id') id: string, @Body() body: any, @Res() res: Response) {
     try {
-      const order =  await this.orderService.updateStatusOrder({ id, body });
-      return res.json({ result: true , userID : order.userID  , statusOrder : order.statusOrder});
+      const order = await this.orderService.updateStatusOrder({ id, body });
+      return res.json({ result: true, userID: order.userID, statusOrder: order.statusOrder });
     } catch (error) {
     }
   }
-  
+
 
 
   @Get('/RevenueByYear/:year')
