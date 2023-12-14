@@ -9,7 +9,7 @@ import { PromotionDeleteRequestDTO } from "./dto/promotion_delete_request";
 
 function randomPromotion(): string {
     const length = 6;
-    const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let result = "";
 
     for (let i = 0; i < length; i++) {
