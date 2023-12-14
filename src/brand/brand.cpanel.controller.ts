@@ -1,32 +1,35 @@
-import { Body, Controller, Delete, Get, Param, Post, Render, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Render, Res, UseGuards } from "@nestjs/common";
 import { BrandService } from "./brand.service";
 import { Response } from 'express';
 import { BrandDeleteRequestDTO } from "./dto/brand_delete_request";
 import { BrandAddRequestDTO } from "./dto/brand_add_request";
+import { AuthenticatedGuard } from "src/auth/authWeb.guard";
 @Controller('brandsCpanel')
 export class BrandsCpanelController {
   constructor(
     private readonly brandService: BrandService
   ) { }
+  @UseGuards(AuthenticatedGuard)
   @Get('addBrand')
   @Render('addBrand')
   async AddBrand(@Res() res: Response) {
-      try {
-          return {};
-      } catch (error) {
-          return error;
-      }
+    try {
+      return {};
+    } catch (error) {
+      return error;
+    }
   }
   @Post('addBrand')
-  async addBrand(requestDTO: BrandAddRequestDTO, @Body() body:any, @Res() res: Response) {
-      try {
-          await this.brandService.AddBrand(body);
-          return res.redirect('/brandsCpanel/quanlythuonghieu');
-      } catch (error) {
-          console.log(error);
-      }
+  async addBrand(requestDTO: BrandAddRequestDTO, @Body() body: any, @Res() res: Response) {
+    try {
+      await this.brandService.AddBrand(body);
+      return res.redirect('/brandsCpanel/quanlythuonghieu');
+    } catch (error) {
+      console.log(error);
+    }
   }
-@Get('quanlythuonghieu')
+  @UseGuards(AuthenticatedGuard)
+  @Get('quanlythuonghieu')
   @Render('quanlythuonghieu')
   async quanlythuonghieu(@Res() res: Response) {
     try {

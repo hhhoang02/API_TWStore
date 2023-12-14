@@ -1,12 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Render, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Render, Res, UseGuards } from "@nestjs/common";
 import { PromotionService } from "./promotion.service";
 import { Response } from 'express';
 import { Types } from "mongoose";
 import { PromotionDeleteRequestDTO } from "./dto/promotion_delete_request";
 import { PromotionInsertDTO } from "./dto/promotion_insert_request";
+import { AuthenticatedGuard } from "src/auth/authWeb.guard";
 @Controller('promotionsCpanel')
 export class PromotionCpanelController {
     constructor(private readonly promotionService: PromotionService) { }
+    @UseGuards(AuthenticatedGuard)
     @Get('quanlymagiamgia')
     @Render('quanlymagiamgia')
     async quanlymagiamgia(@Res() res: Response) {
@@ -16,7 +18,7 @@ export class PromotionCpanelController {
     } catch (error) {
     }
     }
-
+    @UseGuards(AuthenticatedGuard)
     @Get('addPromotion')
     @Render('addPromotion')
     async AddPromotion(@Res() res: Response) {

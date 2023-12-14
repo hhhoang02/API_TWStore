@@ -1,15 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Order, OrderDocument, listProduct } from './order.schema';
 import { Model, Types } from 'mongoose';
 import { OrderInsertDTO } from './dto/order_insert_request';
 import { OrderResponseDTO } from './dto/order_response';
-import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 import { OrderGetResponseDTO } from './dto/order_get_response';
-import { Product } from 'src/product/product.schema';
-import { GetOrderByIdUser } from './dto/order_getOrderbyIDUser_request';
-import { ProductService } from 'src/product/product.service';
-import { log } from 'console';
+import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
 
 @Injectable()
 export class OrderService {
@@ -31,7 +27,7 @@ export class OrderService {
         orderCode = Math.floor(Math.random() * (999999 - 100000)) + 100000,
         status = 1,
         listProduct,
-        bookingDate = `${hour}: ${minutes}, ${day}/${month}/${year}`,
+        bookingDate = date,
         deliveryDate = `${day + 5}/${month}/${year}`,
         userID,
         voucher,
@@ -87,7 +83,7 @@ export class OrderService {
       };
     }
   }
-  async getOrderbyID(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO> {
+  async getOrderbyID(requestDTO: OrderGetbyIdDTO): Promise<OrderGetResponseDTO> {
     try {
       const _id = requestDTO;
       const order = await this.orderModel.findById(_id).populate([
@@ -109,11 +105,9 @@ export class OrderService {
       console.log(error);
     }
   }
-  async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO,): Promise<OrderGetResponseDTO[]> {
+  async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO): Promise<OrderGetResponseDTO[]> {
     try {
       const _id = requestDTO;
-      console.log(requestDTO);
-
       const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
@@ -131,24 +125,25 @@ export class OrderService {
       console.log(error);
     }
   }
-  async updateStatusOrder(requestDTO: { id: string, body: any }): Promise<OrderResponseDTO> {
+  async updateStatusOrder(requestDTO: { id: string, body: any }): Promise<OrderResponseDTO | any> {
     try {
       const { id } = requestDTO;
       const { status } = requestDTO.body
       const order = await this.orderModel.findById(id);
-      if (order) {
-        order.status = status;
-        await order.save();
+      if (!order) {
+        throw new NotFoundException('Order not found');
+      }
+      order.status = status;
+
+      console.log(order);
+      
+      await order.save();
         return {
           status: true,
           message: 'Update status for Order successfully',
+          userID  : order.userID,
+          statusOrder : order.status,
         };
-      } else {
-        return {
-          status: false,
-          message: 'Update status for Order failed',
-        };
-      }
     } catch (error) {
       console.log(error);
       return {
@@ -157,7 +152,7 @@ export class OrderService {
       };
     }
   }
-  async getOrderByIdUser(requestDTO: GetOrderByIdUser): Promise<OrderGetResponseDTO[]> {
+  async getOrderByIdUser(requestDTO: any): Promise<OrderGetResponseDTO[]> {
     try {
       const { _id } = requestDTO;
       const order = await this.orderModel.find({ userID: _id }).populate([
@@ -178,5 +173,36 @@ export class OrderService {
     } catch (error) {
       return;
     }
+  }
+  async getMonthlyRevenue(year: number, month: number): Promise<number> {
+    const startOfMonth = new Date(year, month - 1, 1);
+    const endOfMonth = new Date(year, month, 0, 23, 59, 59, 999);
+    const result = await this.orderModel.aggregate([
+      {
+        $match: {
+          bookingDate: {
+            $gte: startOfMonth,
+            $lte: endOfMonth,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: '$totalPrice' },
+        },
+      },
+    ]);
+
+    return result.length > 0 ? result[0].totalRevenue : 0;
+  }
+  async getAnnualRevenue(year: number): Promise<number[]> {
+    const monthlyRevenues = [];
+
+    for (let month = 1; month <= 12; month++) {
+      const totalRevenue = await this.getMonthlyRevenue(year, month);
+      monthlyRevenues.push(totalRevenue);
+    }
+    return monthlyRevenues;
   }
 }

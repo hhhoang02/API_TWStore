@@ -71,9 +71,7 @@ export class UserInfoService {
 
     async LoginUser(requestDTO: UserInfoLoginRequestDTO): Promise<any | UserInfoResponseDTO> {
         try {
-            const { email, password } = requestDTO;
-            console.log(email, password);
-
+            const { email } = requestDTO;
             const user = await this.userModel.findOne({ email });
             if (!user) {
                 return {
@@ -81,21 +79,8 @@ export class UserInfoService {
                     message: 'User not found',
                 }
             }
-            let comparePassword = bcrypt.compareSync(password, (await user).password);
-            console.log('Compare Password : ', comparePassword);
-            if (!comparePassword) {
-                return {
-                    status: false,
-                    message: 'Wrong password',
-                }
-            }
-            return {
-                status: true,
-                message: 'Login successfully',
-                user: (await user)
-            }
+            return user;
         } catch (error: any) {
-
         }
     }
 
@@ -219,10 +204,10 @@ export class UserInfoService {
         }
     }
 
-    
+
     async UpdateInfoUser(requestDTO: UserInsertRequestDTO | any): Promise<UserInfoResponseDTO> {
         try {
-            const { _id, email = null ,username = null } = requestDTO;
+            const { _id, email = null, username = null } = requestDTO;
             const user = await this.userModel.findOne({ _id: _id });
             console.log(user);
 
@@ -249,7 +234,7 @@ export class UserInfoService {
 
     async GetEmailAllUsersInfor(): Promise<UserInsertRequestDTO[]> {
         try {
-            const listEmail : any = await this.userModel.find();
+            const listEmail: any = await this.userModel.find();
             return listEmail.map(user => user.email);
         } catch (error) {
             return error;

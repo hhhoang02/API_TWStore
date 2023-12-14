@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Query, Res, HttpStatus, HttpCode, Render, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Res, HttpStatus, HttpCode, Render, Put, UseGuards, Req } from '@nestjs/common';
 import { Response } from 'express';
 
 
@@ -8,6 +8,7 @@ import { UserInfoLoginRequestDTO } from 'src/userInfo/dto/user_login_request';
 import { UserInfoResponseDTO } from 'src/userInfo/dto/user_response';
 import { UserInfoService } from 'src/userInfo/user.service';
 import { Types } from 'mongoose';
+import { AuthenticatedGuard } from 'src/auth/authWeb.guard';
 //Url: http://localhost:3000/users
 @Controller('usersCpanel')
 export class UserCpanelController {
@@ -18,27 +19,9 @@ export class UserCpanelController {
 
   //Url: http://localhost:3000/usersCpanel/login
   //Url: http://localhost:3000/usersCpanel/login
-  @Get('login')
-  @Render('login')
-  async home(@Res() res: Response) {
-    console.log(process.env.CONNECT);
-    return {
-      message: 'Hello',
-    };
-  }
 
-  @Post('login')
-  async Login(@Body() body: UserInfoLoginRequestDTO, @Res() res: Response) {
-    try {
-      const responseDTO: UserInfoResponseDTO | any = await this.userInfoService.LoginUser(
-        body,
-      );
-      console.log('Login:', responseDTO);
-      return responseDTO.user.role === 'admin'
-        ? res.redirect('/usersCpanel/index')
-        : res.redirect('login');
-    } catch (error) { }
-  }
+
+
 
   @Get('quanlytaikhoan')
   @Render('quanlytaikhoan')
@@ -59,12 +42,18 @@ export class UserCpanelController {
     } catch (error) { }
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Get('index')
   @Render('index')
   async index(@Res() res: Response) {
     return {
       message: 'Hello'
     }
+  }
+  @Get('logout')
+  logout(@Req() req, @Res() res: Response) {
+    req.logout();
+    res.redirect('/auth/loginWeb');
   }
 
 }

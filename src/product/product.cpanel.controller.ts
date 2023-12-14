@@ -10,12 +10,14 @@ import {
   Param,
   Post,
   Render,
+  Req,
   Res,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { CategoryService } from 'src/category/category.service';
 import { CategoryGetAllResponseDTO } from 'src/category/dto/category_getAll_response';
 import { ColorService } from 'src/colorProduct/color.service';
@@ -24,6 +26,8 @@ import { BrandService } from 'src/brand/brand.service';
 import { ProductGetbyIdDTO } from './dto/product_getProductbyID_request';
 import { AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { ProductUpdateDTO } from './dto/product_update_request';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthenticatedGuard } from 'src/auth/authWeb.guard';
 
 @Controller('productsCpanel')
 export class ProductsCpanelController {
@@ -34,7 +38,7 @@ export class ProductsCpanelController {
     private readonly sizeService: SizeService,
     private readonly brandService: BrandService
   ) { }
-
+  @UseGuards(AuthenticatedGuard)
   @Get('addProduct')
   @Render('addProduct')
   async addProductCpanel(@Res() res: Response) {
@@ -64,7 +68,7 @@ export class ProductsCpanelController {
     }
   }
 
-
+  @UseGuards(AuthenticatedGuard)
   @Get('productDetail/:_id/edit')
   @Render('productDetail')
   async productDetail(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {
@@ -136,10 +140,10 @@ export class ProductsCpanelController {
     }
   }
 
-
+  @UseGuards(AuthenticatedGuard)
   @Get('quanlysanpham')
   @Render('quanlysanpham')
-  async quanlysanpham(@Res() res: Response) {
+  async quanlysanpham(@Req() request: Request, @Res() res: Response) {
     try {
       const products = await this.productService.getAllProduct();
       return { products };
@@ -148,13 +152,7 @@ export class ProductsCpanelController {
     }
   }
 
-  @Get('quanlythanhtoan')
-  @Render('quanlythanhtoan')
-  async quanlythanhtoan(@Res() res: Response) {
-    return {
-      message: 'Hello',
-    };
-  }
+
 }
 
 

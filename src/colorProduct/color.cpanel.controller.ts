@@ -1,15 +1,16 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Render, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Render, Res, UseGuards } from "@nestjs/common";
 import { ColorService } from "./color.service";
 import { Response } from 'express';
 import { ColorDeleteRequestDTO } from "./dto/color_delete_request";
 import { ColorAddRequestDTO } from "./dto/color_add_request";
 import { Types } from "mongoose";
+import { AuthenticatedGuard } from "src/auth/authWeb.guard";
 @Controller('colorsCpanel')
 export class ColorsCpanelController {
   constructor(
     private readonly colorService: ColorService
   ) { }
-
+  @UseGuards(AuthenticatedGuard)
   @Get('quanlymau')
   @Render('quanlymau')
   async quanlyhang(@Res() res: Response) {
@@ -30,7 +31,7 @@ export class ColorsCpanelController {
     }
   }
 
-
+  @UseGuards(AuthenticatedGuard)
   @Get('addColor')
   @Render('addColor')
   async AddColorRender(@Res() res: Response) {

@@ -36,14 +36,14 @@ export class Order {
     @Prop()
     orderCode: string;
 
-    @Prop()
+    @Prop({ type: Number, default: 1 }) 
     status: number;
 
     @Prop()
     listProduct: listProduct[];
 
     @Prop()
-    bookingDate: string;
+    bookingDate: Date;
 
     @Prop()
     deliveryDate: string;
