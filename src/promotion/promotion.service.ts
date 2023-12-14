@@ -59,8 +59,6 @@ export class PromotionService {
     async getAllPromotion(): Promise<PromotionGetResponseDTO[]> {
         try {
             const response = await this.promotionModel.find();
-            console.log(response);
-
             return response;
         } catch (error) {
             return
