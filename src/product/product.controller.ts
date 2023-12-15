@@ -23,6 +23,7 @@ export class ProductController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
+    
     @Get('getProductById/:_id')
     async GetProductById(@Param() _id: ProductGetbyIdDTO, @Res() res: Response) {
         try {

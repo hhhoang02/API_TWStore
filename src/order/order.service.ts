@@ -6,6 +6,7 @@ import { OrderInsertDTO } from './dto/order_insert_request';
 import { OrderResponseDTO } from './dto/order_response';
 import { OrderGetResponseDTO } from './dto/order_get_response';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
+import { log } from 'console';
 
 @Injectable()
 export class OrderService {
@@ -93,7 +94,7 @@ export class OrderService {
             {
               path: 'productID',
               model: 'Product',
-              select: ['productName', 'price', 'offer', 'voucher'],
+              select: ['productName', 'price', 'name', 'image'],
             },
             { path: 'colorID', model: 'Color', select: 'name' },
             { path: 'sizeID', model: 'Size', select: 'name' },
@@ -108,8 +109,6 @@ export class OrderService {
   async getOrderbyIDUser(requestDTO: OrderGetbyIdDTO): Promise<OrderGetResponseDTO[]> {
     try {
       const _id = requestDTO;
-      console.log(requestDTO);
-
       const order = await this.orderModel.find({ userID: _id }).populate([
         {
           path: 'listProduct',
@@ -120,6 +119,8 @@ export class OrderService {
           },
           ],
         },
+        
+        
         { path: 'userID' },
       ]);
       return order;
