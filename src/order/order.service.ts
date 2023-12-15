@@ -89,7 +89,7 @@ export class OrderService {
             {
               path: 'productID',
               model: 'Product',
-              select: ['productName', 'price', 'offer', 'voucher'],
+              select: ['productName', 'image', 'price', 'offer', 'voucher'],
             },
             { path: 'colorID', model: 'Color', select: 'name' },
             { path: 'sizeID', model: 'Size', select: 'name' },
