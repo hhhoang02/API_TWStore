@@ -6,6 +6,7 @@ import { OrderInsertDTO } from './dto/order_insert_request';
 import { OrderResponseDTO } from './dto/order_response';
 import { OrderGetResponseDTO } from './dto/order_get_response';
 import { OrderGetbyIdDTO } from './dto/order_getOrderbyID_request';
+import { log } from 'console';
 
 @Injectable()
 export class OrderService {
@@ -89,7 +90,7 @@ export class OrderService {
             {
               path: 'productID',
               model: 'Product',
-              select: ['productName', 'image', 'price', 'offer', 'voucher'],
+              select: ['productName', 'price', 'name', 'image'],
             },
             { path: 'colorID', model: 'Color', select: 'name' },
             { path: 'sizeID', model: 'Size', select: 'name' },
@@ -114,6 +115,8 @@ export class OrderService {
           },
           ],
         },
+        
+        
         { path: 'userID' },
       ]);
       return order;

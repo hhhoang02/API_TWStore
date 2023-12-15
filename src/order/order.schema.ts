@@ -29,7 +29,6 @@ export class listProduct {
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Size' })
     sizeID: Size;
-
 }
 @Schema()
 export class Order {
