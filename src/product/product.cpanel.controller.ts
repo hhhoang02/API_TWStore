@@ -146,7 +146,15 @@ export class ProductsCpanelController {
   async quanlysanpham(@Req() request: Request, @Res() res: Response) {
     try {
       const products = await this.productService.getAllProduct();
-      return { products };
+      const productUpdate = products.map((item: any) => {
+        const price = item.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        let parts = price.toString().split('.');
+        return {
+          products: item,
+          price: parts[0]
+        };
+      });
+      return { productUpdate };
     } catch (error) {
 
     }

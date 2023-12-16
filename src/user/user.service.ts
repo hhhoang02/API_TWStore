@@ -33,7 +33,6 @@ export class UserService {
             const { _id, body } = requestDTO;
             const { name, email } = body;
             const user = await this.userModel.findOne({ _idUser: _id }).populate([{ path: 'cartItem', populate: [{ path: 'productID', model: 'Product', select: ['productName', 'offer', 'price', 'image'] }, { path: 'sizeProduct', model: 'Size' }, { path: 'colorProduct', model: 'Color' }] }]);
-            console.log("user: " + user);
             if (user) {
                 const payload = { sub: user._id, name: user.name };
                 return {
@@ -67,8 +66,6 @@ export class UserService {
         try {
             const { _id, active = null } = responseDTO;
             const { id } = _id;
-            console.log(id, active);
-
             const user = await this.userModel.findById(id);
             if (!user) {
                 return {
@@ -95,8 +92,6 @@ export class UserService {
         try {
             const { _id, name = null, phone = null, avatar = null, gender = null, birthDay = null, email = null, cartItem = [] } = requestDTO;
             const user = await this.userModel.findOne({ _idUser: _id });
-            console.log(user);
-
             if (user) {
                 user.name = name ? name : user.name;
                 user.phone = phone ? phone : user.phone;
