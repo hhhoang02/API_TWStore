@@ -30,7 +30,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 // Area Chart Example
 function renderChart(annualRevenue) {
   var ctx = document.getElementById("myAreaChart");
-  document.getElementById("totalRevenue").innerHTML = '$' + annualRevenue.reduce((previous, current) => previous + current, 0);
+  document.getElementById("totalRevenue").innerHTML = new Intl.NumberFormat().format(annualRevenue.reduce((previous, current) => previous + current, 0)) + ' đ';
   new Chart(ctx, {
     type: 'line',
     data: {

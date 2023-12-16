@@ -42,8 +42,6 @@ export class OrderCpanelController {
           statusOrder: ContentStatus.find((status: any) => status.key == item.status)
         }
       })
-      console.log(orders);
-
       return { orders };
     } catch (error) { }
   }
@@ -76,7 +74,7 @@ export class OrderCpanelController {
   @Get('/RevenueByMonth')
   async getMonthlyRevenue(): Promise<number> {
     const date = new Date();
-    return await this.orderService.getMonthlyRevenue(date.getFullYear(), date.getMonth());
+    return await this.orderService.getMonthlyRevenue(date.getFullYear(), date.getMonth() + 1);
   }
 
   @Get('/getTop10Product')
