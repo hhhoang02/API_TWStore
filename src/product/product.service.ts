@@ -131,7 +131,7 @@ export class ProductService {
     }
     async getRecommendProduct(): Promise<ProductGetResponseDTO[]> {
         try {
-            const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'code' }]);;
+            const product = await this.productModel.find();
             return product.filter(item => item.price <= 1500000);
         } catch (error) {
             return

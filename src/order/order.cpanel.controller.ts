@@ -43,7 +43,7 @@ export class OrderCpanelController {
         }
       })
       console.log(orders);
-      
+
       return { orders };
     } catch (error) { }
   }
@@ -53,7 +53,7 @@ export class OrderCpanelController {
   async orderDetail(@Param() _id: OrderGetbyIdDTO, @Res() res: Response) {
     try {
       const orders = await this.orderService.getOrderbyID(_id);
-      
+
       return { orders, listProduct: orders.listProduct, discountLevel: orders.voucher };
     } catch (error) { }
   }
@@ -77,5 +77,10 @@ export class OrderCpanelController {
   async getMonthlyRevenue(): Promise<number> {
     const date = new Date();
     return await this.orderService.getMonthlyRevenue(date.getFullYear(), date.getMonth());
+  }
+
+  @Get('/getTop10Product')
+  async top10ProductBestSaler() {
+    return await this.orderService.top10ProductBestSaler();
   }
 }
