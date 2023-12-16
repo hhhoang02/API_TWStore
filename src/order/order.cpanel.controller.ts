@@ -42,6 +42,8 @@ export class OrderCpanelController {
           statusOrder: ContentStatus.find((status: any) => status.key == item.status)
         }
       })
+      console.log(orders);
+      
       return { orders };
     } catch (error) { }
   }

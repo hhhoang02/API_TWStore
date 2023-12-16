@@ -186,24 +186,6 @@ export class UserInfoService {
         }
     }
 
-    async ChangeUserName(requestDTO: UserChangeUserNameRequestDTO): Promise<UserInfoResponseDTO> {
-        try {
-            const { email, username } = requestDTO;
-            const user = await this.userModel.findOne({ email });
-            (await user).username = username;
-            (await user).save();
-            return {
-                status: true,
-                message: 'Change username successfully',
-            }
-        } catch (error) {
-            return {
-                status: false,
-                message: 'Change username error',
-            }
-        }
-    }
-
 
     async UpdateInfoUser(requestDTO: UserInsertRequestDTO | any): Promise<UserInfoResponseDTO> {
         try {

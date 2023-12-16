@@ -49,6 +49,8 @@ export class ProductService {
     }
     async updateProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
+            console.log(requestDTO);
+
             const _id: any = requestDTO._id;
             const body: any = requestDTO.body;
             const files: any = requestDTO.files?.image;
@@ -59,8 +61,7 @@ export class ProductService {
                     data.push(url);
                 }
             }
-
-            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
+            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID, quantityOfOrder } = body;
 
             const product = await this.productModel.findById(_id);
             if (!product) {
@@ -69,10 +70,14 @@ export class ProductService {
                     message: 'Product not found',
                 };
             }
-            product.image = image ? image : product.image;
+            // set value to product
+
+            product.image = image.length > 0 ? image : product.image;
             product.productName = productName ? productName : product.productName;
             product.price = price ? price : product.price;
-            product.quantity = quantity ? quantity : product.quantity;
+            if (product.quantity - quantityOfOrder > 0) {
+                product.quantity = quantity ? quantity : quantityOfOrder ? product.quantity - quantityOfOrder : product.quantity;
+            }
             product.description = description ? description : product.description;
             product.offer = offer ? offer : product.offer;
             product.brand = brand ? brand : product.brand;
@@ -127,8 +132,7 @@ export class ProductService {
     async getRecommendProduct(): Promise<ProductGetResponseDTO[]> {
         try {
             const product = await this.productModel.find().populate([{ path: 'brand', select: 'name' }, { path: 'size', select: 'name' }, { path: 'categoryID', select: 'name' }, { path: 'colorID', select: 'code' }]);;
-            return product
-            //return product.filter(item => item.price < 200);
+            return product.filter(item => item.price <= 1500000);
         } catch (error) {
             return
         }

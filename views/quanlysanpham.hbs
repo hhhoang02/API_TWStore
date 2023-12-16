@@ -65,7 +65,7 @@
                     <span>Quản lý đơn hàng</span>
                 </a>
             </li>
-                        <!-- Nav Item - Utilities Collapse Menu -->
+            <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link " href="/promotionsCpanel/quanlymagiamgia">
                     <i class="fas fa-fw fa-shopping-cart"></i>
@@ -358,7 +358,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table  class="table table-bordered" id="dataTable">
+                                <table class="table table-bordered" id="dataTable">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Image</th>
@@ -370,20 +370,20 @@
                                     </thead>
 
                                     <tbody>
-                                        {{#each products}}
+                                        {{#each productUpdate}}
                                         <tr>
                                             <td>
-                                                <img src="{{this.image}}" height="200" width="200">
+                                                <img src="{{this.products.image}}" height="200" width="200">
                                             </td>
-                                            <td><strong>{{this.productName}}</strong></td>
-                                            <td><strong>{{this.price}}</strong></td>
-                                            <td><strong>{{this.quantity}}</strong></td>
+                                            <td><strong>{{this.products.productName}}</strong></td>
+                                            <td><strong>{{this.price}} VNĐ</strong></td>
+                                            <td><strong>{{this.products.quantity}}</strong></td>
                                             <td>
                                                 <a class="btn btn-primary"
-                                                    href="/productsCpanel/productDetail/{{this._id}}/edit">Xem Chi
+                                                    href="/productsCpanel/productDetail/{{this.products._id}}/edit">Xem Chi
                                                     Tiết</a>
                                                 <a class="btn btn-danger"
-                                                    onclick="confirmDelete('{{this._id}}')">Xóa</a>
+                                                    onclick="confirmDelete('{{this.products._id}}')">Xóa</a>
                                             </td>
 
                                         </tr>
