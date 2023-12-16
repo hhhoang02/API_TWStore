@@ -351,8 +351,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Doanh thu (tháng)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="revenueByMonth">$
-                                                NaN</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="revenueByMonth">
+                                                NaN đ</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -370,7 +370,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Doanh thu (Năm)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalRevenue">$ NaN
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalRevenue">NaN đ
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -681,39 +681,42 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
-        const baseURL = 'http://localhost:3000/'
+        function format2(n, currency) {
+            return currency + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        }
         const fetchAPI = async (url, option) => {
             const res = await fetch(url, option);
             return res.json();
         }
         const getOrderWaiting = async () => {
-            const url = `order/getAllOrder`;
+            const url = `/order/getAllOrder`;
             const option = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }
-            const res = await fetchAPI(baseURL + url, option);
+            const res = await fetchAPI(url, option);
             return res;
         }
         const getRevenueByMonth = async () => {
-            const url = `ordersCpanel/RevenueByMonth`;
+            const url = `/ordersCpanel/RevenueByMonth`;
             const option = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }
-            const res = await fetchAPI(baseURL + url, option);
+            const res = await fetchAPI(url, option);
+            console.log(res)
             return res;
         }
         const getRevenue = async () => {
             const date = new Date();
             const year = date.getFullYear();
             console.log(year);
-            const url = `ordersCpanel/RevenueByYear/${year}`;
+            const url = `/ordersCpanel/RevenueByYear/${year}`;
             const option = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }
-            const res = await fetchAPI(baseURL + url, option);
+            const res = await fetchAPI(url, option);
             return res;
         }
         getOrderWaiting().then((val) => {
@@ -721,10 +724,10 @@
             const totalOrder = val.length;
             const orderSuccess = val.filter((item) => item.status != 5).length;
             console.log(100 - (orderSuccess / totalOrder * 100));
-            renderPieChart([100 - (orderSuccess / totalOrder * 100), orderSuccess / totalOrder * 100])
+            renderPieChart([val.filter((item) => item.status === 6).length, val.filter((item) => item.status === 5).length])
         });
         getRevenueByMonth().then((val) => {
-            document.getElementById('revenueByMonth').innerHTML = '$' + val;
+            document.getElementById('revenueByMonth').innerHTML = new Intl.NumberFormat().format(val) + ' đ';
         })
         getRevenue().then((val) => {
             renderChart(val);
