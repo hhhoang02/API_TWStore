@@ -29,30 +29,42 @@ export class PromotionService {
     async addPromotion(requestDTO: PromotionInsertDTO): Promise<PromotionResponseDTO> {
         try {
             const promotionCode = randomPromotion();
-
+    
             const { titleVoucher, contentVoucher, discountLevel, startDay, endDay } = requestDTO;
-            const newPromotion = new this.promotionModel({
-                titleVoucher,
-                contentVoucher,
-                discountCode: promotionCode,
-                discountLevel,
-                startDay,
-                endDay
-            });
-            console.log(newPromotion);
-            
-            await newPromotion.save();
+            const currentDate = new Date();
+            // Check if the current date is within the range
+            if (currentDate >= new Date(startDay) && currentDate <= new Date(endDay)) {
+                const newPromotion = new this.promotionModel({
+                    titleVoucher,
+                    contentVoucher,
+                    discountCode: promotionCode,
+                    discountLevel,
+                    startDay,
+                    endDay
+                });
+    
+                console.log(newPromotion);
+                await newPromotion.save();
+            } else {
+                // If the current date is not within the range, delete the promotion
+                await this.promotionModel.deleteOne({ startDay, endDay });
+                return {
+                    status: false,
+                    message: 'Promotion date range is not valid. Promotion deleted.',
+                };
+            }
+    
             return {
                 status: true,
                 message: 'Add promotion successfully',
-            }
+            };
         } catch (error) {
-            console.log(error);
-
+            console.error(error);
+    
             return {
                 status: false,
                 message: 'Add promotion failed',
-            }
+            };
         }
     }
 
