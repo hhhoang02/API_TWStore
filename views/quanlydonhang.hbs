@@ -198,6 +198,7 @@
                                 <table class="table table-bordered" id="dataTable">
                                     <thead class="thead-dark">
                                         <tr>
+                                            <th>CodeOrders</th>
                                             <th>Name</th>
                                             <th>Phone</th>
                                             <th>Address</th>
@@ -208,6 +209,7 @@
                                     <tbody>
                                         {{#each orders}}
                                         <tr>
+                                            <td><strong>{{this.orderCode}}</strong></td>
                                             <td><strong>{{this.nameReceiver}}</strong></td>
                                             <td><strong>{{this.phoneReceiver}}</strong></td>
                                             <td><strong>{{this.addressDelivery}}</strong></td>
