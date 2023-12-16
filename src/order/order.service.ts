@@ -115,8 +115,8 @@ export class OrderService {
           },
           ],
         },
-        
-        
+
+
         { path: 'userID' },
       ]);
       return order;
@@ -133,9 +133,6 @@ export class OrderService {
         throw new NotFoundException('Order not found');
       }
       order.status = status;
-
-      console.log(order);
-
       await order.save();
       return {
         status: true,
@@ -203,5 +200,41 @@ export class OrderService {
       monthlyRevenues.push(totalRevenue);
     }
     return monthlyRevenues;
+  }
+  async top10ProductBestSaler(): Promise<[]> {
+    const orders = await this.orderModel.find().populate([
+      {
+        path: 'listProduct',
+        populate: [
+          {
+            path: 'productID',
+            model: 'Product',
+            select: ['productName', 'price'],
+          },
+        ],
+      }
+    ]);
+    const listTopProduct: { id: string, productName: string, quantity: number } | any = [];
+    orders.map((item: any) => {
+      item.listProduct.map((item: any) => {
+        const listID = listTopProduct.map((itemList: any) => {
+          return itemList.id;
+        });
+        if (!listID.includes(item.productID._id)) {
+          listTopProduct.push({
+            id: item.productID._id,
+            productName: item.productID.productName,
+            quantity: item.quantityProduct
+          })
+        } else {
+          listTopProduct.map((itemList: any) => {
+            if (itemList.id == item.productID._id) {
+              itemList.quantity += item.quantityProduct;
+            }
+          })
+        }
+      });
+    })
+    return listTopProduct.sort((a, b) => b - a).slice(0, 10);;
   }
 }
