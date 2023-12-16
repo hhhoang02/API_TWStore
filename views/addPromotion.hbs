@@ -54,12 +54,12 @@
                 <input type="text" class="form-control" name="discountLevel" placeholder="Name">
             </div>
             <div class="mb-3 mt-3">
-                <label class="form-label" for="name">StartDay</label>
-                <input type="text" class="form-control" name="startDay" placeholder="Name">
+                <label class="form-label" for="startDay">StartDay</label>
+                <input type="date" class="form-control" name="startDay" id="startDay" pattern="\d{4}-\d{2}-\d{2}" placeholder="YYYY-MM-DD" required>
             </div>
             <div class="mb-3 mt-3">
-                <label class="form-label" for="name">EndDay</label>
-                <input type="text" class="form-control" name="endDay" placeholder="Name">
+                <label class="form-label" for="endDay">EndDay</label>
+                <input type="date" class="form-control" name="endDay" id="endDay" pattern="\d{4}-\d{2}-\d{2}" placeholder="YYYY-MM-DD" required>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-left mb-3">
                 <button type="submit" class="btn btn-primary">Submit</button>

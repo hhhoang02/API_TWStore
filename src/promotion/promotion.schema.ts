@@ -21,10 +21,10 @@ export class Promotion {
     discountLevel : number;
 
     @Prop()
-    startDay : string;
+    startDay : Date;
 
     @Prop()
-    endDay : string;
+    endDay : Date;
     
 }
 export const PromotionSchema = SchemaFactory.createForClass(Promotion);

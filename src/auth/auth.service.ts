@@ -12,7 +12,6 @@ export class AuthService {
         const { email, password } = request;
         const user = await this.userInfoService.LoginUser({ email });
         let comparePassword = bcrypt.compareSync(password, (await user).password);
-        console.log('Compare Password : ', comparePassword);
         if (!comparePassword) {
             return {
                 status: false,
@@ -20,7 +19,8 @@ export class AuthService {
             }
         }
         return {
-            user
+            user,
+            status:true,
         };
     }
 

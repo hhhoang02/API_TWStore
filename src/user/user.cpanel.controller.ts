@@ -9,12 +9,13 @@ import { UserInfoResponseDTO } from 'src/userInfo/dto/user_response';
 import { UserInfoService } from 'src/userInfo/user.service';
 import { Types } from 'mongoose';
 import { AuthenticatedGuard } from 'src/auth/authWeb.guard';
+import { OrderService } from 'src/order/order.service';
 //Url: http://localhost:3000/users
 @Controller('usersCpanel')
 export class UserCpanelController {
   constructor(
     private readonly userService: UserService,
-    private readonly userInfoService: UserInfoService
+    private readonly orderService: OrderService
   ) { }
 
   //Url: http://localhost:3000/usersCpanel/login
@@ -46,8 +47,9 @@ export class UserCpanelController {
   @Get('index')
   @Render('index')
   async index(@Res() res: Response) {
+    const list = await this.orderService.top10ProductBestSaler();
     return {
-      message: 'Hello'
+      list
     }
   }
   @Get('logout')

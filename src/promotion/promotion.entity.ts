@@ -5,6 +5,6 @@ export class Promotion{
     contentVoucher: string;
     discountCode : string;
     discountLevel : number;
-    startDay: string;
-    endDay: string;
+    startDay: Date;
+    endDay: Date;
 }
