@@ -189,7 +189,6 @@ export class OrderService {
         },
       },
     ]);
-
     return result.length > 0 ? result[0].totalRevenue : 0;
   }
   async getAnnualRevenue(year: number): Promise<number[]> {
@@ -199,6 +198,7 @@ export class OrderService {
       const totalRevenue = await this.getMonthlyRevenue(year, month);
       monthlyRevenues.push(totalRevenue);
     }
+
     return monthlyRevenues;
   }
   async top10ProductBestSaler(): Promise<[]> {
@@ -235,6 +235,6 @@ export class OrderService {
         }
       });
     })
-    return listTopProduct.sort((a, b) => b - a).slice(0, 10);;
+    return listTopProduct.sort((a, b) => b.quantity - a.quantity).slice(0, 10);;
   }
 }

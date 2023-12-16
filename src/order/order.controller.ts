@@ -40,7 +40,6 @@ export class OrderController {
     async GetOrderByIdUser(@Param() _id: any, @Res() res: Response) {
         try {
             const responseDTO = await this.orderService.getOrderByIdUser(_id);
-            console.log(responseDTO);
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
