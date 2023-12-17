@@ -37,7 +37,6 @@ export class OrderController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @UseGuards(AuthGuard)
     @Get('getOrderByIdUser/:_id')
     async GetOrderByIdUser(@Param() _id: any, @Res() res: Response) {
         try {
