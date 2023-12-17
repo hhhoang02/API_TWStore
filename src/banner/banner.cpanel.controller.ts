@@ -1,15 +1,16 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Render, Res, UploadedFile, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Render, Res, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { BannerService } from "./banner.service";
 import { BannerInsertDTO } from "./dto/banner_insert_request";
 import { Response } from "express";
 import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
 import { Types } from "mongoose";
+import { AuthenticatedGuard } from "src/auth/authWeb.guard";
 
 @Controller('bannerCpanel')
 export class BannerCpanelController {
     constructor(private readonly bannerService: BannerService) { }
 
-
+    @UseGuards(AuthenticatedGuard)
     @Get('quanlybanner')
     @Render('quanlybanner')
     async quanlysanpham(@Res() res: Response) {
@@ -19,7 +20,7 @@ export class BannerCpanelController {
         } catch (error) {
         }
     }
-
+    @UseGuards(AuthenticatedGuard)
     @Get('addBanner')
     @Render('addBanner')
     async AddBanner(@Res() res: Response) {

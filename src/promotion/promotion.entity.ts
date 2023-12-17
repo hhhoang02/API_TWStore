@@ -1,9 +1,10 @@
+import { Product } from "src/product/product.schema";
 
 export class Promotion{
-    title: string;
-    content: string;
+    titleVoucher: string;
+    contentVoucher: string;
     discountCode : string;
     discountLevel : number;
-    startDay: string;
-    endDay: string;
+    startDay: Date;
+    endDay: Date;
 }

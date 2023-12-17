@@ -13,7 +13,7 @@ export class Order {
 
     bookingDate: Date;
 
-    deliveryDate: Date;
+    deliveryDate: string;
 
     userID: Users;
 

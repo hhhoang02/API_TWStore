@@ -22,6 +22,7 @@
 
     <!-- Custom styles for this page -->
     <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 </head>
 
@@ -354,15 +355,13 @@
                             <a href="/promotionsCpanel/addPromotion" class="btn btn-primary text-white">Add New Promotion</a>
                         </div>
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách mã giảm giá</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table class="table table-bordered" id="dataTable">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Content</th>
                                             <th>DiscountCode</th>
                                             <th>DiscountLevel</th>
                                             <th>StartDay</th>
@@ -372,17 +371,15 @@
                                     </thead>
                                     
                                     <tbody>
-                                        {{#each promotions}}
+                                        {{#each newPromotions}}
                                         <tr>
-                                            <td>{{this.title}}</td>
-                                            <td>{{this.content}}</td>
-                                            <td>{{this.discountCode}}</td>
-                                            <td>{{this.discountLevel}}</td>
-                                            <td>{{this.startDay}}</td>
-                                            <td>{{this.endDay}}</td>
+                                            <td><strong>{{this.promotion.discountCode}}</strong></td>
+                                            <td><strong>{{this.promotion.discountLevel}}</strong></td>
+                                            <td><strong>{{this.start}}</strong></td>
+                                            <td><strong>{{this.end}}</strong></td>
                                             <td>
                                                 <a class="btn btn-danger"
-                                                    onclick="confirmDelete('{{this._id}}')">Xóa</a>
+                                                    onclick="confirmDelete('{{this.promotion._id}}')">Xóa</a>
                                             </td>
 
                                         </tr>
@@ -450,7 +447,6 @@
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
     <script src="/js/sweetalert/sweetalert.min.js"></script>
-
     <!-- Page level plugins -->
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
@@ -495,7 +491,6 @@
                 });
         }
     </script>
-
 </body>
 
 </html>

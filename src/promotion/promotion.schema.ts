@@ -14,16 +14,22 @@ export class Promotion {
     content : string;
 
     @Prop()
+    titleVoucher : string;
+
+    @Prop()
+    contentVoucher : string;
+
+    @Prop()
     discountCode : string;
 
     @Prop()
     discountLevel : number;
 
     @Prop()
-    startDay : string;
+    startDay : Date;
 
     @Prop()
-    endDay : string;
+    endDay : Date;
     
 }
 export const PromotionSchema = SchemaFactory.createForClass(Promotion);

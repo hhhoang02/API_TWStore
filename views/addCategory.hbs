@@ -41,21 +41,18 @@
         </div>
         <form class="row g-3 col-lg-8" method="post" action="/categoriesCpanel/addCategory"
             enctype="application/x-www-form-urlencoded">
-            <div class="col-md-6 row">
-                <label class="form-label" for="phone">Image</label>
-                <input type="file" name="image" class="form-control" multiple placeholder="Choose file" id="image"
-                    onchange="displayImages()">
-                <div id="imageContainer" class="mb-3 d-flex">
-
-                </div>
-                <div class="mb-3 mt-3">
-                    <label class="form-label" for="username">Thể loại</label>
-                    <input type="text" class="form-control" name="name">
-                </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-left mb-3">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-secondary">Cancel</button>
-                </div>
+            <div class="mb-3 mt-3">
+                <label class="form-label" for="username">Thể loại</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="mb-3 mt-3">
+                <label class="form-label" for="name">LinkIcon</label>
+                <input type="text" class="form-control" name="linkIcon" placeholder="LinkIcon">
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-left mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+            </div>
         </form>
     </main>
 
@@ -64,54 +61,6 @@
     <script src="/javascripts/feather.min.js"></script>
     <script src="/javascripts/main.js"></script>
     <script src="/javascripts/main.js"></script>
-
-    <script>
-        function displayImages() {
-            const fileInput = document.getElementById('image');
-            const imageContainer = document.getElementById('imageContainer');
-
-            // Xóa hình ảnh hiện tại trong container
-            imageContainer.innerHTML = '';
-
-            // Kiểm tra xem đã chọn tệp tin chưa
-            if (fileInput.files && fileInput.files.length > 0) {
-                for (let i = 0; i < fileInput.files.length; i++) {
-                    const reader = new FileReader();
-                    const img = document.createElement('img');
-                    img.width = 300;
-                    img.height = 250;
-
-                    reader.onload = function (e) {
-                        // Hiển thị hình ảnh
-                        img.src = e.target.result;
-                        imageContainer.appendChild(img); // Thêm hình ảnh vào container
-                    };
-
-                    // Đọc nội dung của tệp tin hình ảnh
-                    reader.readAsDataURL(fileInput.files[i]);
-                }
-            }
-        }
-    </script>
 </body>
-
-<style>
-    #imageContainer {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: flex-start;
-        margin-top: 20px; 
-    }
-
-    .image-container {
-        width: 300px;
-        height: 250px;
-        object-fit: contain;
-        margin: 0 5px;
-    }
-</style>
-
-
 
 </html>

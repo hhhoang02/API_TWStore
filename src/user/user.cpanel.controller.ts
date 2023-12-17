@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Query, Res, HttpStatus, HttpCode, Render, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Res, HttpStatus, HttpCode, Render, Put, UseGuards, Req } from '@nestjs/common';
 import { Response } from 'express';
 
 
@@ -8,39 +8,22 @@ import { UserInfoLoginRequestDTO } from 'src/userInfo/dto/user_login_request';
 import { UserInfoResponseDTO } from 'src/userInfo/dto/user_response';
 import { UserInfoService } from 'src/userInfo/user.service';
 import { Types } from 'mongoose';
+import { AuthenticatedGuard } from 'src/auth/authWeb.guard';
+import { OrderService } from 'src/order/order.service';
 //Url: http://localhost:3000/users
 @Controller('usersCpanel')
 export class UserCpanelController {
   constructor(
     private readonly userService: UserService,
-    private readonly userInfoService: UserInfoService
+    private readonly orderService: OrderService
   ) { }
 
   //Url: http://localhost:3000/usersCpanel/login
   //Url: http://localhost:3000/usersCpanel/login
-  @Get('login')
-  @Render('login')
-  async home(@Res() res: Response) {
-    console.log(process.env.CONNECT);
-    return {
-      message: 'Hello',
-    };
-  }
 
-  @Post('login')
-  async Login(@Body() body: UserInfoLoginRequestDTO, @Res() res: Response) {
-    try {
-      const responseDTO: UserInfoResponseDTO = await this.userInfoService.LoginUser(
-        body,
-      );
-      console.log('Login:', responseDTO);
-      return responseDTO.status
-        ? res.redirect('/usersCpanel/index')
-        : res.redirect('login');
-    } catch (error) { }
-  }
 
-  //http://localhost:3000/usersCpanel/quanlytaikhoan
+
+
   @Get('quanlytaikhoan')
   @Render('quanlytaikhoan')
   async quanlytaikhoan(@Res() res: Response) {
@@ -60,12 +43,19 @@ export class UserCpanelController {
     } catch (error) { }
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Get('index')
   @Render('index')
   async index(@Res() res: Response) {
+    const list = await this.orderService.top10ProductBestSaler();
     return {
-      message: 'Hello'
+      list
     }
+  }
+  @Get('logout')
+  logout(@Req() req, @Res() res: Response) {
+    req.logout();
+    res.redirect('/auth/loginWeb');
   }
 
 }

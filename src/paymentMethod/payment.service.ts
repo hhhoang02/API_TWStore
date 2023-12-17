@@ -16,11 +16,11 @@ export class PaymentService {
     async addPaymentMethod(requestDTO: any): Promise<PaymentResponseDTO> {
         try {
             const { name, linkIcon }: PaymentInsertDTO = requestDTO;
-            const banner = new this.paymentModel({ name, linkIcon });
-            await banner.save()
+            const payment = new this.paymentModel({ name, linkIcon });
+            await payment.save()
             return {
                 status: true,
-                message: 'Insert banner success' + banner,
+                message: 'Insert banner success' + payment,
             };
 
         } catch (error) {
@@ -33,11 +33,11 @@ export class PaymentService {
     }
     async getAllPaymentMethod(): Promise<PaymentResponseDTO | any> {
         try {
-            const banner = await this.paymentModel.find();
+            const payment = await this.paymentModel.find();
             return {
                 status: true,
                 message: 'Get all paymentMethod success',
-                data: banner
+                data: payment
             }
         } catch (error) {
             console.log(error);

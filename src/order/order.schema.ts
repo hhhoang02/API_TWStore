@@ -29,14 +29,13 @@ export class listProduct {
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Size' })
     sizeID: Size;
-
 }
 @Schema()
 export class Order {
     @Prop()
     orderCode: string;
 
-    @Prop()
+    @Prop({ type: Number, default: 1 }) 
     status: number;
 
     @Prop()
@@ -46,7 +45,7 @@ export class Order {
     bookingDate: Date;
 
     @Prop()
-    deliveryDate: Date;
+    deliveryDate: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userID: Users;

@@ -31,6 +31,10 @@
         .button-delete {
             width: 100;
         }
+
+        .image-selected {
+            margin: 20;
+        }
     </style>
 </head>
 
@@ -41,11 +45,17 @@
         </div>
 
         <form class="row g-3 col-lg-8" method="post" action="/productsCpanel/addProduct" enctype="multipart/form-data">
-            <div class="col-md-6 row">
-                <label class="form-label" for="phone">Image</label>
-                <input type="file" name="image" class="form-control" multiple placeholder="Choose file" id="image">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label" for="phone">Image</label>
+                    <input type="file" name="image" class="form-control" multiple placeholder="Choose file" id="image"
+                        onchange="displayImages()">
+                </div>
+                <div id="imageContainer" class="col-md-6 mb-3 d-flex">
+                    <!-- Nơi hiển thị hình ảnh -->
+                </div>
             </div>
-            <div id="imageContainer" class="mb-3 d-flex">
+
             </div>
             <div class="mb-3 mt-3">
                 <label class="form-label" for="username">ProductName</label>
@@ -142,8 +152,9 @@
                 for (let i = 0; i < fileInput.files.length; i++) {
                     const reader = new FileReader();
                     const img = document.createElement('img');
-                    img.width = 200;
-                    img.height = 200;
+                    img.width = 120
+                    img.height = 120
+                    img.className = 'image-selected';
 
                     reader.onload = function (e) {
                         // Hiển thị hình ảnh

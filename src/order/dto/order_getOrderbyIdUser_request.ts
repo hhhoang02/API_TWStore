@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
 
-export class EventGetbyIdDTO {
+export class GetOrderByIdUser {
     _id: string
 }

@@ -343,8 +343,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table class="table table-bordered" id="dataTable">
+                                    <thead  class="thead-dark">
                                         <tr>
                                             <th>Image</th>
                                             <th>Name</th>
@@ -360,9 +360,9 @@
                                             <td>
                                                 <img src="{{this.eventImage}}" height="100" width="100">
                                             </td>
-                                            <td>{{this.eventName}}</td>
-                                            <td>{{this.levelGiamgia}}</td>
-                                            <td>{{this.soNgayGiamgia}}</td>
+                                            <td><strong>{{this.eventName}}</strong></td>
+                                            <td><strong>{{this.levelGiamgia}}</strong></td>
+                                            <td><strong>{{this.soNgayGiamgia}}</strong></td>
                                             <td>
                                                 {{!-- <a class="btn btn-primary"
                                                     href="/eventsCpanel/getEventById/{{this._id}}">xem chi tiết</a> --}}
@@ -451,7 +451,7 @@
             const deleteEvent = async (id) => {
                 const url = `/eventsCpanel/deleteEvent/${id}`;
                 const option = {
-                    method: 'GET',
+                    method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }
                 }
                 const res = await fetchAPI(url, option);

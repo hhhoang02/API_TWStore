@@ -8,7 +8,7 @@ import { ProductResponseDTO } from "./dto/product_response";
 import { ProductUpdateDTO } from "./dto/product_update_request";
 import { ProductGetResponseDTO } from "./dto/product_get_response";
 import { ProductGetbyIdDTO } from "./dto/product_getProductbyID_request";
-import { ProductGetByIdBranchRequestDTO } from './dto/product_getProductbyIdBranch_request';
+import { ProductGetByIdBrandRequestDTO } from './dto/product_getProductbyIdBranch_request';
 import uploadImage from 'src/upload/upload';
 
 @Injectable()
@@ -49,6 +49,8 @@ export class ProductService {
     }
     async updateProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
+            console.log(requestDTO);
+
             const _id: any = requestDTO._id;
             const body: any = requestDTO.body;
             const files: any = requestDTO.files?.image;
@@ -59,8 +61,7 @@ export class ProductService {
                     data.push(url);
                 }
             }
-
-            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID } = body;
+            const { image = data, productName, price, quantity, description, offer, brand, size, categoryID, colorID, quantityOfOrder } = body;
 
             const product = await this.productModel.findById(_id);
             if (!product) {
@@ -69,10 +70,14 @@ export class ProductService {
                     message: 'Product not found',
                 };
             }
-            product.image = image ? image : product.image;
+            // set value to product
+
+            product.image = image.length > 0 ? image : product.image;
             product.productName = productName ? productName : product.productName;
             product.price = price ? price : product.price;
-            product.quantity = quantity ? quantity : product.quantity;
+            if (product.quantity - quantityOfOrder > 0) {
+                product.quantity = quantity ? quantity : quantityOfOrder ? product.quantity - quantityOfOrder : product.quantity;
+            }
             product.description = description ? description : product.description;
             product.offer = offer ? offer : product.offer;
             product.brand = brand ? brand : product.brand;
@@ -123,7 +128,14 @@ export class ProductService {
         } catch (error) {
             return
         }
-
+    }
+    async getRecommendProduct(): Promise<ProductGetResponseDTO[]> {
+        try {
+            const product = await this.productModel.find();
+            return product.filter(item => item.price <= 1500000);
+        } catch (error) {
+            return
+        }
     }
     async getProductById(requestDTO: ProductGetbyIdDTO): Promise<ProductGetResponseDTO> {
         try {
@@ -143,17 +155,18 @@ export class ProductService {
         try {
             const { _id } = requestDTO;
             const product = await this.productModel.find({ categoryID: _id }).populate([{ path: "brand", select: 'name' }, { path: "size", select: 'name' }, { path: "colorID" },]);
-            return product
+            return product;
         } catch (error) {
             return
         }
     }
 
-    async getProductbyIdBranch(requestDTO: ProductGetByIdBranchRequestDTO): Promise<any> {
+    async getProductbyIdBrand(requestDTO: ProductGetByIdBrandRequestDTO): Promise<any> {
         try {
-            const _id = requestDTO;
-            const product = await this.productModel.findOne({ branch: _id });
-            return product
+            const { _id } = requestDTO;
+            console.log(requestDTO);
+            const product = await this.productModel.find({ brand: _id });
+            return product.slice(0, 5)
         } catch (error) {
             return
         }
