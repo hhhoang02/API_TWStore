@@ -19,7 +19,7 @@ enum saltOrRounds {
 }
 enum Email {
     FORM = "The Wonder Store",
-    SUBJECT = "Testing Nest MailerModule ✔",
+    SUBJECT = "Code verify your mail form TheWonderStore ✔",
 }
 
 
