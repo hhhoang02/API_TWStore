@@ -62,7 +62,6 @@ export class ProductController {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
         }
     }
-    @UseGuards(AuthGuard)
     @Get('getRecommendProduct')
     async getRecommendProduct(@Res() res: Response) {
         try {
