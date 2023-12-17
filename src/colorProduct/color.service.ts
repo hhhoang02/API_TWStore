@@ -21,7 +21,6 @@ export class ColorService {
                     message: 'Color already exists',
                 }
             }
-            console.log(name);
 
             const newColor = new this.ColorModel({ name, code });
             await newColor.save();
@@ -49,7 +48,6 @@ export class ColorService {
     async DeleteColor(requestDTO: any): Promise<ColorResponseDTO> {
         try {
             const { id }: ColorDeleteRequestDTO = requestDTO;
-            console.log(id);
 
             const Color = await this.ColorModel.findById(id);
             if (!Color) return {

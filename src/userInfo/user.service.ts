@@ -34,7 +34,6 @@ export class UserInfoService {
     //Hàm insert vào database
     async RegisterUser(requestDTO: UserInsertRequestDTO): Promise<UserInfoRegisterResponseDTO | UserInfoResponseDTO> {
         try {
-            console.log(requestDTO);
 
             const { username, email, password, role } = requestDTO;
             const user = await this.userModel.findOne({ email });
@@ -51,7 +50,6 @@ export class UserInfoService {
                 password: hashPassword,
                 role,
             })
-            console.log(newUser);
 
             const { _id } = await newUser.save();
             return {
@@ -86,7 +84,6 @@ export class UserInfoService {
 
     async ForGotPass(requestDTO: UserInfoForGotRequestDTO): Promise<UserInfoResponseDTO> {
         try {
-            console.log(requestDTO);
             const { email, newPassword } = requestDTO;
             const user = await this.userModel.findOne({ email });
             const hashPassword = await bcrypt.hash(newPassword, saltOrRounds.SALT);
@@ -191,7 +188,6 @@ export class UserInfoService {
         try {
             const { _id, email = null, username = null } = requestDTO;
             const user = await this.userModel.findOne({ _id: _id });
-            console.log(user);
 
             if (user) {
                 user.email = email ? email : user.email;

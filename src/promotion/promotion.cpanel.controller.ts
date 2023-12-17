@@ -37,7 +37,6 @@ export class PromotionCpanelController {
           }`,
         };
       });
-      console.log(newPromotions);
       
       return { newPromotions };
     } catch (error) {}

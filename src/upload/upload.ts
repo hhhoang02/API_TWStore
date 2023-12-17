@@ -21,7 +21,6 @@ const uploadImage = async (files: any, cate: any) => {
     const storageRef = ref(storage, `${cate}/` + files.originalname);
     const uploadTask = await uploadBytesResumable(storageRef, files.buffer);
     let url = getDownloadURL(uploadTask.ref).then((downloadURL) => {
-        console.log('File available at', downloadURL);
         return downloadURL;
     });
     return url;

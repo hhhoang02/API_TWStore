@@ -49,7 +49,6 @@ export class ProductService {
     }
     async updateProduct(requestDTO: any): Promise<ProductResponseDTO> {
         try {
-            console.log(requestDTO);
 
             const _id: any = requestDTO._id;
             const body: any = requestDTO.body;
@@ -101,8 +100,6 @@ export class ProductService {
     async deleteProduct(requestDTO: ProductUpdateDTO): Promise<ProductResponseDTO> {
         try {
             const { _id } = requestDTO;
-            console.log(_id);
-
             const product = await this.productModel.findByIdAndDelete(_id);
             if (!product) return {
                 status: false,
@@ -164,7 +161,6 @@ export class ProductService {
     async getProductbyIdBrand(requestDTO: ProductGetByIdBrandRequestDTO): Promise<any> {
         try {
             const { _id } = requestDTO;
-            console.log(requestDTO);
             const product = await this.productModel.find({ brand: _id });
             return product.slice(0, 5)
         } catch (error) {

@@ -37,7 +37,6 @@ export class ColorsCpanelController {
   async AddColorRender(@Res() res: Response) {
     try {
       const colors = await this.colorService.GetAllColor();
-      console.log(colors);
       return { colors };
     } catch (error) {
 

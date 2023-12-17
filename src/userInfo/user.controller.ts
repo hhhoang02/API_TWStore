@@ -28,8 +28,6 @@ export class UserInfoController {
     async LoginUser(@Body() body: UserInfoLoginRequestDTO, @Res() res: any) {
         try {
             const responseDTO = await this.userService.LoginUser(body);
-            console.log(responseDTO);
-
             return res.status(HttpStatus.OK).json(responseDTO);
         } catch (error: any) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);

@@ -21,8 +21,6 @@ export class SizeService {
                     message: 'Size already exists',
                 }
             }
-            console.log(name);
-
             const newSize = new this.sizeModel({ name });
             await newSize.save();
             return {

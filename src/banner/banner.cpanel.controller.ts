@@ -37,7 +37,6 @@ export class BannerCpanelController {
             if (!files) {
                 return null;
             }
-            console.log(body, files);
             await this.bannerService.addBanner({ body, files });
             return res.redirect('/bannerCpanel/quanlybanner');
         } catch (error) {

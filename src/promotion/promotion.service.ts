@@ -43,7 +43,6 @@ export class PromotionService {
                     endDay
                 });
     
-                console.log(newPromotion);
                 await newPromotion.save();
             } else {
                 // If the current date is not within the range, delete the promotion

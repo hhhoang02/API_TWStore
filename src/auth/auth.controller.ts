@@ -18,7 +18,6 @@ export class AuthController {
     @Get('loginWeb')
     @Render('login')
     async home(@Res() res: Response) {
-        console.log(process.env.CONNECT);
         return {
             message: 'Hello',
         };

@@ -17,7 +17,6 @@ export class EventService {
     async addEvent(requestDTO: any): Promise<EventResponseDTO> {
         try {
             const body: EventInsertDTO = requestDTO.body;
-            console.log(body);
 
             const files = requestDTO.files;
             const url = await uploadImage(files, "Event");

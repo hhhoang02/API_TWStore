@@ -100,7 +100,6 @@ export class UserService {
                 user.birthDay = birthDay ? birthDay : user.birthDay;
                 user.email = email ? email : user.email;
                 user.cartItem = cartItem;
-                console.log(name)
                 await user.save();
                 return {
                     status: true,
@@ -123,9 +122,7 @@ export class UserService {
         try {
             const { _idUser, typeUpdate, position, city, district, ward, street = "" } = requestDTO;
             const user = await this.userModel.findOne({ _idUser });
-            console.log(requestDTO);
             if (typeUpdate === "insert") {
-                console.log(requestDTO);
                 user.address.push({ position: user.address.length + 1, city, district, ward, street });
                 await user.save();
                 return {

@@ -21,7 +21,6 @@ export class BrandService {
                     message: 'Brand already exists',
                 }
             }
-            console.log(name);
 
             const newBrand = new this.brandModel({ name, linkIcon });
             await newBrand.save();

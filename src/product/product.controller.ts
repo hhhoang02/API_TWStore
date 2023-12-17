@@ -66,8 +66,6 @@ export class ProductController {
     async getRecommendProduct(@Res() res: Response) {
         try {
             const product = await this.productService.getRecommendProduct();
-            console.log(product);
-            
             return res.status(HttpStatus.OK).json(product);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json(error);
