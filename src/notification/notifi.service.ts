@@ -39,11 +39,7 @@ export class NotificationService {
 
     async getAllNotification(_idUser): Promise<NotifiGetResponseDTO | any> {
         try {
-            console.log(_idUser);
-            
-            const notifi = await this.notifiModel.find({_idUser : _idUser});
-            console.log(notifi);
-            
+            const notifi = await this.notifiModel.find({_idUser});
             this.logger.log('Get all notifications successfully');
             return notifi;
         } catch (error) {
